@@ -23,7 +23,7 @@ module.exports = class ReadyListener extends Listener {
 
 		// Auto Update System
 		cron.schedule('*/15 * * * *', async () => {
-			exec(this.client.config.Github, async (error, stdout) => {
+			exec(`git pull ${this.client.config.Github}`, async (error, stdout) => {
 				let response = error || stdout;
 				if (!error) {
 					if (response.includes('Already up to date.')) {
@@ -31,6 +31,7 @@ module.exports = class ReadyListener extends Listener {
 						console.log(
 							black.bgGreen('[Github]') + greenBright(' Bot Updated.')
 						);
+                        exec('npm i', console.log)
 					}
 				}
 			});
