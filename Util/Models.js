@@ -1,105 +1,105 @@
-const { model, Schema } = require("mongoose");
+const { model, Schema } = require('mongoose');
 
 let schema = Schema({
-  mod: String,
-  user: String,
-  reason: String,
-  date: String,
-  id: Number,
+	mod: String,
+	user: String,
+	reason: String,
+	date: String,
+	id: Number,
 });
 
-exports.warn = model("warn", schema);
+exports.warn = model('warn', schema);
 
 schema = Schema({
-  user: String,
-  reason: String,
-  mod: String,
+	user: String,
+	reason: String,
+	mod: String,
 });
 
-exports.unban = model("unban", schema);
+exports.unban = model('unban', schema);
 
 schema = Schema({
-  Count: Number,
+	Count: Number,
 });
 
-exports.counts = model("counts", schema);
+exports.counts = model('counts', schema);
 
 schema = Schema({
-  num: Number,
+	num: Number,
 });
 
-exports.warnCount = model("warnCount", schema);
+exports.warnCount = model('warnCount', schema);
 
 schema = Schema({
-  user: String,
-  msgs: Number,
-  desc: String,
-  dailyCount: Number,
-  total: Number,
-  onLeave: Boolean,
-  strikes: Number,
+	user: String,
+	msgs: Number,
+	desc: String,
+	dailyCount: Number,
+	total: Number,
+	onLeave: Boolean,
+	strikes: Number,
 });
 
-exports.staff = model("staff", schema);
+exports.staff = model('staff', schema);
 
 schema = Schema({
-  user: String,
-  reason: String,
-  date: String,
-  count: Number,
-  pings: [{ type: String }],
+	user: String,
+	reason: String,
+	date: String,
+	count: Number,
+	pings: [{ type: String }],
 });
 
-exports.afk = model("afk", schema);
+exports.afk = model('afk', schema);
 
 schema = Schema({
-  pos: Boolean,
+	pos: Boolean,
 });
 
-exports.pos = model("pos", schema);
+exports.pos = model('pos', schema);
 
 schema = Schema({
-  word: String,
-  action: String,
-  wild: Boolean,
+	word: String,
+	action: String,
+	wild: Boolean,
 });
 
-exports.blacklist = model("blacklist", schema);
+exports.blacklist = model('blacklist', schema);
 
 schema = Schema({
-  user: String,
-  date: String,
-  time: String,
-  chnl: String,
-  reason: String,
-  mod: String,
+	user: String,
+	date: String,
+	time: String,
+	chnl: String,
+	reason: String,
+	mod: String,
 });
 
-exports.chnlmute = model("chnlmute", schema);
+exports.chnlmute = model('chnlmute', schema);
 
 schema = Schema({
-  user: String,
-  code: String,
-  count: Number,
+	user: String,
+	code: String,
+	count: Number,
 });
 
-exports.verif = model("verify", schema);
+exports.verif = model('verify', schema);
 
 schema = Schema({
-  user: String,
-  start: String,
-  end: String,
-  reason: String,
+	user: String,
+	start: String,
+	end: String,
+	reason: String,
 });
 
-exports.leave = model("leave", schema);
+exports.leave = model('leave', schema);
 
 schema = Schema({
-  id: String,
-  bal: Number,
-  level: Number,
-  bank: Number,
-  items: [String],
+	id: String,
+	bal: Number,
+	level: Number,
+	bank: Number,
+	items: [String],
 });
 
-exports.profile = model("profile", schema);
+exports.profile = model('profile', schema);
