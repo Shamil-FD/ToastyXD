@@ -14,13 +14,12 @@ module.exports = class ReadyListener extends Listener {
 	}
 
 	async exec() {
-		let embed = this.client.embed();
 		let models = this.client.models;
 		function rannum() {
 			return Math.floor(Math.random() * 30 + 11);
 		}
 		console.log(black.bgGreen('[Bot]') + greenBright(" I'm online!"));
-		let guild = await this.client.guilds.cache.get('655109296400367618');
+		let guild = this.client.guilds.cache.get('655109296400367618');
 
 		// Auto Update System
 		cron.schedule('*/15 * * * *', async () => {

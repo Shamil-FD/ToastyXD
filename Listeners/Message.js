@@ -11,7 +11,6 @@ module.exports = class MessageListener extends Listener {
 	}
 
 	async exec(message) {
-		let { guild } = message;
 		if (message.author.bot) return;
 
 		// Inform Someone Who Just Joined A Few Rules About Help Channels.
@@ -47,7 +46,7 @@ module.exports = class MessageListener extends Listener {
 
 		if (message.channel.type === 'text') {
 			// Help Me Message
-			let helparr = [
+			const helparr = [
 				'why cant i type in the help channel',
 				'my code doesnt work',
 				'my code does not work',
