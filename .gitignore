@@ -101,7 +101,7 @@ dist
 .dynamodb/
 
 .tern-port
-.prettierignore
 package-lock.json
 Util/Config.js
 Commands/Dev/Eval.js
+yarn.lock
