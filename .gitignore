@@ -103,5 +103,4 @@ dist
 .tern-port
 package-lock.json
 Util/Config.js
-Commands/Dev/Eval.js
 yarn.lock
