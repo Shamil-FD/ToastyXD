@@ -21,7 +21,7 @@ module.exports = class CooldownListener extends Listener {
 		];
 		return message.send(message.author, {
 			embeds: {
-				description: `Wait ${ms(remaining)} to use the command again`,
+				description: `${command} doesn't want to be run right now. Wait ${ms(remaining)} to use the command again`,
 				title: arr[Math.round(Math.random() * arr.length)],
 			},
 		});
