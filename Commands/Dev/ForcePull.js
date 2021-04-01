@@ -11,7 +11,9 @@ module.exports = class ForcePullCommand extends Command {
 	}
 
 	async exec(message) {
-    await exec(`git pull ${this.client.config.Github}`);
+    exec(`git pull ${this.client.config.Github}`, () => {
+        exec('npm i', console.log);
+    });
     return message.react(this.client.tick);
   }
 };
