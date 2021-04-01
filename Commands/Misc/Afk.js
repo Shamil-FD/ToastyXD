@@ -39,7 +39,7 @@ module.exports = class AFKCommand extends Command {
 					doc.pings.join('\n')
 				);
 			doc.delete();
-			return message.channel.send(pingbed);
+			return message.send(pingbed);
 		} else {
 			await new afk({
 				user: message.author.id,

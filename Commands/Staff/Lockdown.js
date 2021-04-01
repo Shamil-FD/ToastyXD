@@ -24,7 +24,7 @@ module.exports = class LockDownCommand extends Command {
 		if (!doc) {
 			await new pos({ pos: true }).save();
 
-			let msg = await message.channel.send(
+			let msg = await message.send(
 				this.client
 					.embed()
 					.setDescription(
@@ -147,7 +147,7 @@ module.exports = class LockDownCommand extends Command {
 				});
 		} else {
 			if (doc.pos === true) {
-				let msg = await message.channel.send(
+				let msg = await message.send(
 					this.client
 						.embed()
 						.setDescription(

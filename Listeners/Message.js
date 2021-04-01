@@ -31,7 +31,7 @@ module.exports = class MessageListener extends Listener {
 			message.content.startsWith('s!bins') ||
 			message.content.startsWith('s!bin')
 		) {
-			message.channel.send(
+			message.send(
 				this.client
 					.embed()
 					.setDescription(
@@ -123,7 +123,7 @@ module.exports = class MessageListener extends Listener {
 					await afkdoc.save();
 					let a = moment(afkdoc.date);
 					let b = moment().format();
-					return message.channel.send(
+					return message.send(
 						message.author,
 						this.client
 							.embed()

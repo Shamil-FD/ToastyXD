@@ -23,7 +23,7 @@ module.exports = class MoveCommand extends Command {
 			);
 
 		if (!chnl)
-			return message.util.send(
+			return message.send(
 				embed.setDescription("You didn't give me a channel.").setColor('RED')
 			);
 

@@ -28,7 +28,7 @@ module.exports = class RemoveWarnCommand extends Command {
 				this.client.embed().setDescription(`Case ID: ${id} doesn't exist!`)
 			);
 
-		message.channel.send(
+		message.send(
 			this.client
 				.embed()
 				.setDescription(`Deleted Case ID: ${id}`)

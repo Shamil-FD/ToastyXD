@@ -71,7 +71,7 @@ module.exports = class VerbalWarnCommand extends Command {
 						.addField('> **Reason**:', reason)
 						.setFooter(`Case ID: ${doc.num}`)
 				);
-			return message.channel.send(
+			return message.send(
 				user,
 				client
 					.embed()

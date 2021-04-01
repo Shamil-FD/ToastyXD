@@ -30,7 +30,7 @@ module.exports = class HelpCommand extends Command {
 				.setURL('https://github.com/Shamil-FD/ToastyXD');
 		}
 
-		return message.channel.send(
+		return message.send(
 			embed.setThumbnail(this.client.user.displayAvatarURL())
 		);
 	}

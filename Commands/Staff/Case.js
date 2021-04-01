@@ -25,7 +25,7 @@ module.exports = class CaseCommand extends Command {
 				embeds: { color: 'RED', description: `Case ID: ${id} doesn't exist!` },
 			});
 
-		return message.channel.send(
+		return message.send(
 			this.client
 				.embed()
 				.addField(this.client.arrow + ' Case Mod:', doc.mod)
