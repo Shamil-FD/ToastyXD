@@ -29,7 +29,6 @@ module.exports = class NewCodeCommand extends Command {
 			}).save();
 
 			return message.send(
-				message.author,
 				this.client
 					.embed()
 					.setDescription(
