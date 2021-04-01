@@ -8,7 +8,7 @@ module.exports = class HelpCommand extends Command {
 		});
 	}
 
-	exec(message, { command }) {
+	exec(message) {
 		const embed = this.client
 			.embed()
 			.setThumbnail(this.client.user.displayAvatarURL());

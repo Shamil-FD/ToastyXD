@@ -10,7 +10,7 @@ module.exports = class HelpMeCommand extends Command {
 	}
 
 	async exec(message) {
-		let arr = [
+		const arr = [
 			'help AH',
 			'I need help rn',
 			"I need help I don't have much time!",
