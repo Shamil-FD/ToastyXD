@@ -1,14 +1,13 @@
 const Command = require('../../Util/Command');
 const phin = require('phin');
 
-class DocsCommand extends Command {
+module.exports = class DocsCommand extends Command {
 	constructor() {
 		super('docs', {
 			aliases: ['docs', 'djs'],
 			category: 'Misc',
 			flags: ['--src'],
 			channel: 'guild',
-
 			args: [
 				{
 					id: 'query',
@@ -24,7 +23,7 @@ class DocsCommand extends Command {
 		});
 	}
 	async exec(message, { query, src }) {
-		if (!query) return message.send(`Specify something to search for.`);
+		if (!query) return message.send({ embeds: { description: `Specify something to search for.`, color: "RED" }});
 		if (!src) {
 			const data = await phin({
 				url: `https://djsdocs.sorta.moe/v2/embed?src=stable&q=${encodeURIComponent(
@@ -46,5 +45,3 @@ class DocsCommand extends Command {
 		}
 	}
 }
-
-module.exports = DocsCommand;
