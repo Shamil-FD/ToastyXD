@@ -5,7 +5,7 @@ module.exports = class DocsCommand extends Command {
 	constructor() {
 		super('docs', {
 			aliases: ['docs', 'djs'],
-			category: 'Misc',
+			category: 'misc',
 			flags: ['--src'],
 			channel: 'guild',
 			args: [
