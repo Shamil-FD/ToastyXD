@@ -91,7 +91,7 @@ module.exports = class WarningsCommand extends Command {
 				msgs.forEach(async (m) => {
 					message.channel.messages.fetch(m).then((mm) => mm.delete());
 				});
-                message.delete();
+				message.delete();
 				return msg.delete();
 			}
 		} catch (e) {
