@@ -49,20 +49,15 @@ module.exports = class ReadyListener extends Listener {
 
 		if (guild) {
 			// Send a Message Saying The Bot Is Online
-			this.client.channels.cache
+			const msg = await this.client.channels.cache
 				.get('709043664667672696')
-				.send(this.client.embed().setDescription(":green_circle: I'm online."))
-				.then((m) =>
-					m.edit(
-						this.client
-							.embed()
-							.setDescription(
-								`:green_circle: I'm online.\nAPI Ping: ${Math.round(
-									this.client.ws.ping
-								)}MS`
-							)
-					)
-				);
+				.send(this.client.embed().setDescription(":green_circle: I'm online."));
+            const ping = Math.round(this.client.ws.ping);
+            await msg.edit(this.client
+            .embed()
+            .setDescription(
+                `:green_circle: I'm online.\nAPI Ping: ${ping}MS | ${ping <= 250 ? '🟩' : ping <= 500 ? '🟧' : '🟥'}`
+            ));
 
 			// Check For Staff Leave and Channel Mutes and Auto Unban
 			cron.schedule(`* * * * *`, async () => {
