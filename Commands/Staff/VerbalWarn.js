@@ -175,7 +175,7 @@ module.exports = class VerbalWarnCommand extends Command {
 					});
 			} catch (e) {
 				(await msg.deleted) ? null : msg.delete();
-			    msgs.forEach(async (m) => {
+				msgs.forEach(async (m) => {
 					await message.channel.messages.fetch(m).then((mm) => mm.delete());
 				});
 				return message.send({
