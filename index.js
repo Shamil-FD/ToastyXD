@@ -12,7 +12,6 @@ const models = require('./Util/Models');
 const config = require('./Util/Config');
 const mongoose = require('mongoose');
 require('./Util/Extenders.js');
-require('dotenv');
 
 class Toasty extends AkairoClient {
 	constructor() {
@@ -22,7 +21,7 @@ class Toasty extends AkairoClient {
 			},
 			{
 				presence: {
-					status: 'dnd',
+					status: 'online',
 					activity: {
 						name: 'ToastMan 3000',
 						type: 'WATCHING',
