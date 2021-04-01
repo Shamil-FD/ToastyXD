@@ -72,7 +72,6 @@ module.exports = class VerbalWarnCommand extends Command {
 						.setFooter(`Case ID: ${doc.num}`)
 				);
 			return message.send(
-				user,
 				client
 					.embed()
 					.setDescription(
@@ -92,7 +91,7 @@ module.exports = class VerbalWarnCommand extends Command {
 		let docs = await warn.find({ user: user.id });
 
 		if (docs.length) {
-			let str = await docs
+			let str = docs
 				.map(
 					(d) =>
 						`${this.client.arrow} **Case ID**: ${d.id}\n${
@@ -158,13 +157,13 @@ module.exports = class VerbalWarnCommand extends Command {
 
 				if (collected.first().emoji.name === this.client.tick) {
 					(await msg.deleted) ? null : msg.delete();
-					await msgs.forEach(async (m) => {
+					msgs.forEach(async (m) => {
 						await message.channel.messages.fetch(m).then((mm) => mm.delete());
 					});
 					return WarnAndReport();
 				} else if (collected.first().emoji.name === this.client.cross) {
 					(await msg.deleted) ? null : msg.delete();
-					await msgs.forEach(async (m) => {
+					msgs.forEach(async (m) => {
 						await message.channel.messages.fetch(m).then((mm) => mm.delete());
 					});
 					return message.send({
@@ -176,7 +175,7 @@ module.exports = class VerbalWarnCommand extends Command {
 					});
 			} catch (e) {
 				(await msg.deleted) ? null : msg.delete();
-				await msgs.forEach(async (m) => {
+			    msgs.forEach(async (m) => {
 					await message.channel.messages.fetch(m).then((mm) => mm.delete());
 				});
 				return message.send({

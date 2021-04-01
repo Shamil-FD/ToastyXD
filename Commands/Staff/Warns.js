@@ -88,9 +88,10 @@ module.exports = class WarningsCommand extends Command {
 				}
 			);
 			if (collected.first().emoji.name === client.tick) {
-				await msgs.forEach(async (m) => {
+				msgs.forEach(async (m) => {
 					message.channel.messages.fetch(m).then((mm) => mm.delete());
 				});
+                message.delete();
 				return msg.delete();
 			}
 		} catch (e) {
