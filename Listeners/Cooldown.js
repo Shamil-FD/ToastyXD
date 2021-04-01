@@ -10,7 +10,7 @@ module.exports = class CooldownListener extends Listener {
 	}
 
 	exec(message, command, remaining) {
-		let arr = [
+		const arr = [
 			'Woah there! slow it',
 			'stop, wait, do it again',
 			'i appreciate it, buuuut you have to wait',

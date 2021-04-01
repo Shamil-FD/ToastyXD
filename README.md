@@ -1,4 +1,4 @@
-# ToastyXD 
+# ToastyXD
 
 <img src="https://img.shields.io/github/stars/Shamil-FD/ToastyXD">
 <img src="https://tokei.rs/b1/github/Shamil-FD/ToastyXD?category=lines">
@@ -10,4 +10,3 @@ Toasty is a Discord Bot used to help manage the Salvage's Oasis server. It has m
 ## Contributing
 
 Contributing instructions will be coming soon.
-

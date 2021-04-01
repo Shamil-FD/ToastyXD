@@ -3,9 +3,8 @@ const {
 	CommandHandler,
 	InhibitorHandler,
 	ListenerHandler,
-	ClientUtil,
 } = require('discord-akairo');
-const { MessageEmbed, Intents, Collection } = require('discord.js');
+const { Intents, Collection } = require('discord.js');
 const { embed, captcha, split } = require('./Util/Functions');
 const { black, greenBright } = require('chalk');
 const Command = require('./Util/Command');
@@ -15,7 +14,7 @@ const mongoose = require('mongoose');
 require('./Util/Extenders.js');
 require('dotenv');
 
-class MyClient extends AkairoClient {
+class Toasty extends AkairoClient {
 	constructor() {
 		super(
 			{
@@ -25,13 +24,13 @@ class MyClient extends AkairoClient {
 				presence: {
 					status: 'dnd',
 					activity: {
-						name: 'Goodbye',
+						name: 'ToastMan 3000',
 						type: 'WATCHING',
 					},
 				},
 				partials: ['GUILD_MEMBER', 'REACTION', 'MESSAGE'],
 				ws: {
-					intents: [Intents.ALL],
+					intents: Intents.ALL,
 				},
 			}
 		);
@@ -78,7 +77,7 @@ class MyClient extends AkairoClient {
 	}
 }
 
-const client = new MyClient();
+const client = new Toasty();
 
 client.start();
 mongoose

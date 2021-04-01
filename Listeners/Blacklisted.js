@@ -15,19 +15,19 @@ module.exports = class BlackListListener extends Listener {
 	async exec(message) {
 		if (message.author.bot === true) return;
 		if (message.channel.type !== 'text') return;
-		let { member, author, guild, content } = message;
-		content = await Util.escapeMarkdown(content);
-		content = await content.replace(/`/g, '');
+		let { content } = message;
+		content = Util.escapeMarkdown(content);
+		content = content.replace(/`/g, '');
 		// Blacklisted Word Detector ( Not The Best )
 		let doc = await blacklisted.find();
 		let newContent;
 		let docs;
-		doc = await doc.filter((documents) => documents.wild === true);
+		doc = doc.filter((documents) => documents.wild === true);
 
 		for (let o = 0; o < doc.length; o++) {
 			let regex = new RegExp(doc[o].word, 'gi');
 			newContent = await content.match(regex);
-			newContent = await _.compact(newContent);
+			newContent = _.compact(newContent);
 			if (newContent.length) {
 				docs = doc[o];
 				break;
@@ -35,7 +35,7 @@ module.exports = class BlackListListener extends Listener {
 		}
 		if (!newContent || !newContent.length) {
 			newContent = content.toLowerCase().split(' ');
-			newContent = await _.compact(newContent);
+			newContent = _.compact(newContent);
 			if (newContent.length) {
 				for (let i = 0; i < newContent.length; i++) {
 					docs = await blacklisted.findOne({ word: newContent });

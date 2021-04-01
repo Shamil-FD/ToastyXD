@@ -1,5 +1,4 @@
 const { MessageEmbed, Util } = require('discord.js');
-const { randomBytes } = require('crypto');
 const canvas = require('canvas');
 canvas.registerFont(__dirname + '/Fonts/Ubuntu-Regular.ttf', {
 	family: 'ubuntu',
@@ -14,9 +13,8 @@ module.exports = {
 		return new MessageEmbed().setColor('#ffb600');
 	},
 	// Split Message Function
-	split: async function (str) {
-		str = await Util.splitMessage(str);
-		return str;
+	split: function (str) {
+		return Util.splitMessage(str);
 	},
 
 	// Captcha Function.
@@ -86,7 +84,7 @@ module.exports = {
 		}
 
 		// Buffer the Image
-		let png = await canva.toBuffer();
+		let png = canva.toBuffer();
 		// Return the Result
 		return { word, png };
 	},

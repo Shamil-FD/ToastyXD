@@ -31,7 +31,7 @@ module.exports = class ReadyListener extends Listener {
 						console.log(
 							black.bgGreen('[Github]') + greenBright(' Bot Updated.')
 						);
-                        exec('npm i', console.log)
+						exec('npm i', console.log);
 					}
 				}
 			});

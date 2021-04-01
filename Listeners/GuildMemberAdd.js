@@ -13,7 +13,7 @@ module.exports = class GuildMemberAddListener extends Listener {
 
 	async exec(member) {
 		// Check If Member Is A Bot
-		if (member.user.bot === true) return;
+		if (member.user.bot) return;
 
 		// First Time In Help Channel Thing
 		if (!this.client.firstTime.has(member.id)) {
