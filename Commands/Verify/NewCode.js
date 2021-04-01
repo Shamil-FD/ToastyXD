@@ -44,11 +44,10 @@ module.exports = class NewCodeCommand extends Command {
 			await doc.save();
 
 			return message.send(
-				message.author,
 				this.client
 					.embed()
 					.setDescription(
-						'Please type in the code shown in the image.\nExample: `t)verify PPSMOL`\n\nIf the code is not readable, then please make a new one.'
+						'Please type in the code shown in the image.\nExample: `t)verify PpSmoL`. The code is case sensitive!\n\nIf the code is not readable, then please make a new one with `t)newcode`.'
 					)
 					.setFooter('Codes Are CaSe SeNSiTiVE')
 					.setColor('#d772e0')
