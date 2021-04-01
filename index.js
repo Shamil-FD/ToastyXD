@@ -35,6 +35,7 @@ class Toasty extends AkairoClient {
 		);
 		this.commandHandler = new CommandHandler(this, {
 			allowMention: true,
+			handleEdits: true,
 			prefix: 't)',
 			classToHandle: Command,
 			commandUtil: true,
