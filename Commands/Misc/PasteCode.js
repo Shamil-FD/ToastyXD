@@ -1,5 +1,4 @@
 let { XMLHttpRequest } = require('xmlhttprequest');
-const { MessageEmbed } = require('discord.js');
 const Command = require('../../Util/Command.js');
 const sourcebin = require('sourcebin');
 
