@@ -23,7 +23,13 @@ module.exports = class DocsCommand extends Command {
 		});
 	}
 	async exec(message, { query, src }) {
-		if (!query) return message.send({ embeds: { description: `Specify something to search for.`, color: "RED" }});
+		if (!query)
+			return message.send({
+				embeds: {
+					description: `Specify something to search for.`,
+					color: 'RED',
+				},
+			});
 		if (!src) {
 			const data = await phin({
 				url: `https://djsdocs.sorta.moe/v2/embed?src=stable&q=${encodeURIComponent(
@@ -44,4 +50,4 @@ module.exports = class DocsCommand extends Command {
 			return message.send({ embed: data.body });
 		}
 	}
-}
+};

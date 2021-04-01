@@ -20,12 +20,13 @@ module.exports = class VerifyCommand extends Command {
 			);
 
 		if (!code)
-			return message.send(message.author, {
-				embeds: {
-					description:
-						"You can't verify by not giving me the code! If you don't have a code, create one using `t)newcode`",
-				},
-			});
+			return message.send(
+				this.client
+					.embed()
+					.setDescription(
+						"You can't verify by not giving me the code! If you don't have a code, create one using `t)newcode`"
+					)
+			);
 
 		let doc = await verif.findOne({ user: message.author.id });
 
