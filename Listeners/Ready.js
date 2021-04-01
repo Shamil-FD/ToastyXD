@@ -52,12 +52,16 @@ module.exports = class ReadyListener extends Listener {
 			const msg = await this.client.channels.cache
 				.get('709043664667672696')
 				.send(this.client.embed().setDescription(":green_circle: I'm online."));
-            const ping = Math.round(this.client.ws.ping);
-            await msg.edit(this.client
-            .embed()
-            .setDescription(
-                `:green_circle: I'm online.\nAPI Ping: ${ping}MS | ${ping <= 250 ? '🟩' : ping <= 500 ? '🟧' : '🟥'}`
-            ));
+			const ping = Math.round(this.client.ws.ping);
+			await msg.edit(
+				this.client
+					.embed()
+					.setDescription(
+						`:green_circle: I'm online.\nAPI Ping: ${ping}MS | ${
+							ping <= 250 ? '🟩' : ping <= 500 ? '🟧' : '🟥'
+						}`
+					)
+			);
 
 			// Check For Staff Leave and Channel Mutes and Auto Unban
 			cron.schedule(`* * * * *`, async () => {

@@ -11,7 +11,14 @@ module.exports = class MemeCommand extends Command {
 	}
 
 	async exec(message) {
-        const meme = await imageapi.advanced('programmerhumor', 'top');
-        message.send(this.client.embed().setTitle(meme.title).setAuthor(`u/${meme.author}`).setDescription(`${meme?.text || 'I\'m laughing, you?'}`).setImage(meme.img))
-    }
+		const meme = await imageapi.advanced('programmerhumor', 'top');
+		message.send(
+			this.client
+				.embed()
+				.setTitle(meme.title)
+				.setAuthor(`u/${meme.author}`)
+				.setDescription(`${meme?.text || "I'm laughing, you?"}`)
+				.setImage(meme.img)
+		);
+	}
 };
