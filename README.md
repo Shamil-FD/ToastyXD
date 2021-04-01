@@ -9,4 +9,8 @@ Toasty is a Discord Bot used to help manage the Salvage's Oasis server. It has m
 
 ## Contributing
 
-Contributing instructions will be coming soon.
+> When making new files, please make sure to capitalize the first letter.
+> If you are going to make a command, please use the template provided in Util/Template
+
+
+Other contributing instructions will be coming soon.
