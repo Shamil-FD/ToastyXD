@@ -96,13 +96,21 @@ module.exports = class MessageUpdateListener extends Listener {
 						);
 					});
 
+				let WarnCount = await this.client.models.warnCount.findOne();
+				if (!WarnCount)
+					await new this.client.models.warnCount({ num: 1 }).save();
+				else if (WarnCount) {
+					WarnCount.num++;
+					WarnCount.save();
+				}
 				await new this.client.models.warn({
-					user: New.author.tag,
-					id: New.author.id,
+					user: New.author.id,
+					id: WarnCount.num,
 					mod: 'Toasty XD Auto-Mod',
 					reason: 'Usage of a blacklisted word.',
 					date: moment().format('LL'),
 				}).save();
+
 				return ReportChnl.send(
 					embed
 						.setDescription(

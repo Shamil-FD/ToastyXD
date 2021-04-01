@@ -86,9 +86,16 @@ module.exports = class BlackListListener extends Listener {
 						);
 					});
 
+				let WarnCount = await this.client.models.warnCount.findOne();
+				if (!WarnCount)
+					await new this.client.models.warnCount({ num: 1 }).save();
+				else if (WarnCount) {
+					WarnCount.num++;
+					WarnCount.save();
+				}
 				await new this.client.models.warn({
-					user: message.author.tag,
-					id: message.author.id,
+					user: message.author.id,
+					id: WarnCount.num,
 					mod: 'Toasty XD Auto-Mod',
 					reason: 'Usage of a blacklisted word.',
 					date: moment().format('LL'),
