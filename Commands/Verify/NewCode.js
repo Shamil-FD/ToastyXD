@@ -28,7 +28,7 @@ module.exports = class NewCodeCommand extends Command {
 				count: 0,
 			}).save();
 
-			return message.send(
+			return message.reply(
 				message.author,
 				this.client
 					.embed()
@@ -43,7 +43,7 @@ module.exports = class NewCodeCommand extends Command {
 			doc.code = cap.word;
 			await doc.save();
 
-			return message.send(
+			return message.reply(
 				this.client
 					.embed()
 					.setDescription(
