@@ -49,7 +49,6 @@ module.exports = class GuildMemberAddListener extends Listener {
 			return await member.guild.channels.cache
 				.get('801877313855160340')
 				.send(
-					member,
 					this.client
 						.embed()
 						.setDescription(

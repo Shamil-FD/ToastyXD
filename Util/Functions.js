@@ -84,7 +84,7 @@ module.exports = {
 		}
 
 		// Buffer the Image
-		let png = canva.toBuffer();
+		const png = canva.toBuffer();
 		// Return the Result
 		return { word, png };
 	},

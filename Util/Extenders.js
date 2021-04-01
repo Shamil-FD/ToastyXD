@@ -1,4 +1,4 @@
-const { Structures, Guild, MessageEmbed } = require('discord.js');
+const { Structures, MessageEmbed } = require('discord.js');
 const { split } = require('../Util/Functions');
 
 Structures.extend('Message', (Message) => {
@@ -24,7 +24,7 @@ Structures.extend('Message', (Message) => {
 						: null;
 
 					if (options.embeds.description.length > 2048) {
-						let splitted = await split(options.embeds.description);
+						let splitted = split(options.embeds.description);
 						if (splitted.length == 1) {
 							return this.channel.send(
 								args.embeds ? '' : args,

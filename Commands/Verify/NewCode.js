@@ -35,6 +35,10 @@ module.exports = class NewCodeCommand extends Command {
 						'Please type in the code shown in the image.\nExample: `t)verify PPSMOL`\n\nIf the code is not readable, then please make a new one.'
 					)
 					.setFooter('Codes Are CaSe SeNSiTiVE')
+					.setAuthor(
+						message.author.tag,
+						message.author.displayAvatarURL({ format: 'png', dynamic: true })
+					)
 					.setColor('#d772e0')
 					.attachFiles(new MessageAttachment(cap.png, 'verify.png'))
 			);
@@ -49,6 +53,10 @@ module.exports = class NewCodeCommand extends Command {
 						'Please type in the code shown in the image.\nExample: `t)verify PpSmoL`. The code is case sensitive!\n\nIf the code is not readable, then please make a new one with `t)newcode`.'
 					)
 					.setFooter('Codes Are CaSe SeNSiTiVE')
+					.setAuthor(
+						message.author.tag,
+						message.author.displayAvatarURL({ format: 'png', dynamic: true })
+					)
 					.setColor('#d772e0')
 					.attachFiles(new MessageAttachment(cap.png, 'verify.png'))
 			);
