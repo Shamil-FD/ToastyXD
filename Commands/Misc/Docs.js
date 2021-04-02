@@ -1,4 +1,5 @@
 const Command = require('../../Util/Command');
+const { MessageEmbed } = require('discord.js');
 const phin = require('phin');
 
 module.exports = class DocsCommand extends Command {
@@ -38,7 +39,7 @@ module.exports = class DocsCommand extends Command {
 				method: 'get',
 				parse: 'json',
 			});
-			return message.send({ embed: data.body });
+			return message.send(new MessageEmbed(data.body));
 		} else if (src) {
 			const data = await phin({
 				url: `https://djsdocs.sorta.moe/v2/embed?src=${src}&q=${encodeURIComponent(
@@ -47,7 +48,7 @@ module.exports = class DocsCommand extends Command {
 				method: 'get',
 				parse: 'json',
 			});
-			return message.send({ embed: data.body });
+			return message.send(new MessageEmbed(data.body));
 		}
 	}
 };

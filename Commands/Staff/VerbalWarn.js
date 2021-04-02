@@ -112,8 +112,8 @@ module.exports = class VerbalWarnCommand extends Command {
 						embeds: {
 							description: splitted[0],
 							author: {
-								text: `Past warns of ${user.user.username}`,
-								url: user.user.displayAvatarURL({ dynamic: true }),
+								name: `Past warns of ${user.user.username}`,
+								iconURL: user.user.displayAvatarURL({ dynamic: true }),
 							},
 						},
 					})
@@ -125,8 +125,8 @@ module.exports = class VerbalWarnCommand extends Command {
 							embeds: {
 								description: splitted[i],
 								author: {
-									text: `Past warns of ${user.user.username}`,
-									url: user.user.displayAvatarURL({ dynamic: true }),
+									name: `Past warns of ${user.user.username}`,
+									iconURL: user.user.displayAvatarURL({ dynamic: true }),
 								},
 							},
 						})
@@ -138,8 +138,8 @@ module.exports = class VerbalWarnCommand extends Command {
 				embeds: {
 					description: `Do you really want to warn ${user} for \`${reason}\`?`,
 					author: {
-						text: message.author.username,
-						url: message.author.displayAvatarURL({ dynamic: true }),
+						name: message.author.username,
+						iconURL: message.author.displayAvatarURL({ dynamic: true }),
 					},
 				},
 			});

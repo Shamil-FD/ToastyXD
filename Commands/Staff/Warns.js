@@ -49,8 +49,8 @@ module.exports = class WarningsCommand extends Command {
 					embeds: {
 						description: splitted[0],
 						author: {
-							text: `Warns of ${user.user.username} | ${doc.length} Warns`,
-							url: user.user.displayAvatarURL({ dynamic: true }),
+							name: `Warns of ${user.user.username} | ${doc.length} Warns`,
+							iconURL: user.user.displayAvatarURL({ dynamic: true }),
 						},
 					},
 				})
@@ -62,8 +62,8 @@ module.exports = class WarningsCommand extends Command {
 						embeds: {
 							description: splitted[i],
 							author: {
-								text: `Warns of ${user.user.username} | ${doc.length} Warns`,
-								url: user.user.displayAvatarURL({ dynamic: true }),
+								name: `Warns of ${user.user.username} | ${doc.length} Warns`,
+								iconURL: user.user.displayAvatarURL({ dynamic: true }),
 							},
 						},
 					})
