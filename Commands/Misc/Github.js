@@ -83,7 +83,7 @@ class GithubCommand extends Command {
 					inline: true,
 				},
 				{
-					name: 'Most Used Languages',
+					name: 'Most Used Language',
 					value: data.body.language,
 					inline: true,
 				},
@@ -92,6 +92,16 @@ class GithubCommand extends Command {
 					value: data.body.archived ? 'Yes' : 'No',
 					inline: true,
 				},
+                {
+                    name: 'Fork',
+                    value: data.body.fork ? 'Yes' : 'No',
+                    inline: true
+                },
+                {
+                    name: 'License',
+                    value: data.body.license.name,
+                    inline: true
+                }
 			])
 			.setURL(data.body.html_url)
 			.setAuthor(
