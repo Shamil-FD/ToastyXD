@@ -8,7 +8,7 @@ class GithubCommand extends Command {
 			aliases: ['github', 'githubrepo'],
 			category: 'Misc',
 			channel: 'guild',
-			separator: '|',
+			separator: '/',
 
 			args: [
 				{
