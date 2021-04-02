@@ -6,7 +6,7 @@ class GithubCommand extends Command {
 	constructor() {
 		super('github', {
 			aliases: ['github', 'githubrepo'],
-			category: 'Misc',
+			category: 'misc',
 			channel: 'guild',
 			separator: '/',
 			args: [
