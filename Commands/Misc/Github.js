@@ -77,7 +77,7 @@ class GithubCommand extends Command {
 				},
 				{
 					name: 'Most Used Language',
-					value: data.body.language,
+					value: data.body?.language || 'None',
 					inline: true,
 				},
 				{
