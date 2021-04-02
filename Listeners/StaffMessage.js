@@ -9,7 +9,6 @@ module.exports = class StaffMessageListener extends Listener {
 	}
 
 	async exec(message) {
-        test
 		let models = this.client.models;
 		if (message.author.bot === true) return;
 		function rannum() {
