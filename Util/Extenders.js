@@ -6,27 +6,35 @@ Structures.extend('Message', (Message) => {
 		constructor(client, data, channel) {
 			super(client, data, channel);
 			this.send = async (...args) => {
-                let embed;
-                let content;
-                args.map((value) => {
-                    if (value instanceof User) {
-                        content += `${value.toString()},`;
-                    } else if(value instanceof MessageEmbed || value.embeds) {
-                        if(value.embeds) {
-                            value = value.embeds;
-                        }
-                        if(value.description.length >= 2048) {
-                            const splitted = split(value.description.length);
-                            splitted.map((value) => super.channel.send(value.setDescription(value)));
-                        } else embed = value;
-                    } else {
-                        content += value;
-                    }
-                });
-                super.channel.send({
-                    embeds: embed ? [embed] : [],
-                    content: content
-                })
+				let embed;
+				let content;
+				args.map(async (value) => {
+					if (value instanceof User) {
+						content = `${value.toString()},`;
+					} else if (value instanceof MessageEmbed || value.embeds) {
+						if (value.embeds) {
+							value = value.embeds;
+						}
+						if (value.description && value.description.length >= 2048) {
+							const splitted = await split(value.description);
+							value.color
+								? value.setColor(value.color)
+								: value.setColor('#ffb946');
+							splitted.map((value) =>
+								this.channel.send(value.setDescription(value))
+							);
+						} else embed = value;
+						if (!embed.color) {
+							embed.color = '#ffb946';
+						}
+					} else {
+						content += value;
+					}
+				});
+				return this.channel.send({
+					embed: embed ? embed : null,
+					content: content,
+				});
 			};
 			this.getMember = async (content) => {
 				if (!content) return undefined;

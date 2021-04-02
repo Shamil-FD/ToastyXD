@@ -29,7 +29,7 @@ module.exports = class NewCodeCommand extends Command {
 			}).save();
 
 			return message.send(
-                message.author,
+				message.author,
 				this.client
 					.embed()
 					.setDescription(
@@ -44,7 +44,7 @@ module.exports = class NewCodeCommand extends Command {
 			await doc.save();
 
 			return message.send(
-                message.author,
+				message.author,
 				this.client
 					.embed()
 					.setDescription(

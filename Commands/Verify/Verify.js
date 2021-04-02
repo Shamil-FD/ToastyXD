@@ -16,13 +16,13 @@ module.exports = class VerifyCommand extends Command {
 		// Check For The Not Verified Role
 		if (!message.member.roles.cache.get(this.client.config.NotVerifiedRole))
 			return message.send(
-                message.author,
+				message.author,
 				this.client.embed().setDescription("You're already verified.")
 			);
 
 		if (!code)
 			return message.send(
-                message.author,
+				message.author,
 				this.client
 					.embed()
 					.setDescription(

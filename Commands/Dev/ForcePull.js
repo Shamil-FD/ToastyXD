@@ -6,14 +6,14 @@ module.exports = class ForcePullCommand extends Command {
 		super('forcepull', {
 			aliases: ['forcepull', 'fp'],
 			category: 'Shamil',
-      managerOnly: true,
+			managerOnly: true,
 		});
 	}
 
 	async exec(message) {
-    exec(`git pull ${this.client.config.Github}`, () => {
-        exec('npm i', console.log);
-    });
-    return message.react(this.client.tick);
-  }
+		exec(`git pull ${this.client.config.Github}`, () => {
+			exec('npm i', console.log);
+		});
+		return message.react(this.client.tick);
+	}
 };
