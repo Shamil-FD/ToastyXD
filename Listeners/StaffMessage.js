@@ -65,7 +65,7 @@ module.exports = class StaffMessageListener extends Listener {
 					let NotCheckedIn = await clockchnl.messages.fetch(
 						'804073813163376650'
 					);
-					// Remove The Staff From The Not Checked In Mezsage If They Are There
+					// Remove The Staff From The Not Checked In Message If They Are There
 					if (NotCheckedIn.embeds[0].description.includes(message.author.tag)) {
 						let ReplacedMsg = NotCheckedIn.embeds[0].description.replace(
 							`:x: ${message.author.tag}`,
