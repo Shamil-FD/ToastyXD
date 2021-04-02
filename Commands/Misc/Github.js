@@ -56,12 +56,9 @@ class GithubCommand extends Command {
 			});
 
 		const embed = new MessageEmbed()
-			.setTitle(`Info of ${repo[1]}`)
+			.setTitle(`Info on ${repo[1]}`)
+            .setDescription(data.body.description)
 			.addFields([
-				{
-					name: 'Description',
-					value: data.body.description,
-				},
 				{
 					name: 'Private',
 					value: data.body.private ? 'Yes' : 'No',
