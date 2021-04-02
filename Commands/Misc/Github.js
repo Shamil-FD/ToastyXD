@@ -60,11 +60,6 @@ class GithubCommand extends Command {
             .setDescription(data.body.description)
 			.addFields([
 				{
-					name: 'Private',
-					value: data.body.private ? 'Yes' : 'No',
-					inline: true,
-				},
-				{
 					name: 'Stargazers',
 					value: data.body.stargazers_count,
 					inline: true,
