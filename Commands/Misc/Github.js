@@ -92,7 +92,7 @@ class GithubCommand extends Command {
                 },
                 {
                     name: 'License',
-                    value: data.body.license.name,
+                    value: data.body.license?.name || 'No License',
                     inline: true
                 }
 			])
