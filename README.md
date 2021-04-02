@@ -1,7 +1,6 @@
 # ToastyXD
 
-<img src="https://img.shields.io/github/stars/Shamil-FD/ToastyXD">
-<img src="https://tokei.rs/b1/github/Shamil-FD/ToastyXD?category=lines">
+<img src="https://img.shields.io/github/stars/Shamil-FD/ToastyXD"> <img src="https://tokei.rs/b1/github/Shamil-FD/ToastyXD?category=lines">
 
 ## What's Toasty?
 
