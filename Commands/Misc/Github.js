@@ -61,17 +61,17 @@ class GithubCommand extends Command {
 			.addFields([
 				{
 					name: 'Stargazers',
-					value: data.body.stargazers_count,
+					value: data.body.stargazers_count.toLocaleString(),
 					inline: true,
 				},
 				{
 					name: 'Watchers',
-					value: data.body.subscribers_count,
+					value: data.body.subscribers_count.toLocaleString(),
 					inline: true,
 				},
 				{
 					name: 'Forks',
-					value: data.body.forks_count,
+					value: data.body.forks_count.toLocaleString(),
 					inline: true,
 				},
 				{
