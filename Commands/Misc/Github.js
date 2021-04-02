@@ -54,6 +54,7 @@ class GithubCommand extends Command {
 			return message.send({
 				embeds: { description: "Couldn't find that repository.", color: 'RED' },
 			});
+        if(!data.body.name) return message.send({ embeds: { description: "Couldn't find that repository.", color: "RED"}})
 
 		const embed = new MessageEmbed()
 			.setTitle(`Info on ${repo[1]}`)
