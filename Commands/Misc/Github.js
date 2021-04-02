@@ -9,7 +9,6 @@ class GithubCommand extends Command {
 			category: 'Misc',
 			channel: 'guild',
 			separator: '/',
-
 			args: [
 				{
 					id: 'author',
@@ -29,14 +28,14 @@ class GithubCommand extends Command {
 		if (!author)
 			return message.send({
 				embeds: {
-					description: `Specify the author.`,
+					description: 'Specify the owner of the repos username',
 					color: 'RED',
 				},
 			});
 		if (!repo)
 			return message.send({
 				embeds: {
-					description: `Specify the repository name.`,
+					description: 'Specify the repository name.',
 					color: 'RED',
 				},
 			});
@@ -100,7 +99,7 @@ class GithubCommand extends Command {
 				data.body.owner.avatar_url,
 				data.body.owner.html_url
 			)
-			.setFooter(`Created At`)
+			.setFooter('Created At')
 			.setTimestamp(new Date(data.body.created_at))
 			.setColor('GREEN');
 		return message.send(embed);
