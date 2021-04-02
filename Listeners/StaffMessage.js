@@ -62,7 +62,7 @@ module.exports = class StaffMessageListener extends Listener {
 						});
 
 					// Fetching The Not Clocked In Message
-					let NotCheckedIn = await clockchnl.messages.fetch(
+					const NotCheckedIn = await clockchnl.messages.fetch(
 						'804073813163376650'
 					);
 					// Remove The Staff From The Not Checked In Message If They Are There
