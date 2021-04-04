@@ -152,11 +152,11 @@ module.exports = class StaffinfoCommand extends Command {
 		const avatar = await canvas.loadImage(person.user.displayAvatarURL({ format: 'png' }));
       	ctx.drawImage(avatar, 25, 20, 200, 200);
         ctx.restore()        
-        ctx.beginPath();
-        ctx.arc(120, 120, 87, 0, Math.PI * 2);
-        ctx.strokeStyle = statusColor;
-        ctx.lineWidth = 5;
-        ctx.stroke();
+        // ctx.beginPath();
+        // ctx.arc(120, 120, 87, 0, Math.PI * 2);
+        // ctx.strokeStyle = statusColor;
+        // ctx.lineWidth = 5;
+        // ctx.stroke();
         
    		const png = canva.toBuffer();
        
