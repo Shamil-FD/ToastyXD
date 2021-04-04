@@ -150,7 +150,7 @@ module.exports = class StaffinfoCommand extends Command {
 		ctx.clip();
                 
 		const avatar = await canvas.loadImage(person.user.displayAvatarURL({ format: 'png' }));
-      	ctx.drawImage(avatar, 25, 20, 200, 200);
+      	ctx.drawImage(avatar, 25, 20, 256, 256);
         ctx.restore()        
         // ctx.beginPath();
         // ctx.arc(120, 120, 87, 0, Math.PI * 2);
