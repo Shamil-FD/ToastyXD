@@ -39,7 +39,10 @@ module.exports = class DocsCommand extends Command {
 				method: 'get',
 				parse: 'json',
 			});
-            if(data.body == null) return message.send({ embeds: { description: 'Nothing found for that!', color: 'RED' }})
+			if (data.body == null)
+				return message.send({
+					embeds: { description: 'Nothing found for that!', color: 'RED' },
+				});
 			return message.send(new MessageEmbed(data.body));
 		} else if (src) {
 			const data = await phin({
@@ -49,7 +52,10 @@ module.exports = class DocsCommand extends Command {
 				method: 'get',
 				parse: 'json',
 			});
-            if(data.body == null) return message.send({ embeds: { description: 'Nothing found for that!', color: 'RED' }})
+			if (data.body == null)
+				return message.send({
+					embeds: { description: 'Nothing found for that!', color: 'RED' },
+				});
 			return message.send(new MessageEmbed(data.body));
 		}
 	}

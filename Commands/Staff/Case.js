@@ -1,6 +1,5 @@
 const Command = require('../../Util/Command.js');
 const { warn } = require('../../Util/Models');
-const moment = require('moment');
 
 module.exports = class CaseCommand extends Command {
 	constructor() {

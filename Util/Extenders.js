@@ -28,7 +28,7 @@ Structures.extend('Message', (Message) => {
 							embed.color = '#ffb946';
 						}
 					} else {
-                        content = content || "";
+						content = content || '';
 						content += value;
 					}
 				});

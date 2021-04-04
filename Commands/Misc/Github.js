@@ -54,11 +54,14 @@ class GithubCommand extends Command {
 			return message.send({
 				embeds: { description: "Couldn't find that repository.", color: 'RED' },
 			});
-        if(!data.body.name) return message.send({ embeds: { description: "Couldn't find that repository.", color: "RED"}})
+		if (!data.body.name)
+			return message.send({
+				embeds: { description: "Couldn't find that repository.", color: 'RED' },
+			});
 
 		const embed = new MessageEmbed()
 			.setTitle(`Info on ${repo[1]}`)
-            .setDescription(data.body.description)
+			.setDescription(data.body.description)
 			.addFields([
 				{
 					name: 'Stargazers',
@@ -85,16 +88,16 @@ class GithubCommand extends Command {
 					value: data.body.archived ? 'Yes' : 'No',
 					inline: true,
 				},
-                {
-                    name: 'Fork',
-                    value: data.body.fork ? 'Yes' : 'No',
-                    inline: true
-                },
-                {
-                    name: 'License',
-                    value: data.body.license?.name || 'No License',
-                    inline: true
-                }
+				{
+					name: 'Fork',
+					value: data.body.fork ? 'Yes' : 'No',
+					inline: true,
+				},
+				{
+					name: 'License',
+					value: data.body.license?.name || 'No License',
+					inline: true,
+				},
 			])
 			.setURL(data.body.html_url)
 			.setAuthor(
