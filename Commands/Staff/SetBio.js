@@ -26,6 +26,7 @@ module.exports = class SetbioCommand extends Command {
 					color: 'RED',
 				},
 			});
+        if(bio.length < 48) return message.send({ embeds: { description: "You can't make your bio no longer than 48 characters.", color: "RED"}})
 		let doc = await staff.findOne({ user: message.author.id });
 		doc.desc = bio;
 		await doc.save();
