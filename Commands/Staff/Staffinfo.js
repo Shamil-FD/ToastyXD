@@ -36,10 +36,10 @@ module.exports = class StaffinfoCommand extends Command {
         let bio = doc.desc ?? "Mysterious Person";
         
 		let statusColor;
-        if (person.presence.status == "online") statusColor = "#3fff00";
-        else if (person.presence.status == "dnd") statusColor = "red";
-        else if (person.presence.status == "idle") statusColor = "orange";
-        else statusColor = "black";
+        // if (person.presence.status == "online") statusColor = "#3fff00";
+        // else if (person.presence.status == "dnd") statusColor = "red";
+        // else if (person.presence.status == "idle") statusColor = "orange";
+        statusColor = "black";
         
         let canva = canvas.createCanvas(740, 360);
 		const ctx = canva.getContext('2d');
