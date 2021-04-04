@@ -7,7 +7,6 @@ module.exports = class NotStonksCommand extends Command {
 		super('notstonks', {
 			aliases: ['notstonks'],
 			category: 'fun',
-
 			args: [
 				{
 					id: 'user',

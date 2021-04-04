@@ -20,7 +20,7 @@ module.exports = class AFKCommand extends Command {
 	}
 
 	async exec(message, { reason }) {
-		let doc = await afk.findOne({ user: message.author.id });
+		const doc = await afk.findOne({ user: message.author.id });
 
 		if (doc) {
 			let a = moment(doc.date);
