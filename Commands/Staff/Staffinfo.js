@@ -11,17 +11,17 @@ module.exports = class StaffinfoCommand extends Command {
 			aliases: ['staffinfo', 'si'],
 			category: 'Staff',
 			channel: 'guild',
-            cooldown: 15000,
-        //    staffOnly: true,
-            args: [{ id: "person", match: "content", default: (msg) => msg.author.id }]
+            		cooldown: 15000,
+           		staffOnly: true,
+            		args: [{ id: "person", match: "content", default: (msg) => msg.author.id }]
 		});
 	}
 
 	async exec(message, { person }) {
     
         person = await message.getMember(person);
-		//if (!person.roles.cache.get(this.client.config.StaffRole))
-			//return message.send({embeds: { description: `${person} don't seem to be a Staff.`, color: "RED" }});
+		if (!person.roles.cache.get(this.client.config.StaffRole))
+			return message.send({embeds: { description: `${person} don't seem to be a Staff.`, color: "RED" }});
         
         let doc = await this.client.models.staff.findOne({ user: person.id });
         if(!doc.infoCard){
@@ -36,10 +36,10 @@ module.exports = class StaffinfoCommand extends Command {
         let bio = doc.desc ?? "Mysterious Person";
         
 		let statusColor;
-        // if (person.presence.status == "online") statusColor = "#3fff00";
-        // else if (person.presence.status == "dnd") statusColor = "red";
-        // else if (person.presence.status == "idle") statusColor = "orange";
-        statusColor = "black";
+        if (person.presence.status == "online") statusColor = "#3fff00";
+        else if (person.presence.status == "dnd") statusColor = "red";
+        else if (person.presence.status == "idle") statusColor = "orange";
+        else statusColor = "white";
         
         let canva = canvas.createCanvas(740, 360);
 		const ctx = canva.getContext('2d');
@@ -150,13 +150,13 @@ module.exports = class StaffinfoCommand extends Command {
 		ctx.clip();
                 
 		const avatar = await canvas.loadImage(person.user.displayAvatarURL({ format: 'png' }));
-      	ctx.drawImage(avatar, 25, 20, 256, 256);
+      	ctx.drawImage(avatar, 25, 20, 200, 200);
         ctx.restore()        
-        // ctx.beginPath();
-        // ctx.arc(120, 120, 87, 0, Math.PI * 2);
-        // ctx.strokeStyle = statusColor;
-        // ctx.lineWidth = 5;
-        // ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(120, 120, 87, 0, Math.PI * 2);
+        ctx.strokeStyle = statusColor;
+        ctx.lineWidth = 5;
+        ctx.stroke();
         
    		const png = canva.toBuffer();
        
