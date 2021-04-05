@@ -93,7 +93,7 @@ module.exports = class StaffinfoCommand extends Command {
 
 		// Check if the person's username is longer than 10 chars, if yes, resize the font and add the username. If no, add in the username
 		if (person.user.username.length >= 10) {
-			ctx.font = `20px jetbrains`;
+			ctx.font = `23px jetbrains`;
 			ctx.fillStyle = textColor;
 			ctx.textAlign = 'center';
 			ctx.fillText(person.user.username, 125, 270);
@@ -177,7 +177,7 @@ module.exports = class StaffinfoCommand extends Command {
 		// Add in the status circle part 1
 		ctx.beginPath();
 		ctx.fillStyle = statusColor;
-		ctx.arc(175, 195, 20, 0, Math.PI * 2);
+		ctx.arc(175, 198, 20, 0, Math.PI * 2);
 		ctx.fill();
 		ctx.closePath();
 		ctx.save();
@@ -205,7 +205,7 @@ module.exports = class StaffinfoCommand extends Command {
 		// Add in the status circle part 2
 		ctx.beginPath();
 		ctx.fillStyle = statusColor;
-		ctx.arc(175, 195, 20, 0, Math.PI * 2);
+		ctx.arc(175, 198, 20, 0, Math.PI * 2);
 		ctx.fill();
 		ctx.closePath();
 
