@@ -51,7 +51,7 @@ module.exports = class StaffinfoCommand extends Command {
 		else if (person.presence.status == 'idle') statusColor = '#efa330';
 		else statusColor = '#7c8288';
 		if (doc.infoCard.text?.toLowerCase() === 'auto') textColor = statusColor;
-		if (doc.infoCard.borders.toLowerCase() === 'auto')
+		if (doc.infoCard.borders?.toLowerCase() === 'auto')
 			borderColor = statusColor;
 
 		let canva = canvas.createCanvas(740, 360);
