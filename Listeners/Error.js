@@ -15,10 +15,11 @@ module.exports = class ErrorListener extends Listener {
 				.embed()
 				.setTitle('Error')
 				.setDescription(
-					`[ERROR]: \`\`\`${e}\`\`\`\n[COMMAND]: ${
+					`Error: \`\`\`${e}\`\`\`\nCommand: ${
 						command.id ? command.id : "I don't know"
 					}`
 				)
+				.setColor('RED')
 		);
 	}
 };

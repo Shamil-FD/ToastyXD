@@ -1,8 +1,11 @@
 const { MessageEmbed, Util } = require('discord.js');
 const canvas = require('canvas');
-canvas.registerFont(__dirname + '/Fonts/Ubuntu-Regular.ttf', {
-	family: 'ubuntu',
-});
+canvas.registerFont(
+	__dirname + '/Fonts/JetBrains Mono Bold Nerd Font Complete.ttf',
+	{
+		family: 'jetbrains',
+	}
+);
 canvas.registerFont(__dirname + '/Fonts/Ubuntu-BoldItalic.ttf', {
 	family: 'ubuntuBold',
 });
@@ -76,7 +79,7 @@ module.exports = {
 		ctx.stroke();
 
 		// Fill in the Captcha Text.
-		ctx.font = `40px ubuntu`;
+		ctx.font = `40px jetbrains`;
 		ctx.globalAlpha = 1;
 		ctx.fillStyle = '#0e00e0';
 		for (let n = 0; n < coordinates.length; n++) {

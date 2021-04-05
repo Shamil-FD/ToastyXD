@@ -38,10 +38,12 @@ schema = Schema({
 	total: Number,
 	onLeave: Boolean,
 	strikes: Number,
-    infoCard: {
-        borders: String,
-        background: String
-    }
+	infoCard: {
+		borders: String,
+		background: String,
+		text: String,
+		img: String,
+	},
 });
 
 exports.staff = model('staff', schema);
