@@ -117,8 +117,8 @@ module.exports = class StaffinfoCommand extends Command {
         */
 		// Check if the bio is longer than 22 chars. If yes, add in a new line for the bio. If no, add in the bio
 		if (bio.length < 21) {
-			ctx.fillText(`${this.client.arrow} Bio: `, 250, 70);
-			ctx.fillText(bio, 340, 70);
+			ctx.fillText(`${this.client.arrow} Bio:`, 250, 70);
+			ctx.fillText(" " + bio, 340, 70);
 
 			ctx.fillText(
 				`${this.client.arrow} Messages Today: ${doc.msgs}`,
@@ -144,10 +144,10 @@ module.exports = class StaffinfoCommand extends Command {
 				225
 			);
 		} else {
-			ctx.fillText(this.client.arrow + ' Bio: ', 250, 70);
+			ctx.fillText(this.client.arrow + ' Bio:', 250, 70);
 			let splittedBio = bio.lastIndexOf(' ');
 			splittedBio = bio.substr(24).trim();
-			ctx.fillText(bio.slice(0, 24) + '\n' + splittedBio, 340, 70);
+			ctx.fillText(" " + bio.slice(0, 24) + '\n' + splittedBio, 340, 70);
 
 			ctx.fillText(
 				`${this.client.arrow} Messages Today: ${doc.msgs}`,
@@ -177,7 +177,7 @@ module.exports = class StaffinfoCommand extends Command {
 		// Add in the status circle part 1
 		ctx.beginPath();
 		ctx.fillStyle = statusColor;
-		ctx.arc(175, 196, 20, 0, Math.PI * 2);
+		ctx.arc(175, 193, 20, 0, Math.PI * 2);
 		ctx.fill();
 		ctx.closePath();
 		ctx.save();
@@ -205,7 +205,7 @@ module.exports = class StaffinfoCommand extends Command {
 		// Add in the status circle part 2
 		ctx.beginPath();
 		ctx.fillStyle = statusColor;
-		ctx.arc(175, 196, 20, 0, Math.PI * 2);
+		ctx.arc(175, 193, 20, 0, Math.PI * 2);
 		ctx.fill();
 		ctx.closePath();
 
