@@ -9,7 +9,7 @@ module.exports = class WarningsCommand extends Command {
 			channel: 'guild',
 			staffOnly: true,
 			prefix: ['t)', '-'],
-			args: [{ id: 'user', match: 'rest', default: (message) => message.member }],
+			args: [{ id: 'user', match: 'rest', default: (message) => message.author }],
 		});
 	}
 
@@ -26,9 +26,7 @@ module.exports = class WarningsCommand extends Command {
 			return message.send(
 				this.client.embed().setDescription(`${user} hasn't been warned before.`)
 			);
-
-		let embed = this.client.embed();
-		let str = await doc
+		let str = doc
 			.map(
 				(d) =>
 					`${this.client.arrow} **Case ID**: ${d.id}\n${
