@@ -118,7 +118,7 @@ module.exports = class StaffinfoCommand extends Command {
 		// Check if the bio is longer than 22 chars. If yes, add in a new line for the bio. If no, add in the bio
 		if (bio.length < 21) {
 			ctx.fillText(`${this.client.arrow} Bio:`, 250, 70);
-			ctx.fillText(" " + bio, 340, 70);
+			ctx.fillText(' ' + bio, 340, 70);
 
 			ctx.fillText(
 				`${this.client.arrow} Messages Today: ${doc.msgs}`,
@@ -147,7 +147,7 @@ module.exports = class StaffinfoCommand extends Command {
 			ctx.fillText(this.client.arrow + ' Bio:', 250, 70);
 			let splittedBio = bio.lastIndexOf(' ');
 			splittedBio = bio.substr(24).trim();
-			ctx.fillText(" " + bio.slice(0, 24) + '\n' + splittedBio, 340, 70);
+			ctx.fillText(' ' + bio.slice(0, 24) + '\n' + splittedBio, 340, 70);
 
 			ctx.fillText(
 				`${this.client.arrow} Messages Today: ${doc.msgs}`,
