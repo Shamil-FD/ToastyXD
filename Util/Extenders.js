@@ -39,13 +39,11 @@ Structures.extend('Message', (Message) => {
 			};
 			this.getMember = async (content) => {
 				if (!content) return undefined;
-				let member =
+                return content instanceof GuildMember ? content : content instanceof User ? this.guild.member(content) : this.guild.members.cache.get(content) ||
+                this.mentions.members.first() ||
 					this.guild.members.cache.find(
 						(m) => m.user.tag.toLowerCase() === content.toLowerCase()
-					) ||
-					this.guild.members.cache.get(content) ||
-					this.mentions.members.first();
-				return member;
+					)
 			};
 			this.getRole = async (content) => {
 				if (!content) return undefined;
