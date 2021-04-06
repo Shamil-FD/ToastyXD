@@ -17,7 +17,10 @@ module.exports = class ClearWarnsCommand extends Command {
 			return message.send({
 				embeds: { description: 'You have to provide me a user.', color: 'RED' },
 			});
-		if (user.id === message.author.id && message.author.id != message.guild.ownerID)
+		if (
+			user.id === message.author.id &&
+			message.author.id != message.guild.ownerID
+		)
 			return message.send({
 				embeds: { description: "Sorry, can't do that.", color: 'RED' },
 			});

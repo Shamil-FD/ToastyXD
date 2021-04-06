@@ -37,20 +37,27 @@ Structures.extend('Message', (Message) => {
 					content: content,
 				});
 			};
-			this.getMember = async (content) => {
+			this.getMember = (content) => {
 				if (!content) return undefined;
-                return content instanceof GuildMember ? content : content instanceof User ? this.guild.member(content) : this.guild.members.cache.get(content) ||
-                this.mentions.members.first() ||
-					this.guild.members.cache.find(
-						(m) => m.user.tag.toLowerCase() === content.toLowerCase()
-					)
+				return content instanceof GuildMember
+					? content
+					: content instanceof User
+					? this.guild.member(content)
+					: this.guild.members.cache.get(content) ||
+					  this.mentions.members.first() ||
+					  this.guild.members.cache.find(
+							(m) =>
+								m.user.tag.toLowerCase() == content.toLowerCase() ||
+								m.displayName.toLowerCase().includes(content.toLowerCase()) ||
+								m.user.username.toLowerCase().includes(content.toLowerCase())
+					  );
 			};
-			this.getRole = async (content) => {
+			this.getRole = (content) => {
 				if (!content) return undefined;
 				let role =
-					(await this.guild.roles.cache.find(
+					this.guild.roles.cache.find(
 						(r) => r.name.toLowerCase() === content.toLowerCase()
-					)) ||
+					) ||
 					this.guild.roles.cache.get(content) ||
 					this.mentions.roles.first();
 				return role;
