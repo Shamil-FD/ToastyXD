@@ -1,4 +1,4 @@
-const { Structures, MessageEmbed, User } = require('discord.js');
+const { Structures, MessageEmbed, User, GuildMember } = require('discord.js');
 const { split } = require('../Util/Functions');
 
 Structures.extend('Message', (Message) => {
