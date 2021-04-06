@@ -9,7 +9,7 @@ module.exports = class WarningsCommand extends Command {
 			channel: 'guild',
 			staffOnly: true,
 			prefix: ['t)', '-'],
-			args: [{ id: 'user', match: 'rest' }],
+			args: [{ id: 'user', match: 'rest', default: (message) => message.member }],
 		});
 	}
 
