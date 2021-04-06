@@ -15,7 +15,7 @@ module.exports = class ErrorListener extends Listener {
 				.embed()
 				.setTitle('Error')
 				.setDescription(
-					`Error: \`\`\`${e}\`\`\`\nCommand: ${
+					`Error: \`\`\`${e.stack}\`\`\`\nCommand: ${
 						command.id ? command.id : "I don't know"
 					}`
 				)
