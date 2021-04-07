@@ -23,7 +23,7 @@ class Toasty extends AkairoClient {
 				presence: {
 					status: 'online',
 					activity: {
-						name: 'Stay Toasty',
+						name: 'Stay Toasty Shamil. Stay toasty.',
 						type: 'WATCHING',
 					},
 				},
