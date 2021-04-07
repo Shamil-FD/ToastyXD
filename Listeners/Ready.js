@@ -4,6 +4,7 @@ const { exec } = require('child_process');
 const cron = require('node-cron');
 const moment = require('moment');
 const day = require('dayjs');
+const _ = require('lodash');
 
 module.exports = class ReadyListener extends Listener {
 	constructor() {
@@ -219,26 +220,34 @@ module.exports = class ReadyListener extends Listener {
 							await StrikeDoc.save();
 						}
 						if (StrikeDoc && StrikeDoc.strikes >= 3) {
-							await sal.channels.cache
-								.get('805154766455701524')
-								.send(`<@${n}> has ${StrikeDoc.strikes} strikes now.`);
-							setTimeout(async () => {
+							if (sal.members.cache.get(n)) {
 								await sal.channels.cache
 									.get('805154766455701524')
-									.send(`@everyone ^`);
-							}, 3000);
+									.send(`<@${n}> has ${StrikeDoc.strikes} strikes now.`);
+								setTimeout(async () => {
+									await sal.channels.cache
+										.get('805154766455701524')
+										.send(`@everyone ^`);
+								}, 3000);
+							} else {
+								no = _.remove(no, function (f) {
+									return f !== n;
+								});
+							}
 						}
 					});
-					await sal.channels.cache
-						.get(this.client.config.StaffReportChnl)
-						.send(
-							no.map((n) => `<@${n}>`).join(', '),
-							this.client
-								.embed()
-								.setDescription(
-									"\nYou've been verbally warned/striked for not being active today. Check your strike count in t)staffinfo. If you get 3 strikes, then you will be demoted."
-								)
-						);
+					if (no.length) {
+						await sal.channels.cache
+							.get(this.client.config.StaffReportChnl)
+							.send(
+								no.map((n) => `<@${n}>`).join(', '),
+								this.client
+									.embed()
+									.setDescription(
+										"\nYou've been verbally warned/striked for not being active today. Check your strike count in t)staffinfo. If you get 3 strikes, then you will be demoted."
+									)
+							);
+					}
 				}
 				await clockin.send(
 					this.client

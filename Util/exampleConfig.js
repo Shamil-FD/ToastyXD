@@ -6,4 +6,5 @@ module.exports = {
 	Mongo: '', // mongo uri
 	Token: '', // discord bot token
 	Github: 'https://github.com/Shamil-FD/ToastyXD', // do not change this!
+	Secrets: [],
 };

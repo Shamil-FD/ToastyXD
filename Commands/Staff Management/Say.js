@@ -4,8 +4,8 @@ module.exports = class SayCommand extends Command {
 	constructor() {
 		super('say', {
 			aliases: ['say'],
-			category: 'Shamil',
-			ownerOnly: true,
+			category: 'Staff Management',
+			managerOnly: true,
 			prefix: '/',
 			typing: true,
 			args: [{ id: 'content', match: 'content' }],

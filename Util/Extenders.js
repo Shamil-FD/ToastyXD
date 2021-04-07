@@ -17,15 +17,31 @@ Structures.extend('Message', (Message) => {
 						}
 						if (value.description && value.description.length >= 2048) {
 							const splitted = await split(value.description);
-							value.color
-								? value.setColor(value.color)
-								: value.setColor('#ffb946');
+							if (!value.color) {
+								if (this.author.id === '450212014912962560')
+									value.setColor('YELLOW');
+								else if (this.author.id === '606138051051126794')
+									value.setColor('BLACK');
+								else if (this.author.id === '423222193032396801')
+									value.setColor('#000080');
+								else if (this.author.id === '705843647287132200')
+									value.setColor('#add8e6');
+								else value.setColor('#ffb946');
+							}
 							splitted.map((value) =>
 								this.channel.send(value.setDescription(value))
 							);
 						} else embed = value;
 						if (!embed.color) {
-							embed.color = '#ffb946';
+							if (this.author.id === '450212014912962560')
+								embed.color = 'YELLOW';
+							else if (this.author.id === '606138051051126794')
+								embed.color = 'BLACK';
+							else if (this.author.id === '423222193032396801')
+								embed.color = '#000080';
+							else if (this.author.id === '705843647287132200')
+								embed.color = '#add8e6';
+							else embed.color = '#ffb946';
 						}
 					} else {
 						content = content || '';

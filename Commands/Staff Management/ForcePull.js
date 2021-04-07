@@ -5,7 +5,7 @@ module.exports = class ForcePullCommand extends Command {
 	constructor() {
 		super('forcepull', {
 			aliases: ['forcepull', 'fp'],
-			category: 'Shamil',
+			category: 'Staff Management',
 			managerOnly: true,
 		});
 	}
