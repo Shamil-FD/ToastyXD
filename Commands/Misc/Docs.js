@@ -36,29 +36,25 @@ module.exports = class DocsCommand extends Command {
 				`https://djsdocs.sorta.moe/v2/embed?src=stable&q=${encodeURIComponent(
 					query
 				)}`
-			)
-				.then((m) => m.json())
-				.then((m) => {
-					if (m == null)
-						return message.send({
-							embeds: { description: 'Nothing found for that!', color: 'RED' },
-						});
-					return message.send(new MessageEmbed(m));
+			);
+			const json = await data.json();
+			if (json == null)
+				return message.send({
+					embeds: { description: 'Nothing found for that!', color: 'RED' },
 				});
+			return message.send(new MessageEmbed(json));
 		} else if (src) {
-			await fetch(
+			const data = await fetch(
 				`https://djsdocs.sorta.moe/v2/embed?src=${src}&q=${encodeURIComponent(
 					query
 				)}`
-			)
-				.then((m) => m.json())
-				.then((m) => {
-					if (m == null)
-						return message.send({
-							embeds: { description: 'Nothing found for that!', color: 'RED' },
-						});
-					return message.send(new MessageEmbed(m));
+			);
+			const json = await data.json();
+			if (json == null)
+				return message.send({
+					embeds: { description: 'Nothing found for that!', color: 'RED' },
 				});
+			return message.send(new MessageEmbed(json));
 		}
 	}
 };

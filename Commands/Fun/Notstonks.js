@@ -18,14 +18,12 @@ module.exports = class NotStonksCommand extends Command {
 	}
 
 	async exec(message, { user }) {
-		await fetch(
+		const data = await fetch(
 			`https://vacefron.nl/api/stonks?user=${user.displayAvatarURL({
 				format: 'png',
 			})}&notstonks=true`
-		)
-			.then((m) => m.buffer())
-			.then((m) => {
-				return message.channel.send(new MessageAttachment(m, 'notstonks.png'));
-			});
+		);
+		const buffer = await data.buffer();
+		return message.channel.send(new MessageAttachment(buffer, 'notstonks.png'));
 	}
 };
