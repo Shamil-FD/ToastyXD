@@ -1,5 +1,5 @@
 const Command = require('../../Util/Command');
-const phin = require('phin');
+const fetch = require('node-fetch');
 const { MessageAttachment } = require('discord.js');
 
 module.exports = class StonksCommand extends Command {
@@ -18,12 +18,14 @@ module.exports = class StonksCommand extends Command {
 	}
 
 	async exec(message, { user }) {
-		const data = await phin({
-			url: `https://vacefron.nl/api/stonks?user=${user.displayAvatarURL({
+		await fetch(
+			`https://vacefron.nl/api/stonks?user=${user.displayAvatarURL({
 				format: 'png',
-			})}`,
-			method: 'get',
-		});
-		return message.channel.send(new MessageAttachment(data.body, 'stonks.png'));
+			})}`
+		)
+			.then((m) => m.buffer())
+			.then((m) => {
+				return message.channel.send(new MessageAttachment(m, 'stonks.png'));
+			});
 	}
 };

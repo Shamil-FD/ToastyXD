@@ -41,7 +41,7 @@ module.exports = class TellShamilCommand extends Command {
 				footer: { text: 'React to this message to delete this message.' },
 			},
 		});
-		
+
 		await this.client.channels.cache.get('827849424196599828').send(
 			this.client
 				.embed()

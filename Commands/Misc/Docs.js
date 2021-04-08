@@ -1,6 +1,6 @@
 const Command = require('../../Util/Command');
 const { MessageEmbed } = require('discord.js');
-const phin = require('phin');
+const fetch = require('node-fetch');
 
 module.exports = class DocsCommand extends Command {
 	constructor() {
@@ -32,31 +32,33 @@ module.exports = class DocsCommand extends Command {
 				},
 			});
 		if (!src) {
-			const data = await phin({
-				url: `https://djsdocs.sorta.moe/v2/embed?src=stable&q=${encodeURIComponent(
+			const data = await fetch(
+				`https://djsdocs.sorta.moe/v2/embed?src=stable&q=${encodeURIComponent(
 					query
-				)}`,
-				method: 'get',
-				parse: 'json',
-			});
-			if (data.body == null)
-				return message.send({
-					embeds: { description: 'Nothing found for that!', color: 'RED' },
+				)}`
+			)
+				.then((m) => m.json())
+				.then((m) => {
+					if (m == null)
+						return message.send({
+							embeds: { description: 'Nothing found for that!', color: 'RED' },
+						});
+					return message.send(new MessageEmbed(m));
 				});
-			return message.send(new MessageEmbed(data.body));
 		} else if (src) {
-			const data = await phin({
-				url: `https://djsdocs.sorta.moe/v2/embed?src=${src}&q=${encodeURIComponent(
+			await fetch(
+				`https://djsdocs.sorta.moe/v2/embed?src=${src}&q=${encodeURIComponent(
 					query
-				)}`,
-				method: 'get',
-				parse: 'json',
-			});
-			if (data.body == null)
-				return message.send({
-					embeds: { description: 'Nothing found for that!', color: 'RED' },
+				)}`
+			)
+				.then((m) => m.json())
+				.then((m) => {
+					if (m == null)
+						return message.send({
+							embeds: { description: 'Nothing found for that!', color: 'RED' },
+						});
+					return message.send(new MessageEmbed(m));
 				});
-			return message.send(new MessageEmbed(data.body));
 		}
 	}
 };
