@@ -61,7 +61,7 @@ module.exports = class AFKCommand extends Command {
 		}
 	}
     async execSlash(message) {
-        const doc = await afk.findOne({ user: message.author.id });
+        const doc = await afk.findOne({ user: message.member.id });
         let reason = message.options[0]?.value || "be back soon xo"
 		let mute = message.options[1]?.value;
         message.defer();
@@ -73,7 +73,7 @@ module.exports = class AFKCommand extends Command {
                 await message.member.roles.add(await message.guild.roles.fetch(this.client.config.MutedRole))                
             }
             await new afk({
-				user: message.author.id,
+				user: message.member.id,
 				count: 0,
 				date: moment().format(),
                 muteTime: mute,
@@ -81,7 +81,7 @@ module.exports = class AFKCommand extends Command {
 				reason: reason,
 			}).save();
 
-            let mutebed = this.client.embed().setDescription(`${message.author} is now AFK: ${reason}`);
+            let mutebed = this.client.embed().setDescription(`<@${message.member.id}> is now AFK: ${reason}`);
             if (mute) {
                 mutebed.setFooter("Will be unmuted at")
                 mutebed.setTimestamp(new Date(Date.now() + mute))

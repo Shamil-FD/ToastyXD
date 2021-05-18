@@ -23,62 +23,15 @@ module.exports = class ResetCheckinCommand extends Command {
 
 		let lev = await models.leave.find();
 		let doc = await models.staff.find();
-		let no = [];
-		// Check Every Staff's Document
+		
+        // Check Every Staff's Document
 		doc.forEach(async (d) => {
-			// If The Staff Didn't Meet Their Daily Message Count And Is Not On Leave, Add Them To The 'Has To Strike' Array
-			if (d.msgs < d.dailyCount - 1) {
-				if (d.onLeave === false) {
-					await no.push(d.user);
-				}
-			}
 			// Save The Message Count To An Array And Reset Their Message Count
 			await mcount.push(`Messages: ${d.msgs} - <@${d.user}>`);
 			d.msgs = 0;
 			d.save();
 		});
-
-		// Check If Anyone Need To Be Striked, If Yes, Strike Them And Notify Them
-		if (no.length) {
-			no.forEach(async (n) => {
-				let StrikeDoc = await models.staff.findOne({ user: n });
-				if (!StrikeDoc.strikes) {
-					StrikeDoc.strikes = 1;
-					await StrikeDoc.save();
-				} else {
-					StrikeDoc.strikes++;
-					await StrikeDoc.save();
-				}
-				if (StrikeDoc && StrikeDoc.strikes >= 3) {
-					if (sal.members.cache.get(n)) {
-						await sal.channels.cache
-							.get('805154766455701524')
-							.send(`<@${n}> has ${StrikeDoc.strikes} strikes now.`);
-						setTimeout(async () => {
-							await sal.channels.cache
-								.get('805154766455701524')
-								.send(`@everyone ^`);
-						}, 3000);
-					} else {
-						no = _.remove(no, function (f) {
-							return f !== n;
-						});
-					}
-				}
-			});
-			if (no.length) {
-				await sal.channels.cache
-					.get("709043664667672696")
-					.send(
-						no.map((n) => `<@${n}>`).join(', '),
-						this.client
-							.embed()
-							.setDescription(
-								"\nYou've been striked for not being active today. Check your strike count in t)staffinfo."
-							)
-					);
-			}
-		}
+        
 		await clockin.send(
 			this.client
 				.embed()
