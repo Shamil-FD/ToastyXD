@@ -21,9 +21,20 @@ module.exports = class MemeCommand extends Command {
 				.setImage(meme.img)
 		);
 	}
-    async execSlash(message) {
-        message.defer()
+	async execSlash(message) {
+		message.defer();
 		const meme = await imageapi.advanced('programmerhumor', 'top');
-        return message.editReply({ embeds: [{ color: 'RANDOM', title: meme.title, description: meme?.text ?? "Lame meme provided by the lame [ImageAPI](https://npmjs.com/package/imageapi.js) package.", image: { url: meme?.img }}]});
-    }
+		return message.editReply({
+			embeds: [
+				{
+					color: 'RANDOM',
+					title: meme.title,
+					description:
+						meme?.text ??
+						'Lame meme provided by the lame [ImageAPI](https://npmjs.com/package/imageapi.js) package.',
+					image: { url: meme?.img },
+				},
+			],
+		});
+	}
 };

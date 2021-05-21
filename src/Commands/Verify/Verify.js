@@ -9,8 +9,7 @@ module.exports = class VerifyCommand extends Command {
 			channel: 'guild',
 			cooldown: 3000,
 			description: {
-				info:
-					"Verify with your code to get access to the server. If you don't have a code, type t)newcode to get a new one.",
+				info: "Verify with your code to get access to the server. If you don't have a code, type t)newcode to get a new one.",
 				usage: ['t)verify Your-Code'],
 			},
 			args: [{ id: 'code' }],

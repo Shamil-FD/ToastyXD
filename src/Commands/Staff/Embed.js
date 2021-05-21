@@ -52,7 +52,7 @@ module.exports = class EmbedCommand extends Command {
 			);
 		}
 		await message.send(this.client.embed().setDescription('Sent.'));
-		return message.delete();        
+		return message.delete();
 	}
 	async execSlash(message) {
 		if (!message.member.roles.cache.has(this.client.config.StaffRole))
@@ -68,7 +68,7 @@ module.exports = class EmbedCommand extends Command {
 		let color = message.options[3]?.value || 'RANDOM';
 		if (message.options[1].value) title = message.options[2]?.value;
 		let description = message.options[1]?.value;
-       	let embed = new MessageEmbed().setDescription(description);
+		let embed = new MessageEmbed().setDescription(description);
 		title ? embed.setTitle(title) : null;
 		color ? embed.setColor(color) : embed.setColor('RANDOM');
 		embed.setFooter(

@@ -9,8 +9,7 @@ module.exports = class LockDownCommand extends Command {
 			channel: 'guild',
 			cooldown: 15000,
 			description: {
-				info:
-					'Lockdown the server. USE THIS CAREFULLY. USE THIS COMMAND TO LOCK AND UNLOCK THE SERVER',
+				info: 'Lockdown the server. USE THIS CAREFULLY. USE THIS COMMAND TO LOCK AND UNLOCK THE SERVER',
 				usage: ['t)lockdown'],
 			},
 			staffOnly: true,

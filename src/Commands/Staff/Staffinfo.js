@@ -51,13 +51,13 @@ module.exports = class StaffinfoCommand extends Command {
 	async execSlash(message) {
 		let person = message.options[0]?.member || message.member;
 
-        if (!message.member.roles.cache.has(this.client.config.StaffRole))
+		if (!message.member.roles.cache.has(this.client.config.StaffRole))
 			return message.reply("You can't use this command.");
 		if (!person.roles.cache.has(this.client.config.StaffRole))
 			return message.reply("They aren't a staff..");
-     	message.defer()
-		
-        message.editReply({
+		message.defer();
+
+		message.editReply({
 			files: [
 				new MessageAttachment(
 					await CanvasGen(this.client, person),

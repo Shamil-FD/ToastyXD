@@ -32,18 +32,37 @@ module.exports = class CaseCommand extends Command {
 			this.client
 				.embed()
 				.addField(this.client.arrow + ' Case Mod:', doc.mod)
-				.addField(this.client.arrow + ' Case Victim:', `<@${doc.user}> || ${doc.user}`, true)
+				.addField(
+					this.client.arrow + ' Case Victim:',
+					`<@${doc.user}> || ${doc.user}`,
+					true
+				)
 				.addField(this.client.arrow + ' Case Reason:', doc.reason, true)
 				.addField(this.client.arrow + ' Case Date:', doc.date)
 		);
 	}
-    async execSlash(message) {
-        if (!message.member?.roles.cache.has(this.client.config.StaffRole)) return message.reply("You can't use this command.", { ephemeral: true });
-        message.defer();
-        
+	async execSlash(message) {
+		if (!message.member?.roles.cache.has(this.client.config.StaffRole))
+			return message.reply("You can't use this command.", { ephemeral: true });
+		message.defer();
+
 		let doc = await warn.findOne({ id: message.options[0]?.value.toString() });
-        if (!doc) return message.editReply(`A case with the ID \`${message.options[0]?.value}\` doesn't exist.`);
-        
-        return message.editReply(this.client.embed().addField(this.client.arrow + ' Case Mod:', doc.mod).addField(this.client.arrow + ' Case Victim:', `<@${doc.user}> || ${doc.user}`, true).addField(this.client.arrow + ' Case Reason:', doc.reason, true).addField(this.client.arrow + ' Case Date:', doc.date));
-    }
+		if (!doc)
+			return message.editReply(
+				`A case with the ID \`${message.options[0]?.value}\` doesn't exist.`
+			);
+
+		return message.editReply(
+			this.client
+				.embed()
+				.addField(this.client.arrow + ' Case Mod:', doc.mod)
+				.addField(
+					this.client.arrow + ' Case Victim:',
+					`<@${doc.user}> || ${doc.user}`,
+					true
+				)
+				.addField(this.client.arrow + ' Case Reason:', doc.reason, true)
+				.addField(this.client.arrow + ' Case Date:', doc.date)
+		);
+	}
 };

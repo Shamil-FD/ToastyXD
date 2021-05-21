@@ -17,20 +17,24 @@ module.exports = class NotStonksCommand extends Command {
 		});
 	}
 
-	async exec(message, { user }) {		
-        let buffer = await meme(user.displayAvatarURL())
-		return message.send({ files: [new MessageAttachment(buffer, 'notstonks.png')]});
-	};
-    async execSlash(message) {
-   let user = message.options[0]?.member ?? message.member;
-		let buffer = await meme(user.user.displayAvatarURL())
-        message.defer()        
-        return message.editReply({ files: [new MessageAttachment(await buffer, 'notstonks.png')] })
-    }
+	async exec(message, { user }) {
+		let buffer = await meme(user.displayAvatarURL());
+		return message.send({
+			files: [new MessageAttachment(buffer, 'notstonks.png')],
+		});
+	}
+	async execSlash(message) {
+		let user = message.options[0]?.member ?? message.member;
+		let buffer = await meme(user.user.displayAvatarURL());
+		message.defer();
+		return message.editReply({
+			files: [new MessageAttachment(await buffer, 'notstonks.png')],
+		});
+	}
+};
+async function meme(user) {
+	const data = await fetch(
+		`https://vacefron.nl/api/stonks?user=${user}&notstonks=true`
+	);
+	return data.buffer();
 }
-    async function meme(user) {
-        const data = await fetch(
-			`https://vacefron.nl/api/stonks?user=${user}&notstonks=true`
-		);
-		return data.buffer();
-    }

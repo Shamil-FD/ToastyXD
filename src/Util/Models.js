@@ -53,8 +53,8 @@ schema = Schema({
 	reason: String,
 	date: String,
 	count: Number,
-    muteTime: String,
-    muteDate: String,
+	muteTime: String,
+	muteDate: String,
 	pings: [{ type: String }],
 });
 

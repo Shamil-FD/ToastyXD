@@ -12,8 +12,7 @@ module.exports = class LeaveCommand extends Command {
 			channel: 'guild',
 			staffOnly: true,
 			description: {
-				info:
-					'Start or End an inactive notice. Date Format: DD/MM/YYYY OR DD/MM/YY OR DD-MM-YYYY OR DD-MM-YY',
+				info: 'Start or End an inactive notice. Date Format: DD/MM/YYYY OR DD/MM/YY OR DD-MM-YYYY OR DD-MM-YY',
 				usage: ['t)leave stop', 't)leave Start-Date End-Date Reason'],
 			},
 			args: [
@@ -136,25 +135,31 @@ module.exports = class LeaveCommand extends Command {
 					color: 'GREEN',
 					title: 'Welcome back!',
 				},
-			});            
+			});
 		}
-        message.deleted ? null : message.delete()
+		message.deleted ? null : message.delete();
 	}
-    async execSlash(message) {
-        if (!message.member?.roles.cache.has(this.client.config.StaffRole)) return message.send("You can't use this command.", { ephemeral: true });
-        message.defer()
-        
-        if (message.options[0]?.name === "end") {
-            let doc = await leave.findOne({ user: message.member?.id });
-			if (!doc) return message.editReply(this.client.embed().setDescription("You weren't on leave, dummy."));
+	async execSlash(message) {
+		if (!message.member?.roles.cache.has(this.client.config.StaffRole))
+			return message.send("You can't use this command.", { ephemeral: true });
+		message.defer();
+
+		if (message.options[0]?.name === 'end') {
+			let doc = await leave.findOne({ user: message.member?.id });
+			if (!doc)
+				return message.editReply(
+					this.client.embed().setDescription("You weren't on leave, dummy.")
+				);
 			await doc.delete();
-			return message.editReply(this.client.embed().setTitle("Hey!").setDescription("Welcome back! :D"));
-        } else {
-            let start = message.options[0]?.options[0]?.value;
-            let end = message.options[0]?.options[1]?.value;
-            let reason = message.options[0]?.options[2]?.value;
-            
-            let cumStart = start.slice(6);
+			return message.editReply(
+				this.client.embed().setTitle('Hey!').setDescription('Welcome back! :D')
+			);
+		} else {
+			let start = message.options[0]?.options[0]?.value;
+			let end = message.options[0]?.options[1]?.value;
+			let reason = message.options[0]?.options[2]?.value;
+
+			let cumStart = start.slice(6);
 			let cumEnd = end.slice(6);
 
 			if (cumStart.length == 4) {
@@ -168,9 +173,10 @@ module.exports = class LeaveCommand extends Command {
 				end = dayjs(end + ' 06:00', 'DD/MM/YY HH:mm').add(1, 'day');
 			}
 
-            if (!start.isValid() || !end.isValid()) return message.editReply("One of the provided date was invalid.");
-            
-            let doc = await leave.findOne({ user: message.member?.id });
+			if (!start.isValid() || !end.isValid())
+				return message.editReply('One of the provided date was invalid.');
+
+			let doc = await leave.findOne({ user: message.member?.id });
 			let onLeave = await staff.findOne({ user: message.member?.id });
 			if (onLeave) {
 				onLeave.onLeave = true;
@@ -183,15 +189,26 @@ module.exports = class LeaveCommand extends Command {
 					end: end,
 					reason: reason,
 				}).save();
-            } else {
-                doc.start = start;
+			} else {
+				doc.start = start;
 				doc.end = end;
 				doc.reason = reason;
-				await doc.save();   
-            }
-            
-            message.editReply(this.client.tick);
-            return message.guild.channels.cache.get("757169784747065364").send(this.client.embed().setAuthor(message.member?.user?.username, message.member?.user?.displayAvatarURL({ dynamic: true })).addField("Reasoning:", reason).addField("Starting On:", dayjs(start).format('DD MMMM YYYY'), true).addField("Ending By:", dayjs(end).format('DD MMMM YYYY')).setDescription(`Byeee ${message.member}!`))
-        }
-    }
+				await doc.save();
+			}
+
+			message.editReply(this.client.tick);
+			return message.guild.channels.cache.get('757169784747065364').send(
+				this.client
+					.embed()
+					.setAuthor(
+						message.member?.user?.username,
+						message.member?.user?.displayAvatarURL({ dynamic: true })
+					)
+					.addField('Reasoning:', reason)
+					.addField('Starting On:', dayjs(start).format('DD MMMM YYYY'), true)
+					.addField('Ending By:', dayjs(end).format('DD MMMM YYYY'))
+					.setDescription(`Byeee ${message.member}!`)
+			);
+		}
+	}
 };

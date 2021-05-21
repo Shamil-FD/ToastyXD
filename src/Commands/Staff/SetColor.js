@@ -8,8 +8,7 @@ module.exports = class SetColorCommand extends Command {
 			category: 'Staff',
 			channel: 'guild',
 			description: {
-				info:
-					'Set the background, text, border colors or set the background image of your Staff Info Card. Options: `borders`, `text`, `img`, `#Color` for background color',
+				info: 'Set the background, text, border colors or set the background image of your Staff Info Card. Options: `borders`, `text`, `img`, `#Color` for background color',
 				usage: [
 					't)setcolor border #ff000f',
 					't)setcolor text black',
@@ -126,20 +125,36 @@ module.exports = class SetColorCommand extends Command {
 			});
 		}
 	}
-    async execSlash(message) {
-        if (!message.member.roles.cache.has(this.client.config.StaffRole)) return message.reply("You can't use this command.", { ephemeral: true });
-        message.defer()
-        let doc = await this.client.models.staff.findOne({
+	async execSlash(message) {
+		if (!message.member.roles.cache.has(this.client.config.StaffRole))
+			return message.reply("You can't use this command.", { ephemeral: true });
+		message.defer();
+		let doc = await this.client.models.staff.findOne({
 			user: message.member.id,
 		});
-        if (!doc) return message.editReply("There was an error, please try again.", { ephemeral: true });
-        if (!message.options[0]?.value && !message.options[1]?.value && !message.options[2]?.value && !message.options[3]?.value) return message.editReply("You have to choose at least one option.", { ephemeral: true });
-        
-        doc.infoCard.borders = message.options[1]?.value || '#070707';
-        doc.infoCard.background = message.options[0]?.value || '#212121';
-        doc.infoCard.img = message.options[0]?.value ? 'none' : message.options[3]?.value;
-        doc.infoCard.text = message.options[2]?.value || 'white';
-        await doc.save();
-        return message.editReply("Successfully saved changes.", { ephemeral: true });
-    }
+		if (!doc)
+			return message.editReply('There was an error, please try again.', {
+				ephemeral: true,
+			});
+		if (
+			!message.options[0]?.value &&
+			!message.options[1]?.value &&
+			!message.options[2]?.value &&
+			!message.options[3]?.value
+		)
+			return message.editReply('You have to choose at least one option.', {
+				ephemeral: true,
+			});
+
+		doc.infoCard.borders = message.options[1]?.value || '#070707';
+		doc.infoCard.background = message.options[0]?.value || '#212121';
+		doc.infoCard.img = message.options[0]?.value
+			? 'none'
+			: message.options[3]?.value;
+		doc.infoCard.text = message.options[2]?.value || 'white';
+		await doc.save();
+		return message.editReply('Successfully saved changes.', {
+			ephemeral: true,
+		});
+	}
 };

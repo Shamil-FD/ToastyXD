@@ -28,8 +28,12 @@ Structures.extend('Message', (Message) => {
 						else if (this.author.id === '484031943021690883')
 							value.color = 'BLURPLE';
 						if (value.description && value.description.length >= 2048) {
-							const splitted = await split(value.description);                    
-							splitted.map((value) => this.channel.send(value.setDescription(value), { reply: { messageReference: this.id, failIfNotExists: true } }));
+							const splitted = await split(value.description);
+							splitted.map((value) =>
+								this.channel.send(value.setDescription(value), {
+									reply: { messageReference: this.id, failIfNotExists: true },
+								})
+							);
 						} else embed = value;
 						if (!embed.color) embed.color = 'BLURPLE';
 						if (this.author.id === '450212014912962560') embed.color = 'YELLOW';
@@ -49,61 +53,70 @@ Structures.extend('Message', (Message) => {
 						content += value;
 					}
 				});
-          
-                if (!embed?.footer?.text.length) {
-                    let num = Math.round(Math.random() * 99920);
-                    if (num < 11) embed.footer = { text: (await this.client.sql.get("supersecret") || "") }
-                }
+
+				if (!embed?.footer?.text.length) {
+					let num = Math.round(Math.random() * 99920);
+					if (num < 11)
+						embed.footer = {
+							text: (await this.client.sql.get('supersecret')) || '',
+						};
+				}
 				return this.channel.send({
 					embed: embed ? embed : null,
 					content: content,
-                    reply: { messageReference: this.id, failIfNotExists: true } 
+					reply: { messageReference: this.id, failIfNotExists: true },
 				});
 			};
-			this.getMember = async(content, guild) => {
+			this.getMember = async (content, guild) => {
 				if (!content) return undefined;
-                if (!guild) {
-                    guild = this.guild;
-                } else {
-                    guild = await this.client.guilds.fetch(guild);
-                    guild = guild ?? this.guild;
-                }
-               return this.mentions.members.first() ||
-					  guild.members.fetch(content) ||
-					  guild.members.cache.find(
-							(m) =>
-								m.user.tag.toLowerCase() == content.toLowerCase() ||
-								m.displayName.toLowerCase().includes(content.toLowerCase()) ||
-								m.user.username.toLowerCase().includes(content.toLowerCase())
-					  ) || undefined;
-			};
-			this.getRole = async(content, guild) => {
-				if (!content) return undefined;                
-                if (!guild) {
-                    guild = this.guild;
-                } else {
-                    guild = await this.client.guilds.fetch(guild);
-                    guild = guild ?? this.guild;
-                }
-				let role =
-					await guild.roles.cache.find(
-						(r) => r.name.toLowerCase() === content.toLowerCase()
+				if (!guild) {
+					guild = this.guild;
+				} else {
+					guild = await this.client.guilds.fetch(guild);
+					guild = guild ?? this.guild;
+				}
+				return (
+					this.mentions.members.first() ||
+					guild.members.fetch(content) ||
+					guild.members.cache.find(
+						(m) =>
+							m.user.tag.toLowerCase() == content.toLowerCase() ||
+							m.displayName.toLowerCase().includes(content.toLowerCase()) ||
+							m.user.username.toLowerCase().includes(content.toLowerCase())
 					) ||
+					undefined
+				);
+			};
+			this.getRole = async (content, guild) => {
+				if (!content) return undefined;
+				if (!guild) {
+					guild = this.guild;
+				} else {
+					guild = await this.client.guilds.fetch(guild);
+					guild = guild ?? this.guild;
+				}
+				let role =
+					(await guild.roles.cache.find(
+						(r) => r.name.toLowerCase() === content.toLowerCase()
+					)) ||
 					guild.roles.fetch(content) ||
 					this.mentions.roles.first();
 				return role;
 			};
-            this.getChannel = async(content, guild) => {              
-                if (!guild) {
-                    guild = this.guild;
-                } else {
-                    guild = await this.client.guilds.fetch(guild);
-                    guild = guild ?? this.guild;
-                }
-                    let chnl = await guild.channels.fetch(content) ||
-                    guild.channels.cache.find(c => c.name.toLowerCase() === content.toLowerCase()) ||
-                    this.mentions.channels.first()
-            };
+			this.getChannel = async (content, guild) => {
+				if (!guild) {
+					guild = this.guild;
+				} else {
+					guild = await this.client.guilds.fetch(guild);
+					guild = guild ?? this.guild;
+				}
+				let chnl =
+					(await guild.channels.fetch(content)) ||
+					guild.channels.cache.find(
+						(c) => c.name.toLowerCase() === content.toLowerCase()
+					) ||
+					this.mentions.channels.first();
+			};
 		}
 	}
 	return ToastyMessage;

@@ -5,7 +5,7 @@
 	"main": "src/index.js",
 	"scripts": {
 		"start": "nodemon src/index.js",
-		"lint": "prettier --write src/"
+		"lint": "prettier --write ."
 	},
 	"keywords": [],
 	"author": "The toasty contributors",

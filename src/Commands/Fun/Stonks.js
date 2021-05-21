@@ -18,19 +18,21 @@ module.exports = class StonksCommand extends Command {
 	}
 
 	async exec(message, { user }) {
-		let buffer = await meme(user.displayAvatarURL())
-		return message.send({ files: [new MessageAttachment(await buffer, 'stonks.png')]});
+		let buffer = await meme(user.displayAvatarURL());
+		return message.send({
+			files: [new MessageAttachment(await buffer, 'stonks.png')],
+		});
 	}
-    async execSlash(message) {
-        let user = message.options[0]?.member ?? message.member;
-		let buffer = await meme(user.user.displayAvatarURL())
-        message.defer()        
-        return message.editReply({ files: [new MessageAttachment(await buffer, 'stonks.png')] })
-    }
+	async execSlash(message) {
+		let user = message.options[0]?.member ?? message.member;
+		let buffer = await meme(user.user.displayAvatarURL());
+		message.defer();
+		return message.editReply({
+			files: [new MessageAttachment(await buffer, 'stonks.png')],
+		});
+	}
+};
+async function meme(user) {
+	const data = await fetch(`https://vacefron.nl/api/stonks?user=${user}`);
+	return data.buffer();
 }
-    async function meme(user) {
-        const data = await fetch(
-			`https://vacefron.nl/api/stonks?user=${user}`
-		);
-		return data.buffer();
-    }

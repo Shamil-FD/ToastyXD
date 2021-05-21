@@ -47,13 +47,18 @@ module.exports = class RemoveWarnCommand extends Command {
 		);
 		await doc.delete();
 	}
-    async execSlash(message) {
-        if (!message.member.roles.cache.has(this.client.config.StaffRole)) return message.reply("You can't use this command.", { ephemeral: true });
-        message.defer()
+	async execSlash(message) {
+		if (!message.member.roles.cache.has(this.client.config.StaffRole))
+			return message.reply("You can't use this command.", { ephemeral: true });
+		message.defer();
 		let doc = await warn.findOne({ id: message.options[0]?.value });
-        
-        if (!doc) return message.editReply(`A case ID with \`${message.options[0]?.value}\` doesn't exist.`, { ephemeral: true });
-        await message.editReply(
+
+		if (!doc)
+			return message.editReply(
+				`A case ID with \`${message.options[0]?.value}\` doesn't exist.`,
+				{ ephemeral: true }
+			);
+		await message.editReply(
 			this.client
 				.embed()
 				.setDescription(`Deleted Case ID: ${id}`)
@@ -64,8 +69,8 @@ module.exports = class RemoveWarnCommand extends Command {
 				)
 				.addField(this.client.arrow + ' **Case Reason**:', doc.reason, true)
 				.setTitle(message.member.user.username)
-				.setAuthor(`${this.client.arrow} Case Moderator: ${doc.mod}`))
-        return doc.delete()
-		
-    }
+				.setAuthor(`${this.client.arrow} Case Moderator: ${doc.mod}`)
+		);
+		return doc.delete();
+	}
 };

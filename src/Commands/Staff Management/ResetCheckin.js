@@ -7,7 +7,7 @@ module.exports = class ResetCheckinCommand extends Command {
 			aliases: ['resetcheckin'],
 			category: 'Staff Management',
 			channel: 'guild',
-            cooldown: 240000,
+			cooldown: 240000,
 			managerOnly: true,
 		});
 	}
@@ -23,15 +23,15 @@ module.exports = class ResetCheckinCommand extends Command {
 
 		let lev = await models.leave.find();
 		let doc = await models.staff.find();
-		
-        // Check Every Staff's Document
+
+		// Check Every Staff's Document
 		doc.forEach(async (d) => {
 			// Save The Message Count To An Array And Reset Their Message Count
 			await mcount.push(`Messages: ${d.msgs} - <@${d.user}>`);
 			d.msgs = 0;
 			d.save();
 		});
-        
+
 		await clockin.send(
 			this.client
 				.embed()

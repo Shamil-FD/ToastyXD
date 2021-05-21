@@ -192,7 +192,8 @@ module.exports = class VerbalWarnCommand extends Command {
 		let user = message.options[0]?.user;
 		let reason = message.options[1]?.value;
 
-	    if (!message.member.roles.cache.has(this.client.config.StaffRole)) return message.reply("You can't use this command.", { ephemeral: true })
+		if (!message.member.roles.cache.has(this.client.config.StaffRole))
+			return message.reply("You can't use this command.", { ephemeral: true });
 		if (user.id === message.member.id)
 			return message.reply("You can't warn yourself.", { ephemeral: true });
 

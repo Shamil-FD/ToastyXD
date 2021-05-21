@@ -25,7 +25,7 @@ module.exports = class ReadyListener extends Listener {
 
 		// Register Slash Commands
 		await guild?.commands.set(slashCmds);
-	
+
 		// Database
 		mongoose
 			.connect(this.client.config.Mongo, {
@@ -73,23 +73,23 @@ module.exports = class ReadyListener extends Listener {
 				let sal = await this.client.guilds.fetch('655109296400367618');
 				let lev = await models.leave.find();
 				let afkdoc = await models.afk.find();
-                
-                // AFK
-                if (afkdoc.length) {
-                    afkdoc = afkdoc.filter(af => af.muteTime !== undefined)
-                    if (afkdoc.length) {
-                        afkdoc.forEach(async af => {
-                            if (af?.muteTime - (Date.now() - af?.muteDate) < 0) {
-                                let afkMember = await sal.members.fetch(af?.user);
-                                if (afkMember) {
-                                    await afkMember.roles.remove(this.client.config.MutedRole)
-                                    af.muteTime = undefined;
-                                    await af.save()
-                               }
-                            }
-                        })
-                    }
-                }
+
+				// AFK
+				if (afkdoc.length) {
+					afkdoc = afkdoc.filter((af) => af.muteTime !== undefined);
+					if (afkdoc.length) {
+						afkdoc.forEach(async (af) => {
+							if (af?.muteTime - (Date.now() - af?.muteDate) < 0) {
+								let afkMember = await sal.members.fetch(af?.user);
+								if (afkMember) {
+									await afkMember.roles.remove(this.client.config.MutedRole);
+									af.muteTime = undefined;
+									await af.save();
+								}
+							}
+						});
+					}
+				}
 				// Auto Unban
 				if (unbans.length) {
 					unbans.forEach(async (unbandoc) => {

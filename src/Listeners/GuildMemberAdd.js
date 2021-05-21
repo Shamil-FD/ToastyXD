@@ -16,7 +16,7 @@ module.exports = class GuildMemberAddListener extends Listener {
 		if (member.user.bot) return;
 
 		// First Time In Help Channel Thing
-		if (!await this.client.sql.get(`firstime: ${member.id}`)) {
+		if (!(await this.client.sql.get(`firstime: ${member.id}`))) {
 			this.client.sql.set(`firstime: ${member.id}`, { yes: true });
 		}
 		// Verification Stuff
