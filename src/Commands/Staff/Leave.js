@@ -48,9 +48,9 @@ module.exports = class LeaveCommand extends Command {
 				start = dayjs(start, 'DD/MM/YY');
 			}
 			if (End.length == 4) {
-				end = dayjs(end + ' 06:00', 'DD/MM/YYYY HH:mm');
+				end = dayjs(end + ' 06:01', 'DD/MM/YYYY HH:mm');
 			} else {
-				end = dayjs(end + ' 06:00', 'DD/MM/YY HH:mm').add(1, 'day');
+				end = dayjs(end + ' 06:01', 'DD/MM/YY HH:mm').add(1, 'day');
 			}
 
 			if (!start.isValid() || !end.isValid())
