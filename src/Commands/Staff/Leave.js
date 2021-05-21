@@ -39,15 +39,15 @@ module.exports = class LeaveCommand extends Command {
 				);
 
 			// Time validation
-			let cumStart = start.slice(6);
-			let cumEnd = end.slice(6);
+			let Start = start.slice(6);
+			let End = end.slice(6);
 
-			if (cumStart.length == 4) {
+			if (Start.length == 4) {
 				start = dayjs(start, 'DD/MM/YYYY');
 			} else {
 				start = dayjs(start, 'DD/MM/YY');
 			}
-			if (cumEnd.length == 4) {
+			if (End.length == 4) {
 				end = dayjs(end + ' 00:00', 'DD/MM/YYYY HH:mm');
 			} else {
 				end = dayjs(end + ' 06:00', 'DD/MM/YY HH:mm').add(1, 'day');
