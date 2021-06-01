@@ -58,7 +58,6 @@ module.exports = class ClearWarnsCommand extends Command {
 			this.client
 				.embed()
 				.setDescription('Cleared all their warnings..')
-				.successColor()
 		);
 	}
 	async execSlash(message) {
