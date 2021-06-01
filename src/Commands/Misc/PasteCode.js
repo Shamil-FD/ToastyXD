@@ -30,9 +30,10 @@ module.exports = class PasteCodeCommand extends Command {
 
 	async exec(message, { cont }) {
 		let embed = this.client.embed();
-
+		message.delete();
+        
 		if (cont == '<code>' || cont == 'code') {
-			return message.send(
+			return message.channel.send(
 				embed.setDescription(
 					"Please replace '<code>'/'code' with your code to paste it in a bin OR send a file with t)pc in the message to paste it in a code bin."
 				)
@@ -63,7 +64,7 @@ module.exports = class PasteCodeCommand extends Command {
 								}
 							)
 							.then((json) => {
-								return message.send(
+								return message.channel.send(
 									embed
 										.setDescription(`Here's your link: ${json.url}`)
 										.setAuthor(
@@ -75,7 +76,7 @@ module.exports = class PasteCodeCommand extends Command {
 							})
 							.catch((e) => {
 								console.log(e);
-								return message.send(
+								return message.channel.send(
 									embed
 										.setDescription('An error occured! Try again')
 										.setAuthor(
@@ -90,7 +91,7 @@ module.exports = class PasteCodeCommand extends Command {
 			txtFile.send(null);
 		} else {
 			if (!cont)
-				return message.send(
+				return message.channel.send(
 					embed.setDescription(
 						'You have to provide me either a code or a txt file with your code in it'
 					)
@@ -109,7 +110,7 @@ module.exports = class PasteCodeCommand extends Command {
 					}
 				)
 				.then((json) => {
-					return message.send(
+					return message.channel.send(
 						embed
 							.setDescription(`Here's your link: ${json.url}`)
 							.setAuthor(
@@ -121,7 +122,7 @@ module.exports = class PasteCodeCommand extends Command {
 				})
 				.catch((e) => {
 					console.log(e);
-					return message.send(
+					return message.channel.send(
 						embed
 							.setDescription('An error occured! Try again')
 							.setAuthor(
@@ -131,7 +132,6 @@ module.exports = class PasteCodeCommand extends Command {
 					);
 				});
 		}
-		message.deleted ? null : message.delete();
 	}
 
 	async execSlash(interaction) {

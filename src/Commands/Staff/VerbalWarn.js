@@ -59,7 +59,6 @@ module.exports = class VerbalWarnCommand extends Command {
 			return message.send({
 				embeds: { description: "You can't warn one of my kind." },
 			});
-		message.delete();
 
 		async function WarnAndReport() {
 			let doc = await warnCount.findOne();
@@ -203,7 +202,10 @@ module.exports = class VerbalWarnCommand extends Command {
 					},
 				});
 			}
-		} else return WarnAndReport();
+		} else { 
+        WarnAndReport();
+        return message.delete();             
+       }
 	}
 	async execSlash(message) {
 		let user = message.options[0]?.user;
