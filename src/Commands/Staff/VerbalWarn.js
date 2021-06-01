@@ -203,7 +203,7 @@ module.exports = class VerbalWarnCommand extends Command {
 				});
 			}
 		} else { 
-        WarnAndReport();
+        await WarnAndReport();
         return message.delete();             
        }
 	}
