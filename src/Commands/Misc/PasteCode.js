@@ -31,7 +31,7 @@ module.exports = class PasteCodeCommand extends Command {
 	async exec(message, { cont }) {
 		let embed = this.client.embed();
 		message.delete();
-        
+
 		if (cont == '<code>' || cont == 'code') {
 			return message.channel.send(
 				embed.setDescription(

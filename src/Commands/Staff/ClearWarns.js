@@ -55,9 +55,7 @@ module.exports = class ClearWarnsCommand extends Command {
 		});
 		await warn.deleteMany({ user: user.id });
 		return msg.edit(
-			this.client
-				.embed()
-				.setDescription('Cleared all their warnings..')
+			this.client.embed().setDescription('Cleared all their warnings..')
 		);
 	}
 	async execSlash(message) {

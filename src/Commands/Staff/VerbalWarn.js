@@ -202,10 +202,10 @@ module.exports = class VerbalWarnCommand extends Command {
 					},
 				});
 			}
-		} else { 
-        await WarnAndReport();
-        return message.delete();             
-       }
+		} else {
+			await WarnAndReport();
+			return message.delete();
+		}
 	}
 	async execSlash(message) {
 		let user = message.options[0]?.user;
