@@ -47,7 +47,7 @@ module.exports = class EvalCommand extends Command {
 			if (evaled.output.length + code.length > 1900)
 				evaled.output = 'Output too long.';
 			evaled.message.edit(
-				`${cb}js ${evaled.output} ${cb}`
+				`${cb} ${evaled.output} ${cb}`
 			);
 		};
 
@@ -64,7 +64,7 @@ module.exports = class EvalCommand extends Command {
 
 			if (output.length + code.length > 1900) output = 'Output too long.';
 
-			const sent = await message.channel.send(`${cb}js ${evaled.output} ${cb}`);
+			const sent = await message.channel.send(`${cb} ${output} ${cb}`);
 
 			evaled.message = sent;
 			evaled.errored = false;
@@ -72,7 +72,6 @@ module.exports = class EvalCommand extends Command {
 
 			return sent;
 		} catch (err) {
-			console.error(err);
 			let error = err;
 
 			error = error.toString();
@@ -81,7 +80,7 @@ module.exports = class EvalCommand extends Command {
 			}`;
 			error = error.replace(tokenRegex, '[TOKEN]');
 
-			const sent = await message.channel.send(`Err: ${cb}js ${error} ${cb}`);
+			const sent = await message.channel.send(`Err: ${cb} ${error} ${cb}`);
 
 			evaled.message = sent;
 			evaled.errored = true;

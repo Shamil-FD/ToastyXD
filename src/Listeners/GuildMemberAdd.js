@@ -49,12 +49,11 @@ module.exports = class GuildMemberAddListener extends Listener {
 
 			return await member.guild.channels.cache
 				.get('801877313855160340')
-				.send(
-					member,
+				.send(`<@${member.id}>`,
 					this.client
 						.embed()
 						.setDescription(
-							"Please type in the code shown above as an argument to the command t)verify, for example, t)verify PPSMOL. If you can't read the code, please run t)newcode to get a new code."
+							"**Please type the code shown in the image above using the command `t)verify Code`\nIf the code is too hard to read, use the command `t)newcode` to get a new one.**"
 						)
 						.setColor('#d772e0')
 						.setFooter('Codes Are CaSe SenSitIvE')
@@ -67,11 +66,11 @@ module.exports = class GuildMemberAddListener extends Listener {
 			return await member.guild.channels.cache
 				.get('801877313855160340')
 				.send(
-					member,
+					`<@${member.id}>`,
 					this.client
 						.embed()
 						.setDescription(
-							"Please type in the code shown to the command t)verify, for example, t)verify PPSMOL. If you can't read the code, please run t)newcode to get a new code."
+							"**Please type the code shown in the image above using the command `t)verify Code`\nIf the code is too hard to read, use the command `t)newcode` to get a new one.**"
 						)
 						.setColor('#d772e0')
 						.setFooter('Codes Are CaSE SenSitIvE')
