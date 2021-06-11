@@ -281,7 +281,7 @@ module.exports = class LockDownCommand extends Command {
 																																			this.client
 																																				.embed()
 																																				.setDescription(
-																																					`${message.author} has locked the server.`
+																																					`${message.author} has unlocked the server.`
 																																				)
 																																		);
 																																	return msg.edit(
