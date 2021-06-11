@@ -1,6 +1,7 @@
 const Command = require('../../Struct/Command.js');
 const { pos } = require('../../Util/Models');
 
+// Better Lockdown command soon.
 module.exports = class LockDownCommand extends Command {
 	constructor() {
 		super('lockdown', {
@@ -36,6 +37,11 @@ module.exports = class LockDownCommand extends Command {
 					)
 			);
 
+			await channels.cache
+				.get('801877313855160340')
+				.createOverwrite(this.client.config.NotVerifiedRole, {
+					SEND_MESSAGES: false,
+				});
 			await channels.cache
 				.get('709043328682950716')
 				.createOverwrite(message.guild.id, { SEND_MESSAGES: false })
@@ -125,6 +131,17 @@ module.exports = class LockDownCommand extends Command {
 																															}
 																														)
 																														.then(async () => {
+																															await channels.cache
+																																.get(
+																																	'738831994246529084'
+																																)
+																																.send(
+																																	this.client
+																																		.embed()
+																																		.setDescription(
+																																			`${message.author} has locked the server.`
+																																		)
+																																);
 																															return msg.edit(
 																																this.client
 																																	.embed()
@@ -159,6 +176,11 @@ module.exports = class LockDownCommand extends Command {
 						)
 				);
 				await doc.delete();
+				await channels.cache
+					.get('801877313855160340')
+					.createOverwrite(this.client.config.NotVerifiedRole, {
+						SEND_MESSAGES: true,
+					});
 				await channels.cache
 					.get('709043328682950716')
 					.createOverwrite(message.guild.id, { SEND_MESSAGES: true })
@@ -251,6 +273,17 @@ module.exports = class LockDownCommand extends Command {
 																															)
 																															.then(
 																																async () => {
+																																	await channels.cache
+																																		.get(
+																																			'738831994246529084'
+																																		)
+																																		.send(
+																																			this.client
+																																				.embed()
+																																				.setDescription(
+																																					`${message.author} has locked the server.`
+																																				)
+																																		);
 																																	return msg.edit(
 																																		this.client
 																																			.embed()

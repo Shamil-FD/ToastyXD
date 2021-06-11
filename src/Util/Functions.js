@@ -31,7 +31,7 @@ module.exports = {
 		// Random Letter Function.
 		let characters = 6;
 		const randomText = (length = characters) => {
-			let chars = 'ABCDEFGHKLMNOPQRSTUVWXYZabcdefhikmnqrstuvwxy123456789';
+			let chars = '1234567890987654321';
 			let str = '';
 			for (let i = 0; i < length; i++) {
 				str += chars.charAt(Math.floor(Math.random() * chars.length));

@@ -82,7 +82,7 @@ module.exports = class MessageUpdateListener extends Listener {
 						this.client
 							.embed()
 							.setDescription(
-								`Please do not use ${docs.word} in your messages. You have been verbally warned.`
+								`Please do not use ${docs.word} in your messages. You have been warned.`
 							)
 							.setFooter(
 								"Salvage's Oasis",
@@ -92,7 +92,7 @@ module.exports = class MessageUpdateListener extends Listener {
 					)
 					.catch(() => {
 						New.reply(
-							`Please do not use ${docs.word} in your messages. You have been verbally warned.`
+							`Please do not use ${docs.word} in your messages. You have been warned.`
 						);
 					});
 

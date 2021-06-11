@@ -72,7 +72,7 @@ module.exports = class BlackListListener extends Listener {
 						this.client
 							.embed()
 							.setDescription(
-								`Please do not use ${docs.word} in your messages. You have been verbally warned.`
+								`Please do not use ${docs.word} in your messages. You have been warned.`
 							)
 							.setFooter(
 								"Salvage's Oasis",
@@ -82,7 +82,7 @@ module.exports = class BlackListListener extends Listener {
 					)
 					.catch(() => {
 						message.reply(
-							`Please do not use ${docs.word} in your messages. You have been verbally warned.`
+							`Please do not use ${docs.word} in your messages. You have been warned.`
 						);
 					});
 

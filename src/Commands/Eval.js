@@ -46,9 +46,7 @@ module.exports = class EvalCommand extends Command {
 
 			if (evaled.output.length + code.length > 1900)
 				evaled.output = 'Output too long.';
-			evaled.message.edit(
-				`${cb} ${evaled.output} ${cb}`
-			);
+			evaled.message.edit(`${cb} ${evaled.output} ${cb}`);
 		};
 
 		try {

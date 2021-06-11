@@ -1,16 +1,6 @@
 const { model, Schema } = require('mongoose');
 
 let schema = Schema({
-	mod: String,
-	user: String,
-	reason: String,
-	date: String,
-	id: Number,
-});
-
-exports.warn = model('warn', schema);
-
-schema = Schema({
 	user: String,
 	reason: String,
 	mod: String,
@@ -23,12 +13,6 @@ schema = Schema({
 });
 
 exports.counts = model('counts', schema);
-
-schema = Schema({
-	num: Number,
-});
-
-exports.warnCount = model('warnCount', schema);
 
 schema = Schema({
 	user: String,
@@ -111,12 +95,6 @@ schema = Schema({
 });
 
 exports.profile = model('profile', schema);
-
-schema = Schema({
-	id: [String],
-});
-
-exports.youtube = model('video', schema);
 
 schema = Schema({
 	id: String,

@@ -33,13 +33,31 @@ module.exports = class GuildMemberAddListener extends Listener {
 		let doc = await verif.findOne({ user: member.id });
 		let cap = await this.client.captcha();
 		await member.roles.add(this.client.config.NotVerifiedRole);
+		if (parseInt(num) < 2) {
+			await member
+				.send('Your account is too new to join our server.')
+				.catch((e) => {});
+			await member.ban({ reason: 'Account age under 2 days.' });
+			return member.guild.channels.cache
+				.get(this.client.config.StaffReportChnl)
+				.send(
+					this.client
+						.embed()
+						.setDescription(
+							`User: ${member.user.tag} | ${member.id}\nCreation Date: ${moment(
+								member.user.createdAt
+							)}\nTotal Days Since Creation: ${num}\nBanned For: Account age under 2 days.`
+						)
+						.setTitle('Member Banned')
+				);
+		}
 		member.guild.channels.cache.get(this.client.config.StaffReportChnl).send(
 			this.client
 				.embed()
 				.setDescription(
-					`User:   ${member.user.tag} | ${member.id}\nDate: ${moment(
+					`User:   ${member.user.tag} | ${member.id}\nCreation Date: ${moment(
 						member.user.createdAt
-					)}\nTotal Days: ${num}`
+					)}\nTotal Days Since Creation: ${num}`
 				)
 				.setTitle('New Member')
 		);
@@ -49,14 +67,14 @@ module.exports = class GuildMemberAddListener extends Listener {
 
 			return await member.guild.channels.cache
 				.get('801877313855160340')
-				.send(`<@${member.id}>`,
+				.send(
+					`<@${member.id}>`,
 					this.client
 						.embed()
 						.setDescription(
-							"**Please type the code shown in the image above using the command `t)verify Code`\nIf the code is too hard to read, use the command `t)newcode` to get a new one.**"
+							'**Please type the code shown in the image above using the command `t)verify Code`\nIf the code is too hard to read, use the command `t)newcode` to get a new one.**'
 						)
 						.setColor('#d772e0')
-						.setFooter('Codes Are CaSe SenSitIvE')
 						.attachFiles(new MessageAttachment(cap.png, 'verify.png'))
 				);
 		} else {
@@ -70,10 +88,9 @@ module.exports = class GuildMemberAddListener extends Listener {
 					this.client
 						.embed()
 						.setDescription(
-							"**Please type the code shown in the image above using the command `t)verify Code`\nIf the code is too hard to read, use the command `t)newcode` to get a new one.**"
+							'**Please type the code shown in the image above using the command `t)verify Code`\nIf the code is too hard to read, use the command `t)newcode` to get a new one.**'
 						)
 						.setColor('#d772e0')
-						.setFooter('Codes Are CaSE SenSitIvE')
 						.attachFiles(new MessageAttachment(cap.png, 'verify.png'))
 				);
 		}

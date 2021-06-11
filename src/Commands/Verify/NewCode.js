@@ -36,9 +36,8 @@ module.exports = class NewCodeCommand extends Command {
 				this.client
 					.embed()
 					.setDescription(
-						'Please type in the code shown in the image.\nExample: `t)verify PPSMOL`\n\nIf the code is not readable, then please make a new one.'
+						'**Please type in the code shown in the image above.\nExample: `t)verify PPSMOL`\n\nIf the code is not readable, then please make a new one.**'
 					)
-					.setFooter('Codes Are CaSe SeNSiTiVE')
 					.setColor('#d772e0')
 					.attachFiles(new MessageAttachment(cap.png, 'verify.png'))
 			);
@@ -50,9 +49,8 @@ module.exports = class NewCodeCommand extends Command {
 				this.client
 					.embed()
 					.setDescription(
-						'Please type in the code shown in the image.\nExample: `t)verify PpSmoL`. The code is case sensitive!\n\nIf the code is not readable, then please make a new one with `t)newcode`.'
+						'**Please type in the code shown in the image above.\nExample: `t)verify PpSmoL`. The code is case sensitive!\n\nIf the code is not readable, then please make a new one with `t)newcode`.**'
 					)
-					.setFooter('Codes Are CaSe SeNSiTiVE')
 					.setColor('#d772e0')
 					.attachFiles(new MessageAttachment(cap.png, 'verify.png'))
 			);

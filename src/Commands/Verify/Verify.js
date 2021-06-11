@@ -80,7 +80,7 @@ module.exports = class VerifyCommand extends Command {
 			return message.send({
 				embeds: {
 					description:
-						'Please provide me the correct code!\nMake sure that is YOUR code\nIf the code is not readable, then use `t)newcode` to get a new one',
+						'**Please provide me the correct code!\nMake sure that is YOUR code\nIf the code is not readable, then use `t)newcode` to get a new one**',
 				},
 			});
 		}
