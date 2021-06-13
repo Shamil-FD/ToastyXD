@@ -38,8 +38,10 @@ module.exports = class StaffinfoCommand extends Command {
 	}
 
 	async exec(message, { person }) {
-		person = await message.getMember(person);
-		if (!person || typeof person == "string")
+		try {
+			person = await message.getMember(person);
+		} catch {}
+		if (!person || !person instanceof GuildMember)
 			return message.send({
 				embeds: { description: "Couldn't find " + person, color: 'RED' },
 			});
