@@ -183,10 +183,10 @@ async function CanvasGen(client, person) {
 					? 'they/them'
 					: person.roles.cache.has('853560940922404895')
 					? 'other'
-					: 'n/a (Add by reacting in #roles)'
+					: 'n/a'
 			}`,
 			250,
-			260
+			265
 		);
 	} else {
 		ctx.fillText(client.arrow + ' Bio:', 250, 70);
@@ -219,7 +219,7 @@ async function CanvasGen(client, person) {
 					: 'n/a'
 			}`,
 			250,
-			310
+			315
 		);
 	}
 
