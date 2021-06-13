@@ -184,7 +184,9 @@ async function CanvasGen(client, person) {
 					: person.roles.cache.has('853560940922404895')
 					? 'other'
 					: 'n/a'
-			}`
+			}`,
+			250,
+			260
 		);
 	} else {
 		ctx.fillText(client.arrow + ' Bio:', 250, 70);
@@ -215,7 +217,9 @@ async function CanvasGen(client, person) {
 					: person.roles.cache.has('853560940922404895')
 					? 'other'
 					: 'n/a'
-			}`
+			}`,
+			250,
+			310
 		);
 	}
 
