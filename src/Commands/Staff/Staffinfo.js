@@ -38,7 +38,6 @@ module.exports = class StaffinfoCommand extends Command {
 	}
 
 	async exec(message, { person }) {
-		let person2 = person;
 		person = await message.getMember(person);
 		if (!person)
 			return message.send({
@@ -190,6 +189,20 @@ async function CanvasGen(client, person) {
 		ctx.fillText(`${client.arrow} Total Messages: ${doc.total}`, 250, 235);
 
 		ctx.fillText(`${client.arrow} Strikes: ${doc.strikes ?? '0'}`, 250, 275);
+
+		ctx.fillText(
+			`${client.arrow} Pronouns: ${
+				person.roles.cache.has('853560859677425674')
+					? 'he/him'
+					: person.roles.cache.has('853560886605119528')
+					? 'she/her'
+					: person.roles.cache.has('853560908630720573')
+					? 'they/them'
+					: person.roles.cache.has('853560940922404895')
+					? 'other'
+					: 'n/a'
+			}`
+		);
 	}
 
 	// Add in the status circle part 1
