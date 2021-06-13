@@ -44,6 +44,7 @@ module.exports = class StaffinfoCommand extends Command {
 				person = member;
 			}
 		} catch {}
+        console.log(person);
 		if (!person)
 			return message.send({
 				embeds: { description: "Couldn't find " + person, color: 'RED' },
