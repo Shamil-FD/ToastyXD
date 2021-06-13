@@ -41,11 +41,10 @@ module.exports = class StaffinfoCommand extends Command {
 		try {
 			person = await message.getMember(person);
 		} catch {}
-		if (!person || !person instanceof GuildMember)
+		if (!person instanceof GuildMember)
 			return message.send({
 				embeds: { description: "Couldn't find " + person, color: 'RED' },
 			});
-        console.log(person, typeof person, person instanceof GuildMember)
 		if (!person.roles.cache.has(this.client.config.StaffRole))
 			return message.send({
 				embeds: {
