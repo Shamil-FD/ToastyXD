@@ -43,7 +43,7 @@ module.exports = class StaffinfoCommand extends Command {
 		} catch {}
 		if (!person.id)
 			return message.send({
-				embeds: { description: "Couldn't find " + person, color: 'RED' },
+				embeds: { description: `Couldn't find \`${person}\` 😔`, color: 'RED' },
 			});
 		if (!person.roles.cache.has(this.client.config.StaffRole))
 			return message.send({
