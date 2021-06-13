@@ -49,8 +49,8 @@ Structures.extend('Message', (Message) => {
 					guild.members.cache.find(
 						(m) =>
 							m.user.tag.toLowerCase() == content.toLowerCase() ||
-							m.displayName.toLowerCase().includes(content.toLowerCase()) ||
-							m.user.username.toLowerCase().includes(content.toLowerCase())
+							m.displayName.toLowerCase() == content.toLowerCase() ||
+							m.user.username.toLowerCase() == content.toLowerCase()
 					) ||
 					undefined
 				);
