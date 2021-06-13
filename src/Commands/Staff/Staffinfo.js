@@ -1,6 +1,5 @@
 const Command = require('../../Struct/Command.js');
 const { MessageAttachment } = require('discord.js');
-const { strokeTextWithTwemoji } = require('@canvacord/emoji-parser');
 const canvas = require('canvas');
 canvas.registerFont(
 	'src/Util/Fonts/JetBrains Mono Bold Nerd Font Complete.ttf',
@@ -161,7 +160,7 @@ async function CanvasGen(client, person) {
 	// Check if the bio is longer than 22 chars. If yes, add in a new line for the bio. If no, add in the bio
 	if (bio.length < 21) {
 		ctx.fillText(`${client.arrow} Bio:`, 250, 70);
-		strokeTextWithTwemoji(ctx, ` ${bio}`, 340, 70);
+        ctx.fillText(` ${bio}`, 340, 70);
 
 		ctx.fillText(`${client.arrow} Messages Today: ${doc.msgs}`, 250, 105);
 
@@ -194,7 +193,7 @@ async function CanvasGen(client, person) {
 		ctx.fillText(client.arrow + ' Bio:', 250, 70);
 		let splittedBio = bio.lastIndexOf(' ');
 		splittedBio = bio.substr(24).trim();
-		strokeTextWithTwemoji(` ${bio.slice(0, 24)}\n${splittedBio}`, 340, 70);
+		ctx.fillText(' ' + bio.slice(0, 24) + '\n' + splittedBio, 340, 70);
 
 		ctx.fillText(`${client.arrow} Messages Today: ${doc.msgs}`, 250, 145);
 
