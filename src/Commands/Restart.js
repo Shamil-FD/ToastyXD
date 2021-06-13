@@ -13,6 +13,6 @@ module.exports = class RestartCommand extends Command {
 
 	async exec(message) {
 		message.react('✅');
-		require('child_process').execSync('git pull && pm2 reload Toasty');
+		require('child_process').execSync('git pull && yarn && pm2 reload Toasty');
 	}
 };
