@@ -172,6 +172,20 @@ async function CanvasGen(client, person) {
 		ctx.fillText(`${client.arrow} Total Messages: ${doc.total}`, 250, 185);
 
 		ctx.fillText(`${client.arrow} Strikes: ${doc.strikes ?? '0'}`, 250, 225);
+
+		ctx.fillText(
+			`${client.arrow} Pronouns: ${
+				person.roles.cache.has('853560859677425674')
+					? 'he/him'
+					: person.roles.cache.has('853560886605119528')
+					? 'she/her'
+					: person.roles.cache.has('853560908630720573')
+					? 'they/them'
+					: person.roles.cache.has('853560940922404895')
+					? 'other'
+					: 'n/a'
+			}`
+		);
 	} else {
 		ctx.fillText(client.arrow + ' Bio:', 250, 70);
 		let splittedBio = bio.lastIndexOf(' ');
