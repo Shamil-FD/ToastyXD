@@ -39,8 +39,11 @@ module.exports = class StaffinfoCommand extends Command {
 
 	async exec(message, { person }) {
 		try {
-            person = await message.getMember(person);
-        } catch {};
+			let member = await message.getMember(person);
+			if (member) {
+				person = member;
+			}
+		} catch {}
 		if (!person)
 			return message.send({
 				embeds: { description: "Couldn't find " + person, color: 'RED' },

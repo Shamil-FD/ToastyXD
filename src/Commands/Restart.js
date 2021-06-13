@@ -7,12 +7,12 @@ module.exports = class RestartCommand extends Command {
 			aliases: ['restart'],
 			category: 'flag',
 			ownerOnly: true,
-			quoted: false
+			quoted: false,
 		});
 	}
 
 	async exec(message) {
-        message.react("✅");
-        require("child_process").execSync("git pull && pm2 reload Toasty")
-    }
+		message.react('✅');
+		require('child_process').execSync('git pull && pm2 reload Toasty');
+	}
 };
