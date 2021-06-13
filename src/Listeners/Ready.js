@@ -42,7 +42,7 @@ module.exports = class ReadyListener extends Listener {
 				if (!error) {
 					if (response.includes('Already up to date.')) {
 					} else {
-						exec('yarn', console.log);
+						exec('npm i', console.log);
 						console.log(
 							black.bgGreen('[Github]') + greenBright(' Bot Updated.')
 						);
