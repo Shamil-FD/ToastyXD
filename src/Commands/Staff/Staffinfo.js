@@ -1,5 +1,5 @@
 const Command = require('../../Struct/Command.js');
-const { MessageAttachment } = require('discord.js');
+const { MessageAttachment, GuildMember } = require('discord.js');
 const canvas = require('canvas');
 canvas.registerFont(
 	'src/Util/Fonts/JetBrains Mono Bold Nerd Font Complete.ttf',
@@ -38,14 +38,8 @@ module.exports = class StaffinfoCommand extends Command {
 	}
 
 	async exec(message, { person }) {
-		try {
-			let member = await message.getMember(person);
-			if (member) {
-				person = member;
-			}
-		} catch {}
-        console.log(person);
-		if (!person)
+		person = await message.getMember(person);
+		if (!person || !person instanceof GuildMember)
 			return message.send({
 				embeds: { description: "Couldn't find " + person, color: 'RED' },
 			});
