@@ -183,7 +183,7 @@ async function CanvasGen(client, person) {
 					? 'they/them'
 					: person.roles.cache.has('853560940922404895')
 					? 'other'
-					: 'n/a'
+					: 'n/a (Add by reacting in #roles)'
 			}`,
 			250,
 			260
