@@ -25,8 +25,8 @@ module.exports = class StaffMessageListener extends Listener {
 			)
 				return;
 			if (message.member.roles.cache.has('752632482943205546') === true) {
-				let isCommand = await CommandHandler.parseCommand(message);
-				if (isCommand?.command) return;
+                //let isCommand = await CommandHandler.parseCommand(message);
+                //if (isCommand?.command) return;
 				let doc = await models.staff.findOne({user: message.author.id});
 
 				if (!doc) {
