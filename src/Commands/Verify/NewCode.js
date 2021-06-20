@@ -23,33 +23,22 @@ module.exports = class NewCodeCommand extends Command {
 
 		let doc = await verif.findOne({user: message.author.id});
 		let cap = await this.client.captcha();
-		if (!doc) {
+     
+        if (!doc) {
 			await new verif({
 				user: message.author.id,
 				code: cap.word,
 				count: 0,
 			}).save();
 
-			return message.send(
-				this.client
-					.embed()
-					.setDescription(
-						'**Please type in the code shown in the image above.\nExample: `t)verify PPSMOL`\n\nIf the code is not readable, then please make a new one.**',
-					)
-					.setColor('#d772e0')
-                , { files: [new MessageAttachment(cap.png, 'verify.png')] });
+			return message.reply({ embeds: [this.client.embed().setDescription(
+						'**Please type in the code shown in the image above.\nExample: `t)verify PPSMOL`\n\nIf the code is not readable, then please make a new one.**',).setColor('#d772e0')], files: [new MessageAttachment(cap.png, 'verify.png')] });
 		} else {
 			doc.code = cap.word;
 			await doc.save();
 
-			return message.send(
-				this.client
-					.embed()
-					.setDescription(
-						'**Please type in the code shown in the image above.\nExample: `t)verify PpSmoL`. The code is case sensitive!\n\nIf the code is not readable, then please make a new one with `t)newcode`.**',
-					)
-					.setColor('#d772e0')
-                , { files: [new MessageAttachment(cap.png, 'verify.png')] });
+            return message.reply({ embeds: [this.client.embed().setDescription(
+						'**Please type in the code shown in the image above.\nExample: `t)verify PPSMOL`\n\nIf the code is not readable, then please make a new one.**',).setColor('#d772e0')], files: [new MessageAttachment(cap.png, 'verify.png')] });
 		}
 	}
 };
