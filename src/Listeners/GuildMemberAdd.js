@@ -42,7 +42,7 @@ module.exports = class GuildMemberAddListener extends Listener {
 			await member.ban({reason: 'Account age under 2 days.'});
 			return member.guild.channels.cache
 				.get(this.client.config.StaffReportChnl)
-				.send(
+				.send({ embeds: [
 					this.client
 						.embed()
 						.setDescription(
@@ -51,9 +51,9 @@ module.exports = class GuildMemberAddListener extends Listener {
 							)}\nTotal Days Since Creation: ${num}\nBanned For: Account age under 2 days.`,
 						)
 						.setTitle('Member Banned'),
-				);
+                    ]});
 		}
-		member.guild.channels.cache.get(this.client.config.StaffReportChnl).send(
+		member.guild.channels.cache.get(this.client.config.StaffReportChnl).send({ embeds: [
 			this.client
 				.embed()
 				.setDescription(
@@ -62,14 +62,14 @@ module.exports = class GuildMemberAddListener extends Listener {
 					)}\nTotal Days Since Creation: ${num}`,
 				)
 				.setTitle('New Member'),
-		);
+            ]});
 
 		if (!doc) {
 			await new verif({user: member.id, code: cap.word, count: 0}).save();
 
 			return await member.guild.channels.cache
 				.get('801877313855160340')
-				.send(
+				.send({ embeds: [
 					`<@${member.id}>`,
 					this.client
 						.embed()
@@ -78,14 +78,14 @@ module.exports = class GuildMemberAddListener extends Listener {
 						)
 						.setColor('#d772e0')
 						.attachFiles(new MessageAttachment(cap.png, 'verify.png')),
-				);
+                    ]});
 		} else {
 			doc.code = cap.word;
 			await doc.save();
 
 			return await member.guild.channels.cache
 				.get('801877313855160340')
-				.send(
+				.send({ embeds: [
 					`<@${member.id}>`,
 					this.client
 						.embed()
@@ -94,7 +94,7 @@ module.exports = class GuildMemberAddListener extends Listener {
 						)
 						.setColor('#d772e0')
 						.attachFiles(new MessageAttachment(cap.png, 'verify.png')),
-				);
+			]});
 		}
 	}
 };

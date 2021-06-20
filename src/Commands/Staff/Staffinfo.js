@@ -50,12 +50,12 @@ module.exports = class StaffinfoCommand extends Command {
 				},
 			});
 
-		return message.channel.send(
+		return message.channel.send({ files: [
 			new MessageAttachment(
 				await CanvasGen(this.client, person),
 				'staffinfo.png',
 			),
-		);
+            ]});
 	}
 	async execSlash(message) {
 		let person = message.options[0]?.member || message.member;

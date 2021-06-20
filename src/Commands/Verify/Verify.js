@@ -19,18 +19,18 @@ module.exports = class VerifyCommand extends Command {
 	async exec(message, {code}) {
 		// Check For The Not Verified Role
 		if (!message.member.roles.cache.get(this.client.config.NotVerifiedRole))
-			return message.send(
+			return message.send({ embeds: [
 				this.client.embed().setDescription("You're already verified."),
-			);
+                ]});
 
 		if (!code)
-			return message.send(
+			return message.send({ embeds: [
 				this.client
 					.embed()
 					.setDescription(
 						"You can't verify by not giving me the code! If you don't have a code, create one using `t)newcode`",
 					),
-			);
+                ]});
 
 		let doc = await verif.findOne({user: message.author.id});
 
@@ -54,27 +54,27 @@ module.exports = class VerifyCommand extends Command {
 
 			if (doc.count > 5) {
 				await message.author
-					.send(
+					.send({ embeds: [
 						this.client
 							.embed()
 							.setDescription(
 								`You were kicked from ${message.guild.name}\nReason: You failed to verify 5+ times.`,
 							),
-					)
+                        ]})
 					.catch(() => {});
 
 				await message.member.kick();
 				await doc.delete();
 				return message.guild.channels.cache
 					.get(this.client.config.StaffReportChnl)
-					.send(
+					.send({ embeds: [
 						this.client
 							.embed()
 							.setTitle('Kicked')
 							.setDescription(
 								`Kicked ${message.author.tag} | ${message.author.id} for failing 5+ times while verifying.`,
 							),
-					);
+                        ]});
 			}
 
 			return message.send({
@@ -87,7 +87,7 @@ module.exports = class VerifyCommand extends Command {
 
 		message.guild.channels.cache
 			.get(this.client.config.StaffReportChnl)
-			.send(
+			.send({ embeds: [
 				this.client
 					.embed()
 					.setTitle('Verification Complete')
@@ -95,7 +95,7 @@ module.exports = class VerifyCommand extends Command {
 						`${message.author.tag} | ${message.author.id} has completed the captcha.`,
 					)
 					.addField('Captcha Info', `Code: ${doc.code} | Tries: ${doc.count}`),
-			);
+                ]});
 
 		await message.member.roles.remove(this.client.config.NotVerifiedRole);
 		await message.react('✅');

@@ -13,7 +13,7 @@ module.exports = class PingCommand extends Command {
 
 	async exec(message) {
 		message.send(new MessageEmbed().setDescription('Pong!')).then((m) =>
-			m.edit(
+			m.edit({ embeds: [
 				new MessageEmbed()
 					.setDescription(
 						`Message roundtrip: ${
@@ -24,7 +24,7 @@ module.exports = class PingCommand extends Command {
 					)
 					.setFooter('Vrooom', this.client.user.displayAvatarURL())
 					.setColor('RANDOM'),
-			),
+                ]}),
 		);
 	}
 	async execSlash(message) {

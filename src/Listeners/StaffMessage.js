@@ -56,7 +56,7 @@ module.exports = class StaffMessageListener extends Listener {
 						.then(async (msgs) => {
 							// Add The Staff Into The Checked In Message If They Aren't There
 							if (!msgs.embeds[0].description.includes(message.author.tag)) {
-								await msgs.edit(
+								await msgs.edit({ embeds: [
 									this.client
 										.embed()
 										.setDescription(
@@ -67,7 +67,7 @@ module.exports = class StaffMessageListener extends Listener {
 										.setFooter(
 											msgs.embeds[0].footer ? msgs.embeds[0].footer.text : '',
 										),
-								);
+                                    ]});
 							}
 						});
 
@@ -82,9 +82,9 @@ module.exports = class StaffMessageListener extends Listener {
 							'',
 						);
 						ReplacedMsg = ReplacedMsg.replace(/(^[ \t]*\n)/gm, '');
-						NotCheckedIn.edit(
+						NotCheckedIn.edit({ embeds: [
 							this.client.embed().setDescription(ReplacedMsg).setColor('RED'),
-						);
+                            ]});
 					}
 				}
 			}

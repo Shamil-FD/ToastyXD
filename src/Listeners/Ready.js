@@ -164,7 +164,7 @@ module.exports = class ReadyListener extends Listener {
 							if (hasError === false) {
 								await sal.channels.cache
 									.get(this.client.config.StaffReportChnl)
-									.send(
+									.send({ embeds: [
 										this.client
 											.embed()
 											.setTitle('Auto Unmute')
@@ -176,7 +176,7 @@ module.exports = class ReadyListener extends Listener {
 											)
 											.addField('**Reason**:', d.reason, true)
 											.addField('**Channel**:', `<#${d.chnl}>`),
-									);
+                                        ]});
 								await models.chnlmute.findOneAndDelete({
 									user: d.user,
 									chnl: d.chnl,
@@ -249,30 +249,30 @@ module.exports = class ReadyListener extends Listener {
 					if (no.length) {
 						await sal.channels.cache
 							.get('709043664667672696')
-							.send(
+							.send({ embeds: [
 								no.map((n) => `<@${n}>`).join(', '),
 								this.client
 									.embed()
 									.setDescription(
 										"\nYou've been striked for not being active today. Check your strike count in t)staffinfo.",
 									),
-							);
+                                ]});
 					}
 				}
-				await clockin.send(
+				await clockin.send({ embeds: [
 					this.client
 						.embed()
 						.setDescription(
 							msg.embeds[0].description + `\n\n${mcount.join('\n')}`,
 						)
 						.setFooter(msg.embeds[0].footer ? msg.embeds[0].footer.text : ''),
-				);
-				msg.edit(
+                    ]});
+				msg.edit({ embeds: [
 					this.client
 						.embed()
 						.setDescription(`Staff who are active today`)
 						.setFooter(`Date: ${moment().format('MMM Do YY')}`),
-				);
+                    ]});
 				let staffRole = await sal.roles.cache.get(this.client.config.StaffRole);
 				let staffMessageCount = await models.staff.find();
 				await staffMessageCount.forEach(async (countDoc) => {
