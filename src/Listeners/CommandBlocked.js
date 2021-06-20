@@ -1,4 +1,4 @@
-const { Listener } = require('discord-akairo');
+const {Listener} = require('discord-akairo');
 
 module.exports = class CommandBlockedListener extends Listener {
 	constructor() {
@@ -17,7 +17,7 @@ module.exports = class CommandBlockedListener extends Listener {
 			result = "You can't use this command. Very sadge";
 		else if (reason === 'managerOnly')
 			return message.send(
-				'https://tenor.com/view/notthatclair-cerp-entertainment-wandavisionbycerp70s-wandavision-gif-20024594'
+				'https://tenor.com/view/notthatclair-cerp-entertainment-wandavisionbycerp70s-wandavision-gif-20024594',
 			);
 		else if (reason === 'beta')
 			result =

@@ -1,4 +1,23 @@
 const Command = require('../../Struct/Command.js');
+const arr = [
+	'why cant i type in the help channel',
+	'my code doesnt work',
+	'my code does not work',
+	'i cant send message to help chnl',
+	'video didnt work',
+	'code doesnt work',
+	'code dont work',
+	"i can't type in help",
+	'help channel locked',
+	'i cant type in help',
+	'how to get access to help',
+	'how to get help',
+	"can't speak in help",
+	'can someone help me',
+	'i need help',
+	'so i need help',
+	'how do i get help',
+];
 
 module.exports = class HelpMeCommand extends Command {
 	constructor() {
@@ -21,50 +40,24 @@ module.exports = class HelpMeCommand extends Command {
 	}
 
 	async exec(message) {
-		const arr = [
-			'help AH',
-			'I need help rn',
-			"I need help I don't have much time!",
-			'please help, please!',
-			'hey, can you help me?',
-			"why can't i access help channels?",
-			'can someone help pls',
-			'halp pwease',
-			'guys, help me',
-			'give me access to help channels',
-			"Help i'm in a hurry!",
-		];
 		await message.send(
 			this.client
 				.embed()
 				.setDescription(
-					"Oh you need help? Well, you gotta earn it by yourself.\n\n> WhY dO I nEeD tO lEvEl uP?!\nWell, you see, we spend our time to help you, but after then, you'll just leave server, which is unfair. Because we gave you your answer, but you can't help us by staying and being active in the server.\n\n> HoW dO I EARn IT ThEn?!\n\nNumber OOOOne: Conversate in the chatting channels.\nNumber Tooo: Conversate moore.\nNumber Treee: Get to level **1**. You can check your level by typing in the command `a!rank` in the bot commands channel.\n\n> HoW lOnG wIlL iT tAkE!?\n\nDepends on you. Realisticly it should only take 2 minuuutes."
+					"Uh oh, someone wants help..\n\nIf you do want help; you need to get to Level 1 on Arcane bot.\n> How do I get to Level 1?\n It's easy, just chat with people.\n> Can I spam?\n No, if you do, you are most likely not to get help.\n> I don't like this..\n Oh you don't? We don't care.",
 				)
-				.setTitle(await arr[Math.round(Math.random() * arr.length)])
+				.setTitle(await arr[Math.round(Math.random() * arr.length)]),
 		);
 		return message.delete();
 	}
 	async execSlash(message) {
 		let user = message.options[0]?.member || '';
-		const arr = [
-			'help AH',
-			'I need help rn',
-			"I need help I don't have much time!",
-			'please help, please!',
-			'hey, can you help me?',
-			"why can't i access help channels?",
-			'can someone help pls',
-			'halp pwease',
-			'guys, help me',
-			'give me access to help channels',
-			"Help i'm in a hurry!",
-		];
 		let bed = this.client
 			.embed()
 			.setDescription(
-				"Oh you need help? Well, you gotta earn it by yourself.\n\n> WhY dO I nEeD tO lEvEl uP?!\nWell, you see, we spend our time to help you, but after then, you'll just leave server, which is unfair. Because we gave you your answer, but you can't help us by staying and being active in the server.\n\n> HoW dO I EARn IT ThEn?!\n\nNumber OOOOne: Conversate in the chatting channels.\nNumber Tooo: Conversate moore.\nNumber Treee: Get to level **1**. You can check your level by typing in the command `a!rank` in the bot commands channel.\n\n> HoW lOnG wIlL iT tAkE!?\n\nDepends on you. Realisticly it should only take 2 minuuutes."
+				"Uh oh, someone wants help..\n\nIf you do want help; you need to get to Level 1 on Arcane bot.\n> How do I get to Level 1?\n It's easy, just chat with people.\n> Can I spam?\n No, if you do, you are most likely not to get help.\n> I don't like this..\n Oh you don't? We don't care.",
 			)
 			.setTitle(await arr[Math.round(Math.random() * arr.length)]);
-		return message.reply(user, bed);
+		return message.reply(user, {embeds: [bed]});
 	}
 };

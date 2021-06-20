@@ -1,5 +1,5 @@
 const Command = require('../../Struct/Command.js');
-const { MessageEmbed } = require('discord.js');
+const {MessageEmbed} = require('discord.js');
 
 module.exports = class EmbedCommand extends Command {
 	constructor() {
@@ -14,10 +14,10 @@ module.exports = class EmbedCommand extends Command {
 				usage: ['t)embed ChannelMention title: TITLE-HERE Message'],
 			},
 			args: [
-				{ id: 'chnl', type: 'channelMention' },
-				{ id: 'title', match: 'option', flag: 'title:' },
-				{ id: 'ping', match: 'flag', flag: 'ping' },
-				{ id: 'desc', match: 'rest' },
+				{id: 'chnl', type: 'channelMention'},
+				{id: 'title', match: 'option', flag: 'title:'},
+				{id: 'ping', match: 'flag', flag: 'ping'},
+				{id: 'desc', match: 'rest'},
 			],
 			slashCommand: {
 				options: [
@@ -50,7 +50,7 @@ module.exports = class EmbedCommand extends Command {
 		});
 	}
 
-	async exec(message, { chnl, title, desc, ping }) {
+	async exec(message, {chnl, title, desc, ping}) {
 		if (!chnl || !desc)
 			return message.send({
 				embeds: {
@@ -69,15 +69,15 @@ module.exports = class EmbedCommand extends Command {
 				'@everyone',
 				embed.setFooter(
 					message.author.tag,
-					message.author.displayAvatarURL({ dynamic: true })
-				)
+					message.author.displayAvatarURL({dynamic: true}),
+				),
 			);
 		} else {
 			chnl.send(
 				embed.setFooter(
 					message.author.tag,
-					message.author.displayAvatarURL({ dynamic: true })
-				)
+					message.author.displayAvatarURL({dynamic: true}),
+				),
 			);
 		}
 		await message.send(this.client.embed().setDescription('Sent.'));
@@ -85,7 +85,7 @@ module.exports = class EmbedCommand extends Command {
 	}
 	async execSlash(message) {
 		if (!message.member.roles.cache.has(this.client.config.StaffRole))
-			return message.reply("You can't use this command.", { ephemeral: true });
+			return message.reply("You can't use this command.", {ephemeral: true});
 
 		let channel = message.options[0]?.channel || message.channel;
 		if (channel.type === 'category')
@@ -102,10 +102,10 @@ module.exports = class EmbedCommand extends Command {
 		color ? embed.setColor(color) : embed.setColor('RANDOM');
 		embed.setFooter(
 			message.member.user.username,
-			message.member.user.displayAvatarURL({ dynamic: true })
+			message.member.user.displayAvatarURL({dynamic: true}),
 		);
 
 		await channel.send(embed);
-		return message.reply('Sent.', { ephemeral: true });
+		return message.reply('Sent.', {ephemeral: true});
 	}
 };

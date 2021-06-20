@@ -1,4 +1,4 @@
-const { Listener } = require('discord-akairo');
+const {Listener} = require('discord-akairo');
 
 module.exports = class DebugListener extends Listener {
 	constructor() {
@@ -9,6 +9,6 @@ module.exports = class DebugListener extends Listener {
 	}
 
 	exec(info) {
-		console.log(info);
+		//console.log(info);
 	}
 };

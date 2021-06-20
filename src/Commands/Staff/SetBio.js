@@ -32,8 +32,8 @@ module.exports = class SetbioCommand extends Command {
 		});
 	}
 
-	async exec(message, { bio }) {
-		let { staff } = this.client.models;
+	async exec(message, {bio}) {
+		let {staff} = this.client.models;
 		if (!bio)
 			return message.send({
 				embeds: {
@@ -49,25 +49,25 @@ module.exports = class SetbioCommand extends Command {
 					color: 'RED',
 				},
 			});
-		let doc = await staff.findOne({ user: message.author.id });
+		let doc = await staff.findOne({user: message.author.id});
 		doc.desc = bio;
 		await doc.save();
 		return message.send({
-			embeds: { color: 'GREEN', description: `Set \`${bio}\` as your bio.` },
+			embeds: {color: 'GREEN', description: `Set \`${bio}\` as your bio.`},
 		});
 	}
 	async execSlash(message) {
-		let { staff } = this.client.models;
+		let {staff} = this.client.models;
 		if (!message.member.roles.cache.has(this.client.config.StaffRole))
-			return message.reply("You can't use this command.", { ephemeral: true });
+			return message.reply("You can't use this command.", {ephemeral: true});
 		message.defer();
 		if (!message.options[0]?.value || message.options[0]?.value.length > 49)
 			return message.editReply(
 				"You have to provide me a string that's no longer than 48 characters.",
-				{ ephemeral: true }
+				{ephemeral: true},
 			);
 
-		let doc = await staff.findOne({ user: message.member.id });
+		let doc = await staff.findOne({user: message.member.id});
 		doc.desc = message.options[0]?.value;
 		await doc.save();
 		return message.editReply('Successfully saved changes.', {

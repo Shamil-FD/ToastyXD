@@ -1,5 +1,5 @@
 const Command = require('../../Struct/Command.js');
-const { chnlmute } = require('../../Util/Models.js');
+const {chnlmute} = require('../../Util/Models.js');
 
 module.exports = class ChannelUnmuteCommand extends Command {
 	constructor() {
@@ -14,8 +14,8 @@ module.exports = class ChannelUnmuteCommand extends Command {
 				usage: ['t)channelunmute User Reason'],
 			},
 			args: [
-				{ id: 'user', type: 'memberMention' },
-				{ id: 'reason', match: 'rest' },
+				{id: 'user', type: 'memberMention'},
+				{id: 'reason', match: 'rest'},
 			],
 			slashCommand: {
 				options: [
@@ -36,7 +36,7 @@ module.exports = class ChannelUnmuteCommand extends Command {
 		});
 	}
 
-	async exec(message, { user, reason }) {
+	async exec(message, {user, reason}) {
 		let client = this.client;
 
 		if (!user)
@@ -61,7 +61,7 @@ module.exports = class ChannelUnmuteCommand extends Command {
 		});
 		if (!doc)
 			return message.send(
-				client.embed().setDescription('They are already unmuted')
+				client.embed().setDescription('They are already unmuted'),
 			);
 		let hasError = false;
 
@@ -79,20 +79,20 @@ module.exports = class ChannelUnmuteCommand extends Command {
 					.setDescription(`Unmuted ${user} in this channel for ${reason}`)
 					.setAuthor(
 						message.author.username,
-						message.author.displayAvatarURL({ dynamic: true })
-					)
+						message.author.displayAvatarURL({dynamic: true}),
+					),
 			);
 		} else {
 			message.send(
 				this.client
 					.embed()
 					.setDescription(
-						`${user} was already unmuted in this channel, but I deleted the document from my database.`
+						`${user} was already unmuted in this channel, but I deleted the document from my database.`,
 					)
 					.setAuthor(
 						message.author.username,
-						message.author.displayAvatarURL({ dynamic: true })
-					)
+						message.author.displayAvatarURL({dynamic: true}),
+					),
 			);
 		}
 
@@ -102,20 +102,20 @@ module.exports = class ChannelUnmuteCommand extends Command {
 				.setTitle('Unmuted')
 				.setAuthor(
 					`${this.client.arrow} Moderator: ${message.author.username}`,
-					message.author.displayAvatarURL({ dynamic: true })
+					message.author.displayAvatarURL({dynamic: true}),
 				)
 				.addField(
 					this.client.arrow + ' **Victim**:',
 					`${user} || ${user.id}`,
-					true
+					true,
 				)
 				.addField(this.client.arrow + ' **Reason**:', reason, true)
-				.addField(this.client.arrow + ' **Channel**:', message.channel, true)
+				.addField(this.client.arrow + ' **Channel**:', message.channel, true),
 		);
 	}
 	async execSlash(message) {
 		if (!message.member?.roles.cache.has(this.client.config.StaffRole))
-			return message.reply("You can't use this command.", { ephemeral: true });
+			return message.reply("You can't use this command.", {ephemeral: true});
 		let user = message.options[0]?.member;
 		let reason = message.options[1]?.value;
 		message.defer();
@@ -126,7 +126,7 @@ module.exports = class ChannelUnmuteCommand extends Command {
 		});
 		if (!doc)
 			return message.editReply(
-				this.client.embed().setDescription('They are already unmuted.')
+				this.client.embed().setDescription('They are already unmuted.'),
 			);
 
 		let hasError = false;
@@ -144,20 +144,20 @@ module.exports = class ChannelUnmuteCommand extends Command {
 					.setDescription(`Unmuted ${user} in this channel for ${reason}`)
 					.setAuthor(
 						message.member?.user?.username,
-						message.member?.user?.displayAvatarURL({ dynamic: true })
-					)
+						message.member?.user?.displayAvatarURL({dynamic: true}),
+					),
 			);
 		} else {
 			message.editReply(
 				this.client
 					.embed()
 					.setDescription(
-						`${user} was already unmuted in this channel, but I deleted the document from my database.`
+						`${user} was already unmuted in this channel, but I deleted the document from my database.`,
 					)
 					.setAuthor(
 						message.member?.user?.username,
-						message.member?.user?.displayAvatarURL({ dynamic: true })
-					)
+						message.member?.user?.displayAvatarURL({dynamic: true}),
+					),
 			);
 		}
 
@@ -169,15 +169,15 @@ module.exports = class ChannelUnmuteCommand extends Command {
 					.setTitle('User Unmuted')
 					.setAuthor(
 						`${this.client.arrow} Moderator: ${message.member?.user?.username}`,
-						message.member?.user?.displayAvatarURL({ dynamic: true })
+						message.member?.user?.displayAvatarURL({dynamic: true}),
 					)
 					.addField(
 						this.client.arrow + ' **Victim**:',
 						`${user} || ${user?.id}`,
-						true
+						true,
 					)
 					.addField(this.client.arrow + ' **Reason**:', reason, true)
-					.addField(this.client.arrow + ' **Channel**:', message.channel, true)
+					.addField(this.client.arrow + ' **Channel**:', message.channel, true),
 			);
 	}
 };

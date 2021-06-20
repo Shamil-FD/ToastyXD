@@ -1,4 +1,4 @@
-const { Listener } = require('discord-akairo');
+const {Listener} = require('discord-akairo');
 const ms = require('pretty-ms');
 
 module.exports = class CooldownListener extends Listener {
@@ -24,7 +24,7 @@ module.exports = class CooldownListener extends Listener {
 			.setDescription(
 				`${command} doesn't want to be run right now. Wait ${ms(remaining, {
 					verbose: true,
-				})} to use the command again`
+				})} to use the command again`,
 			)
 			.setTitle(arr[Math.round(Math.random() * arr.length)]);
 		return message.reply(embed);

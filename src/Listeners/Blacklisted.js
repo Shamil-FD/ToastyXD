@@ -1,8 +1,8 @@
-const { Listener } = require('discord-akairo');
+const {Listener} = require('discord-akairo');
 const blacklisted = require('../Util/Models').blacklist;
 const _ = require('lodash');
 const moment = require('moment');
-const { Util } = require('discord.js');
+const {Util} = require('discord.js');
 
 module.exports = class BlackListListener extends Listener {
 	constructor() {
@@ -13,9 +13,10 @@ module.exports = class BlackListListener extends Listener {
 	}
 
 	async exec(message) {
+		if (message.guild.id !== '655109296400367618') return;
 		if (message.author.bot === true) return;
 		if (message.channel.type !== 'text') return;
-		let { content } = message;
+		let {content} = message;
 		content = Util.escapeMarkdown(content);
 		content = content.replace(/`/g, '');
 		// Blacklisted Word Detector ( Not The Best )
@@ -38,7 +39,7 @@ module.exports = class BlackListListener extends Listener {
 			newContent = _.compact(newContent);
 			if (newContent.length) {
 				for (let i = 0; i < newContent.length; i++) {
-					docs = await blacklisted.findOne({ word: newContent });
+					docs = await blacklisted.findOne({word: newContent});
 					if (docs) {
 						break;
 					}
@@ -53,18 +54,18 @@ module.exports = class BlackListListener extends Listener {
 				.embed()
 				.setAuthor(
 					'Blacklisted Word Detected!',
-					this.client.user.displayAvatarURL()
+					this.client.user.displayAvatarURL(),
 				)
-				.setThumbnail(message.author.displayAvatarURL({ dynamic: true }));
+				.setThumbnail(message.author.displayAvatarURL({dynamic: true}));
 			let ReportChnl = await message.guild.channels.cache.get(
-				this.client.config.StaffReportChnl
+				this.client.config.StaffReportChnl,
 			);
 
 			if (action === 'delete') {
 				return ReportChnl.send(
 					embed.setDescription(
-						`${this.client.arrow} **User**: ${message.author} || ${message.author.id}\n${this.client.arrow} **Message**: \`${message.content}\`\n${this.client.arrow} **Blacklisted Word**: \`${docs.word}\`\n${this.client.arrow} **Channel**: ${message.channel}`
-					)
+						`${this.client.arrow} **User**: ${message.author} || ${message.author.id}\n${this.client.arrow} **Message**: \`${message.content}\`\n${this.client.arrow} **Blacklisted Word**: \`${docs.word}\`\n${this.client.arrow} **Channel**: ${message.channel}`,
+					),
 				).catch(() => {});
 			} else if (action === 'warn') {
 				await message.author
@@ -72,23 +73,22 @@ module.exports = class BlackListListener extends Listener {
 						this.client
 							.embed()
 							.setDescription(
-								`Please do not use ${docs.word} in your messages. You have been warned.`
+								`Please do not use ${docs.word} in your messages. You have been warned.`,
 							)
 							.setFooter(
 								"Salvage's Oasis",
-								message.guild.iconURL({ dynamic: true })
+								message.guild.iconURL({dynamic: true}),
 							)
-							.setTitle('Message Deleted.')
+							.setTitle('Message Deleted.'),
 					)
 					.catch(() => {
 						message.reply(
-							`Please do not use ${docs.word} in your messages. You have been warned.`
+							`Please do not use ${docs.word} in your messages. You have been warned.`,
 						);
 					});
 
 				let WarnCount = await this.client.models.warnCount.findOne();
-				if (!WarnCount)
-					await new this.client.models.warnCount({ num: 1 }).save();
+				if (!WarnCount) await new this.client.models.warnCount({num: 1}).save();
 				else if (WarnCount) {
 					WarnCount.num++;
 					WarnCount.save();
@@ -103,26 +103,26 @@ module.exports = class BlackListListener extends Listener {
 				return ReportChnl.send(
 					embed
 						.setDescription(
-							`${this.client.arrow} **User**: ${message.author} || ${message.author.id}\n${this.client.arrow} **Message**: \`${message.content}\`\n${this.client.arrow} **Blacklisted Word**: \`${docs.word}\`\n${this.client.arrow} **Channel**: ${message.channel}`
+							`${this.client.arrow} **User**: ${message.author} || ${message.author.id}\n${this.client.arrow} **Message**: \`${message.content}\`\n${this.client.arrow} **Blacklisted Word**: \`${docs.word}\`\n${this.client.arrow} **Channel**: ${message.channel}`,
 						)
-						.setTitle('Verbal Warn')
+						.setTitle('Verbal Warn'),
 				).catch(() => {});
 			} else if (action === 'kick') {
 				await message.author
 					.send(
 						embed.setDescription(
-							`You have been kicked from ${message.guild.name} due to the usage of the word ${docs.word} in your message`
-						)
+							`You have been kicked from ${message.guild.name} due to the usage of the word ${docs.word} in your message`,
+						),
 					)
 					.catch(async () => {
 						await message.member.kick();
 						return ReportChnl.send(
 							embed
 								.setDescription(
-									`${this.client.arrow} **User**: ${message.author.tag} || ${message.author.id}\n${this.client.arrow} **Message**: \`${message.content}\`\n${this.client.arrow} **Blacklisted Word**: \`${docs.word}\`\n${this.client.arrow} **Channel**: ${message.channel}`
+									`${this.client.arrow} **User**: ${message.author.tag} || ${message.author.id}\n${this.client.arrow} **Message**: \`${message.content}\`\n${this.client.arrow} **Blacklisted Word**: \`${docs.word}\`\n${this.client.arrow} **Channel**: ${message.channel}`,
 								)
 								.setTitle('Kicked a Member')
-								.setFooter("I couldn't dm them")
+								.setFooter("I couldn't dm them"),
 						).catch(() => {});
 					});
 
@@ -130,27 +130,27 @@ module.exports = class BlackListListener extends Listener {
 				return ReportChnl.send(
 					embed
 						.setDescription(
-							`${this.client.arrow} **User**: ${message.author.tag} || ${message.author.id}\n${this.client.arrow} **Message**: \`${message.content}\`\n${this.client.arrow} **Blacklisted Word**: \`${docs.word}\`\n${this.client.arrow} **Channel**: ${message.channel}`
+							`${this.client.arrow} **User**: ${message.author.tag} || ${message.author.id}\n${this.client.arrow} **Message**: \`${message.content}\`\n${this.client.arrow} **Blacklisted Word**: \`${docs.word}\`\n${this.client.arrow} **Channel**: ${message.channel}`,
 						)
 						.setFooter("I dm'd them")
-						.setTitle('Kicked a Member')
+						.setTitle('Kicked a Member'),
 				).catch(() => {});
 			} else if (action === 'ban') {
 				await message.author
 					.send(
 						embed.setDescription(
-							`You have been banned from ${message.guild.name} due to the usage of the word ${docs.word} in your message\nJoin https://discord.gg/Xbbp7N87dM for a chance to get unbanned by submitting an appeal.`
-						)
+							`You have been banned from ${message.guild.name} due to the usage of the word ${docs.word} in your message\nJoin https://discord.gg/Xbbp7N87dM for a chance to get unbanned by submitting an appeal.`,
+						),
 					)
 					.catch(async () => {
 						await message.member.ban();
 						return ReportChnl.send(
 							embed
 								.setDescription(
-									`${this.client.arrow} **User**: ${message.author.tag} || ${message.author.id}\n${this.client.arrow} **Message**: \`${message.content}\`\n${this.client.arrow} **Blacklisted Word**: \`${docs.word}\`\n**Channel**: ${message.channel}`
+									`${this.client.arrow} **User**: ${message.author.tag} || ${message.author.id}\n${this.client.arrow} **Message**: \`${message.content}\`\n${this.client.arrow} **Blacklisted Word**: \`${docs.word}\`\n**Channel**: ${message.channel}`,
 								)
 								.setFooter("I couldn't dm them")
-								.setTitle('Banned a Member')
+								.setTitle('Banned a Member'),
 						).catch(() => {});
 					});
 
@@ -158,10 +158,10 @@ module.exports = class BlackListListener extends Listener {
 				return ReportChnl.send(
 					embed
 						.setDescription(
-							`${this.client.arrow} **User**: ${message.author.tag} || ${message.author.id}\n${this.client.arrow} **Message**: \`${message.content}\`\n${this.client.arrow} **Blacklisted Word**: \`${docs.word}\`\n**Channel**: ${message.channel}`
+							`${this.client.arrow} **User**: ${message.author.tag} || ${message.author.id}\n${this.client.arrow} **Message**: \`${message.content}\`\n${this.client.arrow} **Blacklisted Word**: \`${docs.word}\`\n**Channel**: ${message.channel}`,
 						)
 						.setTitle('Banned a Member')
-						.setFooter("I dm'd them")
+						.setFooter("I dm'd them"),
 				).catch(() => {});
 			}
 		}

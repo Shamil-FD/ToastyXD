@@ -1,8 +1,8 @@
-const { Listener } = require('discord-akairo');
+const {Listener} = require('discord-akairo');
 const blacklisted = require('../Util/Models').blacklist;
 const _ = require('lodash');
 const moment = require('moment');
-const { Util } = require('discord.js');
+const {Util} = require('discord.js');
 
 module.exports = class MessageUpdateListener extends Listener {
 	constructor() {
@@ -13,18 +13,19 @@ module.exports = class MessageUpdateListener extends Listener {
 	}
 
 	async exec(Old, New) {
+		if (Old.guild.id !== '655109296400367618') return;
 		// This File Is For Checking If a Message That's Been Edited Has A Blacklisted Word.
 		New = await New.fetch().catch((error) => {
 			return console.log(
 				'Something went wrong when fetching the message: ',
-				error
+				error,
 			);
 		});
 		if (!New) return;
 		if (New.deleted === true) return;
 		if (New.channel.type !== 'text') return;
 		if (New.author.bot === true) return;
-		let { member, author, guild, content } = New;
+		let {member, author, guild, content} = New;
 		content = await Util.escapeMarkdown(content);
 		content = await content.replace(/`/g, '');
 
@@ -48,7 +49,7 @@ module.exports = class MessageUpdateListener extends Listener {
 			newContent = await _.compact(newContent);
 			if (newContent.length) {
 				for (let i = 0; i < newContent.length; i++) {
-					docs = await blacklisted.findOne({ word: newContent });
+					docs = await blacklisted.findOne({word: newContent});
 					if (docs) {
 						break;
 					}
@@ -63,18 +64,18 @@ module.exports = class MessageUpdateListener extends Listener {
 				.embed()
 				.setAuthor(
 					'Blacklisted Word Detected!',
-					this.client.user.displayAvatarURL()
+					this.client.user.displayAvatarURL(),
 				)
-				.setThumbnail(New.author.displayAvatarURL({ dynamic: true }));
+				.setThumbnail(New.author.displayAvatarURL({dynamic: true}));
 			let ReportChnl = await New.guild.channels.cache.get(
-				this.client.config.StaffReportChnl
+				this.client.config.StaffReportChnl,
 			);
 
 			if (action === 'delete')
 				return ReportChnl.send(
 					embed.setDescription(
-						`${this.client.arrow} **User**: ${New.author} || ${New.author.id}\n${this.client.arrow} **Message**: \`${New.content}\`\n${this.client.arrow} **Blacklisted Word**: \`${docs.word}\`\n${this.client.arrow} **Channel**: ${New.channel}`
-					)
+						`${this.client.arrow} **User**: ${New.author} || ${New.author.id}\n${this.client.arrow} **Message**: \`${New.content}\`\n${this.client.arrow} **Blacklisted Word**: \`${docs.word}\`\n${this.client.arrow} **Channel**: ${New.channel}`,
+					),
 				).catch(() => {});
 			else if (action === 'warn') {
 				await New.author
@@ -82,23 +83,19 @@ module.exports = class MessageUpdateListener extends Listener {
 						this.client
 							.embed()
 							.setDescription(
-								`Please do not use ${docs.word} in your messages. You have been warned.`
+								`Please do not use ${docs.word} in your messages. You have been warned.`,
 							)
-							.setFooter(
-								"Salvage's Oasis",
-								New.guild.iconURL({ dynamic: true })
-							)
-							.setTitle('Message Deleted.')
+							.setFooter("Salvage's Oasis", New.guild.iconURL({dynamic: true}))
+							.setTitle('Message Deleted.'),
 					)
 					.catch(() => {
 						New.reply(
-							`Please do not use ${docs.word} in your messages. You have been warned.`
+							`Please do not use ${docs.word} in your messages. You have been warned.`,
 						);
 					});
 
 				let WarnCount = await this.client.models.warnCount.findOne();
-				if (!WarnCount)
-					await new this.client.models.warnCount({ num: 1 }).save();
+				if (!WarnCount) await new this.client.models.warnCount({num: 1}).save();
 				else if (WarnCount) {
 					WarnCount.num++;
 					WarnCount.save();
@@ -114,26 +111,26 @@ module.exports = class MessageUpdateListener extends Listener {
 				return ReportChnl.send(
 					embed
 						.setDescription(
-							`${this.client.arrow} **User**: ${New.author} || ${New.author.id}\n${this.client.arrow} **Message**: \`${New.content}\`\n${this.client.arrow} **Blacklisted Word**: \`${docs.word}\`\n${this.client.arrow} **Channel**: ${New.channel}`
+							`${this.client.arrow} **User**: ${New.author} || ${New.author.id}\n${this.client.arrow} **Message**: \`${New.content}\`\n${this.client.arrow} **Blacklisted Word**: \`${docs.word}\`\n${this.client.arrow} **Channel**: ${New.channel}`,
 						)
-						.setTitle('Verbal Warn')
+						.setTitle('Verbal Warn'),
 				).catch(() => {});
 			} else if (action === 'kick') {
 				await New.author
 					.send(
 						embed.setDescription(
-							`You have been kicked from ${New.guild.name} due to the usage of the word ${docs.word} in your message`
-						)
+							`You have been kicked from ${New.guild.name} due to the usage of the word ${docs.word} in your message`,
+						),
 					)
 					.catch(async () => {
 						await New.member.kick();
 						return ReportChnl.send(
 							embed
 								.setDescription(
-									`${this.client.arrow} **User**: ${New.author.tag} || ${New.author.id}\n${this.client.arrow} **Message**: \`${New.content}\`\n${this.client.arrow} **Blacklisted Word**: \`${docs.word}\`\n${this.client.arrow} **Channel**: ${New.channel}`
+									`${this.client.arrow} **User**: ${New.author.tag} || ${New.author.id}\n${this.client.arrow} **Message**: \`${New.content}\`\n${this.client.arrow} **Blacklisted Word**: \`${docs.word}\`\n${this.client.arrow} **Channel**: ${New.channel}`,
 								)
 								.setTitle('Kicked a Member')
-								.setFooter("I couldn't dm them")
+								.setFooter("I couldn't dm them"),
 						).catch(() => {});
 					});
 
@@ -141,27 +138,27 @@ module.exports = class MessageUpdateListener extends Listener {
 				return ReportChnl.send(
 					embed
 						.setDescription(
-							`${this.client.arrow} **User**: ${New.author.tag} || ${New.author.id}\n${this.client.arrow} **Message**: \`${New.content}\`\n${this.client.arrow} **Blacklisted Word**: \`${docs.word}\`\n${this.client.arrow} **Channel**: ${New.channel}`
+							`${this.client.arrow} **User**: ${New.author.tag} || ${New.author.id}\n${this.client.arrow} **Message**: \`${New.content}\`\n${this.client.arrow} **Blacklisted Word**: \`${docs.word}\`\n${this.client.arrow} **Channel**: ${New.channel}`,
 						)
 						.setFooter("I dm'd them")
-						.setTitle('Kicked a Member')
+						.setTitle('Kicked a Member'),
 				).catch(() => {});
 			} else if (action === 'ban') {
 				await New.author
 					.send(
 						embed.setDescription(
-							`You have been banned from ${New.guild.name} due to the usage of the word ${docs.word} in your message\nJoin https://discord.gg/Xbbp7N87dM for a chance to get unbanned by submitting an appeal.`
-						)
+							`You have been banned from ${New.guild.name} due to the usage of the word ${docs.word} in your message\nJoin https://discord.gg/Xbbp7N87dM for a chance to get unbanned by submitting an appeal.`,
+						),
 					)
 					.catch(async () => {
 						await New.member.ban();
 						return ReportChnl.send(
 							embed
 								.setDescription(
-									`${this.client.arrow} **User**: ${New.author.tag} || ${New.author.id}\n${this.client.arrow} **Message**: \`${New.content}\`\n${this.client.arrow} **Blacklisted Word**: \`${docs.word}\`\n**Channel**: ${New.channel}`
+									`${this.client.arrow} **User**: ${New.author.tag} || ${New.author.id}\n${this.client.arrow} **Message**: \`${New.content}\`\n${this.client.arrow} **Blacklisted Word**: \`${docs.word}\`\n**Channel**: ${New.channel}`,
 								)
 								.setFooter("I couldn't dm them")
-								.setTitle('Banned a Member')
+								.setTitle('Banned a Member'),
 						).catch(() => {});
 					});
 
@@ -169,10 +166,10 @@ module.exports = class MessageUpdateListener extends Listener {
 				return ReportChnl.send(
 					embed
 						.setDescription(
-							`${this.client.arrow} **User**: ${New.author.tag} || ${New.author.id}\n${this.client.arrow} **Message**: \`${New.content}\`\n${this.client.arrow} **Blacklisted Word**: \`${docs.word}\`\n**Channel**: ${New.channel}`
+							`${this.client.arrow} **User**: ${New.author.tag} || ${New.author.id}\n${this.client.arrow} **Message**: \`${New.content}\`\n${this.client.arrow} **Blacklisted Word**: \`${docs.word}\`\n**Channel**: ${New.channel}`,
 						)
 						.setTitle('Banned a Member')
-						.setFooter("I dm'd them")
+						.setFooter("I dm'd them"),
 				).catch(() => {});
 			}
 		}

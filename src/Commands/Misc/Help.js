@@ -5,7 +5,7 @@ module.exports = class HelpCommand extends Command {
 		super('help', {
 			aliases: ['help', 'commands'],
 			category: 'misc',
-			args: [{ id: 'comd', type: 'commandAlias' }],
+			args: [{id: 'comd', type: 'commandAlias'}],
 			useSlashCommand: true,
 			slashCommand: {
 				options: [
@@ -20,7 +20,7 @@ module.exports = class HelpCommand extends Command {
 		});
 	}
 
-	exec(message, { comd }) {
+	exec(message, {comd}) {
 		if (comd) {
 			if (comd.description) {
 				return message.send({
@@ -86,11 +86,11 @@ module.exports = class HelpCommand extends Command {
 function helpCmd(handler, client, message, slash) {
 	let fields = [];
 	for (const [name, category] of handler.categories.filter(
-		(cm) => !['flag'].includes(cm.id)
+		(cm) => !['flag'].includes(cm.id),
 	)) {
 		fields.push({
 			name: `${client.arrow} ${name.replace(/(\b\w)/gi, (str) =>
-				str.toUpperCase()
+				str.toUpperCase(),
 			)}`,
 			value:
 				category
@@ -107,7 +107,7 @@ function helpCmd(handler, client, message, slash) {
 				url: 'https://youtube.com/watch?v=dQw4w9WgXcQ',
 				fields: fields,
 				thumbnail: {
-					url: message.author.displayAvatarURL({ dynamic: true }),
+					url: message.author.displayAvatarURL({dynamic: true}),
 				},
 			},
 		});
@@ -118,7 +118,7 @@ function helpCmd(handler, client, message, slash) {
 				.setTitle(client.arrow + ' Commands ❮')
 				.setURL('https://youtube.com/watch?v=dQw4w9WgXcQ')
 				.addFields(fields)
-				.setThumbnail(message.member?.user?.displayAvatarURL({ dynamic: true }))
+				.setThumbnail(message.member?.user?.displayAvatarURL({dynamic: true})),
 		);
 	}
 }

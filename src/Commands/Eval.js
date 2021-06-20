@@ -17,7 +17,7 @@ module.exports = class EvalCommand extends Command {
 		});
 	}
 
-	async exec(message, { code }) {
+	async exec(message, {code}) {
 		if (!code) return message.channel.send('No code provided!');
 
 		const evaled = {};
@@ -30,7 +30,7 @@ module.exports = class EvalCommand extends Command {
 
 		const print = (...a) => {
 			const cleaned = a.map((obj) => {
-				if (typeof o !== 'string') obj = util.inspect(obj, { depth: 1 });
+				if (typeof o !== 'string') obj = util.inspect(obj, {depth: 1});
 				return obj.replace(tokenRegex, '[TOKEN]');
 			});
 
@@ -53,8 +53,7 @@ module.exports = class EvalCommand extends Command {
 			let output = eval(code);
 			if (output && typeof output.then === 'function') output = await output;
 
-			if (typeof output !== 'string')
-				output = util.inspect(output, { depth: 0 });
+			if (typeof output !== 'string') output = util.inspect(output, {depth: 0});
 			output = `${logs.join('\n')}\n${
 				logs.length && output === 'undefined' ? '' : output
 			}`;

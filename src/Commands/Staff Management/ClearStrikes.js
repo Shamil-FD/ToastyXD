@@ -7,24 +7,23 @@ module.exports = class ResetStrikesCommand extends Command {
 			category: 'Staff Management',
 			channel: 'guild',
 			managerOnly: true,
-			args: [{ id: 'user', match: 'rest' }],
+			args: [{id: 'user', match: 'rest'}],
 		});
 	}
 
-	async exec(message, { user }) {
-		let { staff } = this.client.models;
+	async exec(message, {user}) {
+		let {staff} = this.client.models;
 		user = await message.getMember(user);
-		if (!user)
-			return message.send({ embeds: { description: 'Invalid user!' } });
+		if (!user) return message.send({embeds: {description: 'Invalid user!'}});
 
-		let doc = await staff.findOne({ user: user.id });
+		let doc = await staff.findOne({user: user.id});
 		if (!doc)
 			return message.send({
-				embeds: { description: "They don't have any strikes." },
+				embeds: {description: "They don't have any strikes."},
 			});
 
 		doc.strikes = 0;
 		await doc.save();
-		return message.send({ embeds: { description: 'POOF! Begone strikes!' } });
+		return message.send({embeds: {description: 'POOF! Begone strikes!'}});
 	}
 };

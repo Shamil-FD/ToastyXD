@@ -1,5 +1,5 @@
-const { Structures, MessageEmbed, User, GuildMember } = require('discord.js');
-const { split } = require('../Util/Functions');
+const {Structures, MessageEmbed, User, GuildMember} = require('discord.js');
+const {split} = require('../Util/Functions');
 
 Structures.extend('Message', (Message) => {
 	class ToastyMessage extends Message {
@@ -17,9 +17,10 @@ Structures.extend('Message', (Message) => {
 						if (value.description && value.description.length >= 2048) {
 							const splitted = await split(value.description);
 							splitted.map((value) =>
-								this.channel.send(value.setDescription(value), {
-									reply: { messageReference: this.id, failIfNotExists: true },
-								})
+								this.channel.send({
+									embeds: [value.setDescription(value)],
+									reply: {messageReference: this.id, failIfNotExists: true},
+								}),
 							);
 						} else embed = value;
 						if (!embed.color) embed.color = 'BLURPLE';
@@ -30,9 +31,9 @@ Structures.extend('Message', (Message) => {
 				});
 
 				return this.channel.send({
-					embed: embed ? embed : null,
+					embeds: embed ? [embed] : null,
 					content: content,
-					reply: { messageReference: this.id, failIfNotExists: true },
+					reply: {messageReference: this.id, failIfNotExists: true},
 				});
 			};
 			this.getMember = async (content, guild) => {
@@ -50,7 +51,7 @@ Structures.extend('Message', (Message) => {
 						(m) =>
 							m.user.tag.toLowerCase() == content.toLowerCase() ||
 							m.displayName.toLowerCase() == content.toLowerCase() ||
-							m.user.username.toLowerCase() == content.toLowerCase()
+							m.user.username.toLowerCase() == content.toLowerCase(),
 					) ||
 					undefined
 				);
@@ -65,7 +66,7 @@ Structures.extend('Message', (Message) => {
 				}
 				let role =
 					(await guild.roles.cache.find(
-						(r) => r.name.toLowerCase() === content.toLowerCase()
+						(r) => r.name.toLowerCase() === content.toLowerCase(),
 					)) ||
 					guild.roles.fetch(content) ||
 					this.mentions.roles.first();
@@ -81,7 +82,7 @@ Structures.extend('Message', (Message) => {
 				let chnl =
 					(await guild.channels.fetch(content)) ||
 					guild.channels.cache.find(
-						(c) => c.name.toLowerCase() === content.toLowerCase()
+						(c) => c.name.toLowerCase() === content.toLowerCase(),
 					) ||
 					this.mentions.channels.first();
 			};

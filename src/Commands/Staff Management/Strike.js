@@ -8,22 +8,22 @@ module.exports = class StrikeCommand extends Command {
 			managerOnly: true,
 			channel: 'guild',
 			args: [
-				{ id: 'user', type: 'memberMention' },
-				{ id: 'reason', match: 'rest' },
+				{id: 'user', type: 'memberMention'},
+				{id: 'reason', match: 'rest'},
 			],
 		});
 	}
 
-	async exec(message, { user, reason }) {
-		let { staff } = this.client.models;
+	async exec(message, {user, reason}) {
+		let {staff} = this.client.models;
 		if (!user)
 			return message.send({
-				embeds: { description: 'No member mention provided.' },
+				embeds: {description: 'No member mention provided.'},
 			});
 		if (!reason)
-			return message.send({ embeds: { description: 'Provide me a reason.' } });
+			return message.send({embeds: {description: 'Provide me a reason.'}});
 
-		let doc = await staff.findOne({ user: user.id });
+		let doc = await staff.findOne({user: user.id});
 		doc.strikes ? doc.strikes++ : (doc.strikes = 1);
 		await doc.save();
 		await user

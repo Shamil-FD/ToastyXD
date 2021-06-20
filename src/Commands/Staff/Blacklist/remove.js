@@ -1,4 +1,4 @@
-const { Flag } = require('discord-akairo');
+const {Flag} = require('discord-akairo');
 const Command = require('../../../Struct/Command');
 
 module.exports = class BlacklistCommand extends Command {
@@ -7,11 +7,11 @@ module.exports = class BlacklistCommand extends Command {
 			category: 'Staff',
 			channel: 'guild',
 			staffOnly: true,
-			args: [{ id: 'word', match: 'content' }],
+			args: [{id: 'word', match: 'content'}],
 		});
 	}
-	async exec(message, { word }) {
-		let { models, arrow } = this.client;
+	async exec(message, {word}) {
+		let {models, arrow} = this.client;
 		if (!word)
 			return message.send({
 				embeds: {
@@ -20,7 +20,7 @@ module.exports = class BlacklistCommand extends Command {
 				},
 			});
 
-		let doc = await models.blacklist.findOne({ word: word.toLowerCase() });
+		let doc = await models.blacklist.findOne({word: word.toLowerCase()});
 		if (!doc)
 			return message.send({
 				embeds: {
@@ -30,7 +30,7 @@ module.exports = class BlacklistCommand extends Command {
 			});
 		await doc.delete();
 		message.send({
-			embeds: { color: 'RED', description: 'Removed that word.' },
+			embeds: {color: 'RED', description: 'Removed that word.'},
 		});
 		await message.delete();
 	}

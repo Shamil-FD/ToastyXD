@@ -1,4 +1,4 @@
-let { XMLHttpRequest } = require('xmlhttprequest');
+let {XMLHttpRequest} = require('xmlhttprequest');
 const Command = require('../../Struct/Command.js');
 const sourcebin = require('sourcebin');
 
@@ -28,15 +28,15 @@ module.exports = class PasteCodeCommand extends Command {
 		});
 	}
 
-	async exec(message, { cont }) {
+	async exec(message, {cont}) {
 		let embed = this.client.embed();
 		message.delete();
 
 		if (cont == '<code>' || cont == 'code') {
 			return message.channel.send(
 				embed.setDescription(
-					"Please replace '<code>'/'code' with your code to paste it in a bin OR send a file with t)pc in the message to paste it in a code bin."
-				)
+					"Please replace '<code>'/'code' with your code to paste it in a bin OR send a file with t)pc in the message to paste it in a code bin.",
+				),
 			);
 		}
 		if (message.attachments.first()) {
@@ -61,7 +61,7 @@ module.exports = class PasteCodeCommand extends Command {
 								{
 									title: message.author.tag,
 									description: 'OwO',
-								}
+								},
 							)
 							.then((json) => {
 								return message.channel.send(
@@ -69,9 +69,9 @@ module.exports = class PasteCodeCommand extends Command {
 										.setDescription(`Here's your link: ${json.url}`)
 										.setAuthor(
 											message.author.tag,
-											message.author.displayAvatarURL({ dynamic: true })
+											message.author.displayAvatarURL({dynamic: true}),
 										)
-										.setFooter('Thanks for using Toasty')
+										.setFooter('Thanks for using Toasty'),
 								);
 							})
 							.catch((e) => {
@@ -81,8 +81,8 @@ module.exports = class PasteCodeCommand extends Command {
 										.setDescription('An error occured! Try again')
 										.setAuthor(
 											message.author.tag,
-											message.author.displayAvatarURL({ dynamic: true })
-										)
+											message.author.displayAvatarURL({dynamic: true}),
+										),
 								);
 							});
 					}
@@ -93,8 +93,8 @@ module.exports = class PasteCodeCommand extends Command {
 			if (!cont)
 				return message.channel.send(
 					embed.setDescription(
-						'You have to provide me either a code or a txt file with your code in it'
-					)
+						'You have to provide me either a code or a txt file with your code in it',
+					),
 				);
 			sourcebin
 				.create(
@@ -107,7 +107,7 @@ module.exports = class PasteCodeCommand extends Command {
 					{
 						title: message.author.tag,
 						description: 'OwO',
-					}
+					},
 				)
 				.then((json) => {
 					return message.channel.send(
@@ -115,9 +115,9 @@ module.exports = class PasteCodeCommand extends Command {
 							.setDescription(`Here's your link: ${json.url}`)
 							.setAuthor(
 								message.author.tag,
-								message.author.displayAvatarURL({ dynamic: true })
+								message.author.displayAvatarURL({dynamic: true}),
 							)
-							.setFooter('Thanks for using Toasty')
+							.setFooter('Thanks for using Toasty'),
 					);
 				})
 				.catch((e) => {
@@ -127,8 +127,8 @@ module.exports = class PasteCodeCommand extends Command {
 							.setDescription('An error occured! Try again')
 							.setAuthor(
 								message.author.tag,
-								message.author.displayAvatarURL({ dynamic: true })
-							)
+								message.author.displayAvatarURL({dynamic: true}),
+							),
 					);
 				});
 		}
@@ -137,8 +137,8 @@ module.exports = class PasteCodeCommand extends Command {
 	async execSlash(interaction) {
 		sourcebin
 			.create(
-				[{ content: interaction.options[0]?.value, languageId: 'javascript' }],
-				{ title: interaction.member.user.tag, description: 'OwO' }
+				[{content: interaction.options[0]?.value, languageId: 'javascript'}],
+				{title: interaction.member.user.tag, description: 'OwO'},
 			)
 			.then((json) => {
 				return interaction.reply("Here's your link: " + json.url, {

@@ -8,13 +8,13 @@ module.exports = class ExecCommand extends Command {
 			channel: 'guild',
 			managerOnly: true,
 			args: [
-				{ id: 'user', type: 'memberMention' },
-				{ id: 'content', match: 'rest' },
+				{id: 'user', type: 'memberMention'},
+				{id: 'content', match: 'rest'},
 			],
 		});
 	}
 
-	async exec(message, { user, content }) {
+	async exec(message, {user, content}) {
 		if (!user || !content)
 			return message.send({
 				embeds: {

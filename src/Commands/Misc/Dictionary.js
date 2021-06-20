@@ -57,7 +57,7 @@ module.exports = class DictionaryCommand extends Command {
 		});
 	}
 
-	async exec(message, { urban, word }) {
+	async exec(message, {urban, word}) {
 		let search;
 		let fetched;
 		let result = [];
@@ -95,16 +95,16 @@ module.exports = class DictionaryCommand extends Command {
 					) {
 						result.push(
 							`${this.client.arrow} **${key.replace(/(\b\w)/gi, (str) =>
-								str.toUpperCase()
-							)}**: ${prop}`
+								str.toUpperCase(),
+							)}**: ${prop}`,
 						);
 					}
 				});
 			});
-			return message.send({ embeds: { description: result.join('\n') } });
+			return message.send({embeds: {description: result.join('\n')}});
 		} else {
 			await fetch(
-				`https://api.dictionaryapi.dev/api/v2/entries/en_GB/${search}`
+				`https://api.dictionaryapi.dev/api/v2/entries/en_GB/${search}`,
 			)
 				.then((res) => res.json())
 				.then((res) => (fetched = res));
@@ -137,15 +137,15 @@ module.exports = class DictionaryCommand extends Command {
 															this.client.arrow
 													  } **Synonyms**: ${d.synonyms.join('\n')}`
 													: ''
-											} `
+											} `,
 									)
-									.join('\n')}`
+									.join('\n')}`,
 						)
-						.join('\n\n')
+						.join('\n\n'),
 				);
 			});
 			return message.send({
-				embeds: { title: search, description: result.join('\n') },
+				embeds: {title: search, description: result.join('\n')},
 			});
 		}
 	}
@@ -181,7 +181,7 @@ module.exports = class DictionaryCommand extends Command {
 				return message.reply({
 					ephemeral: true,
 					embeds: [
-						{ description: `No definitions found for ${search}`, color: 'RED' },
+						{description: `No definitions found for ${search}`, color: 'RED'},
 					],
 				});
 			}
@@ -206,8 +206,8 @@ module.exports = class DictionaryCommand extends Command {
 					) {
 						result.push(
 							`${this.client.arrow} **${key.replace(/(\b\w)/gi, (str) =>
-								str.toUpperCase()
-							)}**: ${prop}`
+								str.toUpperCase(),
+							)}**: ${prop}`,
 						);
 					}
 				});
@@ -223,7 +223,7 @@ module.exports = class DictionaryCommand extends Command {
 			});
 		} else {
 			await fetch(
-				`https://api.dictionaryapi.dev/api/v2/entries/en_GB/${search}`
+				`https://api.dictionaryapi.dev/api/v2/entries/en_GB/${search}`,
 			)
 				.then((res) => res.json())
 				.then((res) => (fetched = res));
@@ -232,7 +232,7 @@ module.exports = class DictionaryCommand extends Command {
 				return message.reply({
 					ephemeral: true,
 					embeds: [
-						{ description: `No definitions found for ${search}`, color: 'RED' },
+						{description: `No definitions found for ${search}`, color: 'RED'},
 					],
 				});
 
@@ -256,11 +256,11 @@ module.exports = class DictionaryCommand extends Command {
 															this.client.arrow
 													  } **Synonyms**: ${d.synonyms.join('\n')}`
 													: ''
-											} `
+											} `,
 									)
-									.join('\n')}`
+									.join('\n')}`,
 						)
-						.join('\n\n')
+						.join('\n\n'),
 				);
 			});
 			return message.reply({

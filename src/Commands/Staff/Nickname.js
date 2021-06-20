@@ -13,7 +13,7 @@ module.exports = class NicknameCommand extends Command {
 				usage: ['t)nick User Options/Name'],
 			},
 			args: [
-				{ id: 'user' },
+				{id: 'user'},
 				{
 					id: 'ops',
 					type: (msg, phrase) => {
@@ -75,7 +75,7 @@ module.exports = class NicknameCommand extends Command {
 		});
 	}
 
-	async exec(message, { ops, user }) {
+	async exec(message, {ops, user}) {
 		let client = this.client;
 		let stop = false;
 
@@ -91,13 +91,13 @@ module.exports = class NicknameCommand extends Command {
 		ops = ops.trim();
 		if (!user)
 			return message.send({
-				embeds: { description: 'Are you sure that you provided a user?' },
+				embeds: {description: 'Are you sure that you provided a user?'},
 			});
 
 		user = await message.getMember(user);
 		if (!user)
 			return message.send({
-				embeds: { description: 'In-invalid u-uuserrr! err!' },
+				embeds: {description: 'In-invalid u-uuserrr! err!'},
 			});
 
 		if (user.roles.cache.get(this.client.config.StaffRole))
@@ -119,17 +119,17 @@ module.exports = class NicknameCommand extends Command {
 		await user.setNickname(nick).catch(() => {
 			stop = true;
 			return message.send({
-				embeds: { description: "I couldn't change their nickname, err!" },
+				embeds: {description: "I couldn't change their nickname, err!"},
 			});
 		});
 		if (stop == true) return;
 		return message.send({
-			embeds: { description: `Changed ${user}'s nickname` },
+			embeds: {description: `Changed ${user}'s nickname`},
 		});
 	}
 	async execSlash(message) {
 		if (!message.member.roles.cache.has(this.client.config.StaffRole))
-			return message.reply("You can't use this command.", { ephemeral: true });
+			return message.reply("You can't use this command.", {ephemeral: true});
 		message.defer();
 		if (!message.options[1]?.value && !message.options[2]?.choices[0]?.value)
 			return message.editReply('You have to provide me a valid option.', {
@@ -140,44 +140,44 @@ module.exports = class NicknameCommand extends Command {
 			if (message.options[1]?.value.toLowerCase() !== 'reset') {
 				let res = await change(
 					message.options[0]?.member,
-					message.options[1]?.value
+					message.options[1]?.value,
 				);
 				if (res === 'bad') {
 					return message.editReply(
-						`I couldn't change ${message.options[0]?.member}'s nickname.`
+						`I couldn't change ${message.options[0]?.member}'s nickname.`,
 					);
 				} else {
 					return message.editReply(
-						`Changed their nickname to ${message.options[1]?.value}`
+						`Changed their nickname to ${message.options[1]?.value}`,
 					);
 				}
 			} else {
 				let res = await change(
 					message.options[0]?.member,
-					message.options[0]?.member?.user?.username
+					message.options[0]?.member?.user?.username,
 				);
 				if (res === 'bad') {
 					return message.editReply(
-						`I couldn't change ${message.options[0]?.member}'s nickname.`
+						`I couldn't change ${message.options[0]?.member}'s nickname.`,
 					);
 				} else {
 					return message.editReply(
-						`Changed their nickname to ${message.options[0]?.member}`
+						`Changed their nickname to ${message.options[0]?.member}`,
 					);
 				}
 			}
 		} else {
 			let res = await change(
 				message.options[0]?.member,
-				message.options[1]?.value
+				message.options[1]?.value,
 			);
 			if (res === 'bad') {
 				return message.editReply(
-					`I couldn't change ${message.options[0]?.member}'s nickname.`
+					`I couldn't change ${message.options[0]?.member}'s nickname.`,
 				);
 			} else {
 				return message.editReply(
-					`Changed their nickname to ${message.options[1]?.value}`
+					`Changed their nickname to ${message.options[1]?.value}`,
 				);
 			}
 		}

@@ -1,4 +1,4 @@
-const { Command, CommandOptions } = require('discord-akairo');
+const {Command, CommandOptions} = require('discord-akairo');
 
 module.exports = class ToastyModule extends Command {
 	constructor(
@@ -8,7 +8,7 @@ module.exports = class ToastyModule extends Command {
 		staffOnly,
 		beta,
 		useSlashCommand,
-		slashCommand
+		slashCommand,
 	) {
 		super(id, CommandOptions);
 		this.staffOnly = CommandOptions.staffOnly || false;

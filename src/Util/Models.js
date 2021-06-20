@@ -1,4 +1,4 @@
-const { model, Schema } = require('mongoose');
+const {model, Schema} = require('mongoose');
 
 let schema = Schema({
 	user: String,
@@ -39,7 +39,7 @@ schema = Schema({
 	count: Number,
 	muteTime: String,
 	muteDate: String,
-	pings: [{ type: String }],
+	pings: [{type: String}],
 });
 
 exports.afk = model('afk', schema);

@@ -13,7 +13,7 @@ module.exports = class ResetCheckinCommand extends Command {
 	}
 
 	async exec(message) {
-		let { models, rannum } = this.client;
+		let {models, rannum} = this.client;
 		let sal = this.client.guilds.cache.get('655109296400367618');
 		let channel = await this.client.channels.cache.get('733307358070964226');
 		let msg = await channel.messages.fetch('777522764525338634');
@@ -36,13 +36,13 @@ module.exports = class ResetCheckinCommand extends Command {
 			this.client
 				.embed()
 				.setDescription(msg.embeds[0].description + `\n\n${mcount.join('\n')}`)
-				.setFooter(msg.embeds[0].footer ? msg.embeds[0].footer.text : '')
+				.setFooter(msg.embeds[0].footer ? msg.embeds[0].footer.text : ''),
 		);
 		msg.edit(
 			this.client
 				.embed()
 				.setDescription(`Staff who are active today`)
-				.setFooter(`Date: ${moment().format('MMM Do YY')}`)
+				.setFooter(`Date: ${moment().format('MMM Do YY')}`),
 		);
 		let staffRole = await sal.roles.cache.get(this.client.config.StaffRole);
 		let staffMessageCount = await models.staff.find();
@@ -57,8 +57,8 @@ module.exports = class ResetCheckinCommand extends Command {
 				.setDescription(
 					`Staff who aren't active today\n${staffRole.members
 						.map((m) => `:x: ${m.user.tag}`)
-						.join('\n')}`
-				)
+						.join('\n')}`,
+				),
 		);
 		return message.react(this.client.tick);
 	}

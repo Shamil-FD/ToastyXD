@@ -1,5 +1,5 @@
 const Command = require('../../Struct/Command.js');
-let { afk } = require('../../Util/Models');
+let {afk} = require('../../Util/Models');
 let moment = require('moment');
 let ms = require('ms');
 
@@ -35,8 +35,8 @@ module.exports = class AFKCommand extends Command {
 		});
 	}
 
-	async exec(message, { reason }) {
-		const doc = await afk.findOne({ user: message.author.id });
+	async exec(message, {reason}) {
+		const doc = await afk.findOne({user: message.author.id});
 
 		if (!doc) {
 			await new afk({
@@ -57,7 +57,7 @@ module.exports = class AFKCommand extends Command {
 		}
 	}
 	async execSlash(message) {
-		const doc = await afk.findOne({ user: message.member.id });
+		const doc = await afk.findOne({user: message.member.id});
 		let reason = message.options[0]?.value || 'be back soon xo';
 		let mute = message.options[1]?.value;
 		message.defer();

@@ -1,4 +1,4 @@
-const { Flag } = require('discord-akairo');
+const {Flag} = require('discord-akairo');
 const Command = require('../../../Struct/Command');
 
 module.exports = class BlacklistCommand extends Command {
@@ -22,12 +22,12 @@ module.exports = class BlacklistCommand extends Command {
 							this.client
 								.embed()
 								.setDescription(
-									`**To get the list of blacklisted words**\n${this.client.arrow} \`t)blacklist list\`\n**To add a word to the blacklist**\n${this.client.arrow} \`t)blacklist add [Action] [Word]\`\n**To add a word to the blacklist using a wildcard ( Will search through every word to find said word. Example: "grass" - it would find "ass")**\n${this.client.arrow} \`t)blacklist add wild [Action] [Word]\`\n**To remove a word from the blacklist**\n${this.client.arrow} \`t)blacklist remove [Word]\``
+									`**To get the list of blacklisted words**\n${this.client.arrow} \`t)blacklist list\`\n**To add a word to the blacklist**\n${this.client.arrow} \`t)blacklist add [Action] [Word]\`\n**To add a word to the blacklist using a wildcard ( Will search through every word to find said word. Example: "grass" - it would find "ass")**\n${this.client.arrow} \`t)blacklist add wild [Action] [Word]\`\n**To remove a word from the blacklist**\n${this.client.arrow} \`t)blacklist remove [Word]\``,
 								)
 								.setAuthor(
 									msg.author.username,
-									msg.author.displayAvatarURL({ dynamic: true })
-								)
+									msg.author.displayAvatarURL({dynamic: true}),
+								),
 						);
 					},
 				};

@@ -1,4 +1,4 @@
-const { MessageAttachment } = require('discord.js');
+const {MessageAttachment} = require('discord.js');
 const Command = require('../../Struct/Command');
 const fetch = require('node-fetch');
 
@@ -28,7 +28,7 @@ module.exports = class StonksCommand extends Command {
 		});
 	}
 
-	async exec(message, { user }) {
+	async exec(message, {user}) {
 		let buffer = await meme(user.displayAvatarURL());
 		return message.send({
 			files: [new MessageAttachment(await buffer, 'stonks.png')],

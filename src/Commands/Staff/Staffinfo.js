@@ -1,11 +1,11 @@
 const Command = require('../../Struct/Command.js');
-const { MessageAttachment } = require('discord.js');
+const {MessageAttachment} = require('discord.js');
 const canvas = require('canvas');
 canvas.registerFont(
 	'src/Util/Fonts/JetBrains Mono Bold Nerd Font Complete.ttf',
 	{
 		family: 'jetbrains',
-	}
+	},
 );
 
 module.exports = class StaffinfoCommand extends Command {
@@ -21,9 +21,7 @@ module.exports = class StaffinfoCommand extends Command {
 			cooldown: 15000,
 			staffOnly: true,
 			useSlashCommand: true,
-			args: [
-				{ id: 'person', match: 'content', default: (msg) => msg.author.id },
-			],
+			args: [{id: 'person', match: 'content', default: (msg) => msg.author.id}],
 			slashCommand: {
 				options: [
 					{
@@ -37,13 +35,13 @@ module.exports = class StaffinfoCommand extends Command {
 		});
 	}
 
-	async exec(message, { person }) {
+	async exec(message, {person}) {
 		try {
 			person = await message.getMember(person);
 		} catch {}
 		if (!person.id)
 			return message.send({
-				embeds: { description: `Couldn't find \`${person}\` 😔`, color: 'RED' },
+				embeds: {description: `Couldn't find \`${person}\` 😔`, color: 'RED'},
 			});
 		if (!person.roles.cache.has(this.client.config.StaffRole))
 			return message.send({
@@ -55,8 +53,8 @@ module.exports = class StaffinfoCommand extends Command {
 		return message.channel.send(
 			new MessageAttachment(
 				await CanvasGen(this.client, person),
-				'staffinfo.png'
-			)
+				'staffinfo.png',
+			),
 		);
 	}
 	async execSlash(message) {
@@ -72,7 +70,7 @@ module.exports = class StaffinfoCommand extends Command {
 			files: [
 				new MessageAttachment(
 					await CanvasGen(this.client, person),
-					'staffinfo.png'
+					'staffinfo.png',
 				),
 			],
 			ephemeral: true,
@@ -80,14 +78,14 @@ module.exports = class StaffinfoCommand extends Command {
 	}
 };
 async function CanvasGen(client, person) {
-	let doc = await client.models.staff.findOne({ user: person.id });
+	let doc = await client.models.staff.findOne({user: person.id});
 	if (!doc.infoCard) {
 		doc.infoCard.borders = '#070707';
 		doc.infoCard.background = '#212121';
-		doc.infoCard.text = 'white';
+		doc.infoCard.text = 'black';
 		doc.infoCard.img = 'none';
 		await doc.save();
-		doc = await client.models.staff.findOne({ user: person.id });
+		doc = await client.models.staff.findOne({user: person.id});
 	}
 
 	let borderColor = doc.infoCard.borders;
@@ -147,6 +145,11 @@ async function CanvasGen(client, person) {
 		ctx.fillStyle = textColor;
 		ctx.textAlign = 'center';
 		ctx.fillText(person.user.username, 125, 270);
+	} else if (person.user.username.length > 15) {
+		ctx.font = `16px jetbrains`;
+		ctx.fillStyle = textColor;
+		ctx.textAlign = 'center';
+		ctx.fillText(person.user.username, 120, 270);
 	} else {
 		ctx.font = `25px jetbrains`;
 		ctx.fillStyle = textColor;
@@ -160,14 +163,14 @@ async function CanvasGen(client, person) {
 	// Check if the bio is longer than 22 chars. If yes, add in a new line for the bio. If no, add in the bio
 	if (bio.length < 21) {
 		ctx.fillText(`${client.arrow} Bio:`, 250, 70);
-        ctx.fillText(` ${bio}`, 340, 70);
+		ctx.fillText(` ${bio}`, 340, 70);
 
 		ctx.fillText(`${client.arrow} Messages Today: ${doc.msgs}`, 250, 105);
 
 		ctx.fillText(
 			`${client.arrow} Check-in for Today: ${doc.dailyCount}`,
 			250,
-			145
+			145,
 		);
 
 		ctx.fillText(`${client.arrow} Total Messages: ${doc.total}`, 250, 185);
@@ -187,7 +190,7 @@ async function CanvasGen(client, person) {
 					: 'n/a'
 			}`,
 			250,
-			265
+			265,
 		);
 	} else {
 		ctx.fillText(client.arrow + ' Bio:', 250, 70);
@@ -200,7 +203,7 @@ async function CanvasGen(client, person) {
 		ctx.fillText(
 			`${client.arrow} Check-in for Today: ${doc.dailyCount}`,
 			250,
-			190
+			190,
 		);
 
 		ctx.fillText(`${client.arrow} Total Messages: ${doc.total}`, 250, 235);
@@ -220,7 +223,7 @@ async function CanvasGen(client, person) {
 					: 'n/a'
 			}`,
 			250,
-			315
+			315,
 		);
 	}
 
@@ -240,7 +243,7 @@ async function CanvasGen(client, person) {
 
 	// Add in the avatar
 	const avatar = await canvas.loadImage(
-		person.user.displayAvatarURL({ format: 'png' })
+		person.user.displayAvatarURL({format: 'png'}),
 	);
 	ctx.drawImage(avatar, 27, 30, 185, 185);
 	ctx.restore();

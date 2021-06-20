@@ -1,5 +1,5 @@
 const Command = require('../../Struct/Command.js');
-const { pos } = require('../../Util/Models');
+const {pos} = require('../../Util/Models');
 
 // Better Lockdown command soon.
 module.exports = class LockDownCommand extends Command {
@@ -27,14 +27,14 @@ module.exports = class LockDownCommand extends Command {
 		let booster = message.guild.roles.cache.get('703874626916188171');
 
 		if (!doc) {
-			await new pos({ pos: true }).save();
+			await new pos({pos: true}).save();
 
 			let msg = await message.send(
 				this.client
 					.embed()
 					.setDescription(
-						'Locking the server.. Please wait until this message gets edited..'
-					)
+						'Locking the server.. Please wait until this message gets edited..',
+					),
 			);
 
 			await channels.cache
@@ -44,15 +44,15 @@ module.exports = class LockDownCommand extends Command {
 				});
 			await channels.cache
 				.get('709043328682950716')
-				.createOverwrite(message.guild.id, { SEND_MESSAGES: false })
+				.createOverwrite(message.guild.id, {SEND_MESSAGES: false})
 				.then(async () => {
 					await channels.cache
 						.get('709043831995105360')
-						.createOverwrite(message.guild.id, { SEND_MESSAGES: false })
+						.createOverwrite(message.guild.id, {SEND_MESSAGES: false})
 						.then(async () => {
 							await channels.cache
 								.get('790254009235013663')
-								.createOverwrite(level3, { SEND_MESSAGES: false })
+								.createOverwrite(level3, {SEND_MESSAGES: false})
 								.then(async () => {
 									await channels.cache
 										.get('709160883607044126')
@@ -111,46 +111,46 @@ module.exports = class LockDownCommand extends Command {
 																										.then(async () => {
 																											await channels.cache
 																												.get(
-																													'709043365727043588'
+																													'709043365727043588',
 																												)
 																												.createOverwrite(
 																													level5,
 																													{
 																														SEND_MESSAGES: false,
-																													}
+																													},
 																												)
 																												.then(async () => {
 																													await channels.cache
 																														.get(
-																															'709043414053814303'
+																															'709043414053814303',
 																														)
 																														.createOverwrite(
 																															level5,
 																															{
 																																SEND_MESSAGES: false,
-																															}
+																															},
 																														)
 																														.then(async () => {
 																															await channels.cache
 																																.get(
-																																	'738831994246529084'
+																																	'738831994246529084',
 																																)
 																																.send(
 																																	this.client
 																																		.embed()
 																																		.setDescription(
-																																			`${message.author} has locked the server.`
-																																		)
+																																			`${message.author} has locked the server.`,
+																																		),
 																																);
 																															return msg.edit(
 																																this.client
 																																	.embed()
 																																	.setDescription(
-																																		'Locked the whole server.'
+																																		'Locked the whole server.',
 																																	)
 																																	.setColor(
-																																		'GREEN'
-																																	)
+																																		'GREEN',
+																																	),
 																															);
 																														});
 																												});
@@ -172,8 +172,8 @@ module.exports = class LockDownCommand extends Command {
 					this.client
 						.embed()
 						.setDescription(
-							'Unlocking the server.. Please wait until this message gets edited...'
-						)
+							'Unlocking the server.. Please wait until this message gets edited...',
+						),
 				);
 				await doc.delete();
 				await channels.cache
@@ -183,15 +183,15 @@ module.exports = class LockDownCommand extends Command {
 					});
 				await channels.cache
 					.get('709043328682950716')
-					.createOverwrite(message.guild.id, { SEND_MESSAGES: true })
+					.createOverwrite(message.guild.id, {SEND_MESSAGES: true})
 					.then(async () => {
 						await channels.cache
 							.get('709043831995105360')
-							.createOverwrite(message.guild.id, { SEND_MESSAGES: true })
+							.createOverwrite(message.guild.id, {SEND_MESSAGES: true})
 							.then(async () => {
 								await channels.cache
 									.get('790254009235013663')
-									.createOverwrite(level3, { SEND_MESSAGES: true })
+									.createOverwrite(level3, {SEND_MESSAGES: true})
 									.then(async () => {
 										await channels.cache
 											.get('709160883607044126')
@@ -252,49 +252,49 @@ module.exports = class LockDownCommand extends Command {
 																											.then(async () => {
 																												await channels.cache
 																													.get(
-																														'709043365727043588'
+																														'709043365727043588',
 																													)
 																													.createOverwrite(
 																														level5,
 																														{
 																															SEND_MESSAGES: true,
-																														}
+																														},
 																													)
 																													.then(async () => {
 																														await channels.cache
 																															.get(
-																																'709043414053814303'
+																																'709043414053814303',
 																															)
 																															.createOverwrite(
 																																level5,
 																																{
 																																	SEND_MESSAGES: true,
-																																}
+																																},
 																															)
 																															.then(
 																																async () => {
 																																	await channels.cache
 																																		.get(
-																																			'738831994246529084'
+																																			'738831994246529084',
 																																		)
 																																		.send(
 																																			this.client
 																																				.embed()
 																																				.setDescription(
-																																					`${message.author} has unlocked the server.`
-																																				)
+																																					`${message.author} has unlocked the server.`,
+																																				),
 																																		);
 																																	return msg.edit(
 																																		this.client
 																																			.embed()
 																																			.setDescription(
-																																				'Unlocked the whole server.'
+																																				'Unlocked the whole server.',
 																																			)
 																																			.setColor(
-																																				'GREEN'
-																																			)
+																																				'GREEN',
+																																			),
 																																	);
-																																}
+																																},
 																															);
 																													});
 																											});

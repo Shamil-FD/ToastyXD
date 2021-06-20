@@ -1,5 +1,5 @@
 const Command = require('../../Struct/Command.js');
-const { verif } = require('../../Util/Models');
+const {verif} = require('../../Util/Models');
 
 module.exports = class VerifyCommand extends Command {
 	constructor() {
@@ -12,15 +12,15 @@ module.exports = class VerifyCommand extends Command {
 				info: "Verify with your code to get access to the server. If you don't have a code, type t)newcode to get a new one.",
 				usage: ['t)verify Your-Code'],
 			},
-			args: [{ id: 'code' }],
+			args: [{id: 'code'}],
 		});
 	}
 
-	async exec(message, { code }) {
+	async exec(message, {code}) {
 		// Check For The Not Verified Role
 		if (!message.member.roles.cache.get(this.client.config.NotVerifiedRole))
 			return message.send(
-				this.client.embed().setDescription("You're already verified.")
+				this.client.embed().setDescription("You're already verified."),
 			);
 
 		if (!code)
@@ -28,11 +28,11 @@ module.exports = class VerifyCommand extends Command {
 				this.client
 					.embed()
 					.setDescription(
-						"You can't verify by not giving me the code! If you don't have a code, create one using `t)newcode`"
-					)
+						"You can't verify by not giving me the code! If you don't have a code, create one using `t)newcode`",
+					),
 			);
 
-		let doc = await verif.findOne({ user: message.author.id });
+		let doc = await verif.findOne({user: message.author.id});
 
 		if (!doc) {
 			return message.send({
@@ -58,8 +58,8 @@ module.exports = class VerifyCommand extends Command {
 						this.client
 							.embed()
 							.setDescription(
-								`You were kicked from ${message.guild.name}\nReason: You failed to verify 5+ times.`
-							)
+								`You were kicked from ${message.guild.name}\nReason: You failed to verify 5+ times.`,
+							),
 					)
 					.catch(() => {});
 
@@ -72,8 +72,8 @@ module.exports = class VerifyCommand extends Command {
 							.embed()
 							.setTitle('Kicked')
 							.setDescription(
-								`Kicked ${message.author.tag} | ${message.author.id} for failing 5+ times while verifying.`
-							)
+								`Kicked ${message.author.tag} | ${message.author.id} for failing 5+ times while verifying.`,
+							),
 					);
 			}
 
@@ -92,9 +92,9 @@ module.exports = class VerifyCommand extends Command {
 					.embed()
 					.setTitle('Verification Complete')
 					.setDescription(
-						`${message.author.tag} | ${message.author.id} has completed the captcha.`
+						`${message.author.tag} | ${message.author.id} has completed the captcha.`,
 					)
-					.addField('Captcha Info', `Code: ${doc.code} | Tries: ${doc.count}`)
+					.addField('Captcha Info', `Code: ${doc.code} | Tries: ${doc.count}`),
 			);
 
 		await message.member.roles.remove(this.client.config.NotVerifiedRole);

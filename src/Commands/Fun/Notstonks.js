@@ -1,6 +1,6 @@
 const Command = require('../../Struct/Command');
 const fetch = require('node-fetch');
-const { MessageAttachment } = require('discord.js');
+const {MessageAttachment} = require('discord.js');
 
 module.exports = class NotStonksCommand extends Command {
 	constructor() {
@@ -28,7 +28,7 @@ module.exports = class NotStonksCommand extends Command {
 		});
 	}
 
-	async exec(message, { user }) {
+	async exec(message, {user}) {
 		let buffer = await meme(user.displayAvatarURL());
 		return message.send({
 			files: [new MessageAttachment(buffer, 'notstonks.png')],
@@ -45,7 +45,7 @@ module.exports = class NotStonksCommand extends Command {
 };
 async function meme(user) {
 	const data = await fetch(
-		`https://vacefron.nl/api/stonks?user=${user}&notstonks=true`
+		`https://vacefron.nl/api/stonks?user=${user}&notstonks=true`,
 	);
 	return data.buffer();
 }

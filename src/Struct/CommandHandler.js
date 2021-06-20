@@ -3,7 +3,7 @@ const {
 	CommandHandler,
 	CommandHandlerOptions,
 } = require('discord-akairo');
-const { Collection } = require('discord.js');
+const {Collection} = require('discord.js');
 
 module.exports = class ToastyHandler extends CommandHandler {
 	constructor(client, CommandHandlerOptions) {
@@ -16,7 +16,7 @@ module.exports = class ToastyHandler extends CommandHandler {
 		this.client.once('ready', async () => {
 			// Register all the slash commands to the gu8ld.
 			let guild = await this.client.guilds.cache.get('655109296400367618');
-			guild.commands?.set(this.slashCommands);
+			if (guild) guild.commands?.set(this.slashCommands);
 
 			// Slash Command Handler.
 			this.client.on('interaction', async (interaction) => {

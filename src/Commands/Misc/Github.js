@@ -1,5 +1,5 @@
 const Command = require('../../Struct/Command');
-const { MessageEmbed } = require('discord.js');
+const {MessageEmbed} = require('discord.js');
 const fetch = require('node-fetch');
 
 class GithubCommand extends Command {
@@ -24,7 +24,7 @@ class GithubCommand extends Command {
 		});
 	}
 
-	async exec(message, { author, repo }) {
+	async exec(message, {author, repo}) {
 		if (!author)
 			return message.send({
 				embeds: {
@@ -42,13 +42,13 @@ class GithubCommand extends Command {
 
 		const data = await fetch(
 			`https://api.github.com/repos/${author[0]}/${encodeURIComponent(
-				repo[1]
+				repo[1],
 			)}`,
-			{ headers: { 'User-Agent': author } }
+			{headers: {'User-Agent': author}},
 		);
 		if (data.status !== 200)
 			return message.send({
-				embeds: { description: "Couldn't find that repository.", color: 'RED' },
+				embeds: {description: "Couldn't find that repository.", color: 'RED'},
 			});
 
 		const json = await data.json();

@@ -1,5 +1,5 @@
 const Command = require('../../Struct/Command.js');
-const { MessageEmbed } = require('discord.js');
+const {MessageEmbed} = require('discord.js');
 const ms = require('pretty-ms');
 
 module.exports = class PingCommand extends Command {
@@ -19,12 +19,12 @@ module.exports = class PingCommand extends Command {
 						`Message roundtrip: ${
 							m.createdTimestamp - message.createdTimestamp
 						}ms\nAPI: ${Math.round(this.client.ws.ping)}ms\nUptime: ${ms(
-							this.client.uptime
-						)}`
+							this.client.uptime,
+						)}`,
 					)
 					.setFooter('Vrooom', this.client.user.displayAvatarURL())
-					.setColor('RANDOM')
-			)
+					.setColor('RANDOM'),
+			),
 		);
 	}
 	async execSlash(message) {
@@ -32,11 +32,11 @@ module.exports = class PingCommand extends Command {
 			new MessageEmbed()
 				.setDescription(
 					`API: ${Math.round(this.client.ws.ping)}ms\nUptime: ${ms(
-						this.client.uptime
-					)}`
+						this.client.uptime,
+					)}`,
 				)
 				.setFooter('Vrooom', this.client.user.displayAvatarURL())
-				.setColor('RANDOM')
+				.setColor('RANDOM'),
 		);
 	}
 };

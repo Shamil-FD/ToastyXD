@@ -7,14 +7,14 @@ module.exports = class BlacklistCommand extends Command {
 			channel: 'guild',
 			staffOnly: true,
 			args: [
-				{ id: 'wild', match: 'flag', flag: 'wild' },
-				{ id: 'action', type: ['delete', 'warn', 'kick', 'ban'] },
-				{ id: 'word', match: 'rest' },
+				{id: 'wild', match: 'flag', flag: 'wild'},
+				{id: 'action', type: ['delete', 'warn', 'kick', 'ban']},
+				{id: 'word', match: 'rest'},
 			],
 		});
 	}
-	async exec(message, { wild, action, word }) {
-		let { models, arrow } = this.client;
+	async exec(message, {wild, action, word}) {
+		let {models, arrow} = this.client;
 		if (!word || !action)
 			return message.send({
 				embeds: {
@@ -23,7 +23,7 @@ module.exports = class BlacklistCommand extends Command {
 				},
 			});
 
-		let doc = await models.blacklist.findOne({ word: word.toLowerCase() });
+		let doc = await models.blacklist.findOne({word: word.toLowerCase()});
 		if (doc)
 			return message.send({
 				embeds: {
@@ -37,7 +37,7 @@ module.exports = class BlacklistCommand extends Command {
 			wild: wild ? true : false,
 		}).save();
 		message.send({
-			embeds: { color: 'GREEN', description: `${arrow} Successfully saved.` },
+			embeds: {color: 'GREEN', description: `${arrow} Successfully saved.`},
 		});
 		message.delete();
 	}

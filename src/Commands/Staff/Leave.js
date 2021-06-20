@@ -1,5 +1,5 @@
 const customParseFormat = require('dayjs/plugin/customParseFormat');
-const { leave, staff } = require('../../Util/Models');
+const {leave, staff} = require('../../Util/Models');
 const Command = require('../../Struct/Command.js');
 const dayjs = require('dayjs');
 dayjs.extend(customParseFormat);
@@ -17,10 +17,10 @@ module.exports = class LeaveCommand extends Command {
 				usage: ['t)leave stop', 't)leave Start-Date End-Date Reason'],
 			},
 			args: [
-				{ id: 'stop', match: 'flag', flag: 'stop' },
-				{ id: 'start' },
-				{ id: 'end' },
-				{ id: 'reason', match: 'rest' },
+				{id: 'stop', match: 'flag', flag: 'stop'},
+				{id: 'start'},
+				{id: 'end'},
+				{id: 'reason', match: 'rest'},
 			],
 			slashCommand: {
 				options: [
@@ -59,7 +59,7 @@ module.exports = class LeaveCommand extends Command {
 		});
 	}
 
-	async exec(message, { stop, start, end, reason }) {
+	async exec(message, {stop, start, end, reason}) {
 		let client = this.client;
 
 		if (!stop) {
@@ -69,8 +69,8 @@ module.exports = class LeaveCommand extends Command {
 					client
 						.embed()
 						.setDescription(
-							':x: Invalid format. `DD/MM/YY`\n```t)leave 11/11/20 11/11/21 Goodbye Shamil```\n`t)leave stop`'
-						)
+							':x: Invalid format. `DD/MM/YY`\n```t)leave 11/11/20 11/11/21 Goodbye Shamil```\n`t)leave stop`',
+						),
 				);
 
 			// Time validation
@@ -99,8 +99,8 @@ module.exports = class LeaveCommand extends Command {
 					},
 				});
 
-			let doc = await leave.findOne({ user: message.author.id });
-			let onLeave = await staff.findOne({ user: message.author.id });
+			let doc = await leave.findOne({user: message.author.id});
+			let onLeave = await staff.findOne({user: message.author.id});
 			if (onLeave) {
 				onLeave.onLeave = true;
 				await onLeave.save();
@@ -118,16 +118,16 @@ module.exports = class LeaveCommand extends Command {
 						.embed()
 						.setAuthor(
 							message.author.username,
-							message.author.displayAvatarURL()
+							message.author.displayAvatarURL(),
 						)
 						.setDescription(
 							`${message.author} is now on leave.\nStart Date: ${dayjs(
-								start
+								start,
 							).format('DD MMMM YYYY')} - End Date: ${dayjs(end).format(
-								'DD MMMM YYYY'
-							)} - Reason: ${reason}`
+								'DD MMMM YYYY',
+							)} - Reason: ${reason}`,
 						)
-						.setFooter('Bye, see you soon ig')
+						.setFooter('Bye, see you soon ig'),
 				);
 			} else {
 				// Update Document
@@ -142,19 +142,19 @@ module.exports = class LeaveCommand extends Command {
 						.embed()
 						.setAuthor(
 							message.author.username,
-							message.author.displayAvatarURL()
+							message.author.displayAvatarURL(),
 						)
 						.setDescription(
 							`${message.author} is now on leave.\nStart Date: ${dayjs(
-								start
+								start,
 							).format('DD MMMM YYYY')} - End Date: ${dayjs(end).format(
-								'DD MMMM YYYY'
-							)} - Reason: ${reason}`
-						)
+								'DD MMMM YYYY',
+							)} - Reason: ${reason}`,
+						),
 				);
 			}
 		} else {
-			let doc = await leave.findOne({ user: message.author.id });
+			let doc = await leave.findOne({user: message.author.id});
 			if (!doc)
 				return message.send({
 					embeds: {
@@ -177,14 +177,14 @@ module.exports = class LeaveCommand extends Command {
 	async execSlash(message) {
 		message.defer();
 		if (message.options[0]?.name === 'end') {
-			let doc = await leave.findOne({ user: message.member?.id });
+			let doc = await leave.findOne({user: message.member?.id});
 			if (!doc)
 				return message.editReply(
-					this.client.embed().setDescription("You weren't on leave, dummy.")
+					this.client.embed().setDescription("You weren't on leave, dummy."),
 				);
 			await doc.delete();
 			return message.editReply(
-				this.client.embed().setTitle('Hey!').setDescription('Welcome back! :D')
+				this.client.embed().setTitle('Hey!').setDescription('Welcome back! :D'),
 			);
 		} else {
 			let start = message.options[0]?.options[0]?.value;
@@ -206,11 +206,11 @@ module.exports = class LeaveCommand extends Command {
 			}
 			if (!start.isValid() || !end.isValid())
 				return message.editReply(
-					"One of the provided date was invalid. This could be because you didn't use the proper date format, which is `DD/MM/YY` or `DD/MM/YYYY`. You have to add 0 infront if the day/month is a single digit."
+					"One of the provided date was invalid. This could be because you didn't use the proper date format, which is `DD/MM/YY` or `DD/MM/YYYY`. You have to add 0 infront if the day/month is a single digit.",
 				);
 
-			let doc = await leave.findOne({ user: message.member?.id });
-			let onLeave = await staff.findOne({ user: message.member?.id });
+			let doc = await leave.findOne({user: message.member?.id});
+			let onLeave = await staff.findOne({user: message.member?.id});
 			if (onLeave) {
 				onLeave.onLeave = true;
 				await onLeave.save();
@@ -235,12 +235,12 @@ module.exports = class LeaveCommand extends Command {
 					.embed()
 					.setAuthor(
 						message.member?.user?.username,
-						message.member?.user?.displayAvatarURL({ dynamic: true })
+						message.member?.user?.displayAvatarURL({dynamic: true}),
 					)
 					.addField('Reasoning:', reason)
 					.addField('Starting On:', dayjs(start).format('DD MMMM YYYY'), true)
 					.addField('Ending By:', dayjs(end).format('DD MMMM YYYY'))
-					.setDescription(`Byeee ${message.member}!`)
+					.setDescription(`Byeee ${message.member}!`),
 			);
 		}
 	}

@@ -1,5 +1,5 @@
 const Command = require('../../Struct/Command.js');
-const { Util } = require('discord.js');
+const {Util} = require('discord.js');
 
 module.exports = class SetColorCommand extends Command {
 	constructor() {
@@ -19,8 +19,8 @@ module.exports = class SetColorCommand extends Command {
 			staffOnly: true,
 			useSlashCommand: true,
 			args: [
-				{ id: 'border', match: 'option', flag: 'borders' },
-				{ id: 'text', match: 'option', flag: 'text' },
+				{id: 'border', match: 'option', flag: 'borders'},
+				{id: 'text', match: 'option', flag: 'text'},
 				{
 					id: 'img',
 					match: 'option',
@@ -28,7 +28,7 @@ module.exports = class SetColorCommand extends Command {
 					default: (msg) =>
 						msg.attachments.first() ? msg.attachments.first().url : null,
 				},
-				{ id: 'background' },
+				{id: 'background'},
 			],
 			slashCommand: {
 				description: 'Change the color of your staff info card',
@@ -63,7 +63,7 @@ module.exports = class SetColorCommand extends Command {
 		});
 	}
 
-	async exec(message, { img, text, border, background }) {
+	async exec(message, {img, text, border, background}) {
 		let doc = await this.client.models.staff.findOne({
 			user: message.author.id,
 		});
@@ -123,7 +123,7 @@ module.exports = class SetColorCommand extends Command {
 				await doc.save();
 			}
 			return message.send({
-				embeds: { description: `Set ${text} as your text color.`, color: text },
+				embeds: {description: `Set ${text} as your text color.`, color: text},
 			});
 		} else if (img) {
 			if (!doc.infoCard) {
@@ -143,7 +143,7 @@ module.exports = class SetColorCommand extends Command {
 				embeds: {
 					description: `Set [this](${img}) as your background.`,
 					color: 'GREEN',
-					image: { url: img },
+					image: {url: img},
 				},
 			});
 		} else {
@@ -158,7 +158,7 @@ module.exports = class SetColorCommand extends Command {
 	}
 	async execSlash(message) {
 		if (!message.member.roles.cache.has(this.client.config.StaffRole))
-			return message.reply("You can't use this command.", { ephemeral: true });
+			return message.reply("You can't use this command.", {ephemeral: true});
 		message.defer();
 		let doc = await this.client.models.staff.findOne({
 			user: message.member.id,

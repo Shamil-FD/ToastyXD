@@ -1,5 +1,5 @@
 const Command = require('../../Struct/Command.js');
-const { chnlmute } = require('../../Util/Models.js');
+const {chnlmute} = require('../../Util/Models.js');
 const pretty = require('pretty-ms');
 const ms = require('ms');
 
@@ -16,9 +16,9 @@ module.exports = class ChannelMuteCommand extends Command {
 				usage: ['t)channelmute User Time Reason'],
 			},
 			args: [
-				{ id: 'user', type: 'memberMention' },
-				{ id: 'time' },
-				{ id: 'reason', match: 'rest' },
+				{id: 'user', type: 'memberMention'},
+				{id: 'time'},
+				{id: 'reason', match: 'rest'},
 			],
 			slashCommand: {
 				options: [
@@ -45,7 +45,7 @@ module.exports = class ChannelMuteCommand extends Command {
 		});
 	}
 
-	async exec(message, { user, time, reason }) {
+	async exec(message, {user, time, reason}) {
 		let client = this.client;
 
 		if (!user)
@@ -53,8 +53,8 @@ module.exports = class ChannelMuteCommand extends Command {
 				client
 					.embed()
 					.setDescription(
-						'Proper usage: `t)channelmute @User [5m | 5h | 5d] [reason]`'
-					)
+						'Proper usage: `t)channelmute @User [5m | 5h | 5d] [reason]`',
+					),
 			);
 
 		if (!time)
@@ -62,12 +62,12 @@ module.exports = class ChannelMuteCommand extends Command {
 				client
 					.embed()
 					.setDescription(
-						'Proper usage: `t)channelmute @User [5m | 5h | 5d] [reason]`'
-					)
+						'Proper usage: `t)channelmute @User [5m | 5h | 5d] [reason]`',
+					),
 			);
 		if (!reason)
 			return message.send(
-				client.embed().setDescription('No reason = No mute dum dum')
+				client.embed().setDescription('No reason = No mute dum dum'),
 			);
 
 		let doc = await chnlmute.findOne({
@@ -76,7 +76,7 @@ module.exports = class ChannelMuteCommand extends Command {
 		});
 		if (doc)
 			return message.send(
-				client.embed().setDescription('They are already muted')
+				client.embed().setDescription('They are already muted'),
 			);
 
 		time = ms(time);
@@ -85,8 +85,8 @@ module.exports = class ChannelMuteCommand extends Command {
 				client
 					.embed()
 					.setDescription(
-						'Proper usage: `t)channelmute @User [5m | 5h | 5d] [reason]`'
-					)
+						'Proper usage: `t)channelmute @User [5m | 5h | 5d] [reason]`',
+					),
 			);
 
 		await new chnlmute({
@@ -107,13 +107,13 @@ module.exports = class ChannelMuteCommand extends Command {
 				.embed()
 				.setDescription(
 					`${this.client.arrow} Muted ${user} in this channel for ${pretty(
-						time
-					)}\nReason: ${reason}`
+						time,
+					)}\nReason: ${reason}`,
 				)
 				.setAuthor(
 					message.author.username,
-					message.author.displayAvatarURL({ dynamic: true })
-				)
+					message.author.displayAvatarURL({dynamic: true}),
+				),
 		);
 
 		message.guild.channels.cache.get(this.client.config.StaffReportChnl).send(
@@ -122,21 +122,21 @@ module.exports = class ChannelMuteCommand extends Command {
 				.setTitle('Muted')
 				.setAuthor(
 					`${this.client.arrow} Moderator: ${message.author.username}`,
-					message.author.displayAvatarURL({ dynamic: true })
+					message.author.displayAvatarURL({dynamic: true}),
 				)
 				.addField(
 					this.client.arrow + ' **Victim**:',
 					`${user} || ${user.id}`,
-					true
+					true,
 				)
 				.addField(this.client.arrow + ' **Reason**:', reason, true)
 				.addField(this.client.arrow + ' **Duration**:', pretty(time), true)
-				.addField(this.client.arrow + '**Channel**:', message.channel, true)
+				.addField(this.client.arrow + '**Channel**:', message.channel, true),
 		);
 	}
 	async execSlash(message) {
 		if (!message.member?.roles.cache.has(this.client.config.StaffRole))
-			return message.reply("You can't use this command.", { ephemeral: true });
+			return message.reply("You can't use this command.", {ephemeral: true});
 		let time = ms(message.options[1]?.value);
 		let reason = message.options[2]?.value;
 		let member = message.options[0]?.member;
@@ -170,9 +170,9 @@ module.exports = class ChannelMuteCommand extends Command {
 				.embed()
 				.setDescription(
 					`Muted ${member} in this channel for \`${pretty(
-						time
-					)}\`, reasoning \`${reason}\``
-				)
+						time,
+					)}\`, reasoning \`${reason}\``,
+				),
 		);
 		return message.guild.channels.cache
 			.get(this.client.config.StaffReportChnl)
@@ -182,16 +182,16 @@ module.exports = class ChannelMuteCommand extends Command {
 					.setTitle('Muted')
 					.setAuthor(
 						`${this.client.arrow} Moderator: ${message.member?.user?.username}`,
-						message.member?.user?.displayAvatarURL({ dynamic: true })
+						message.member?.user?.displayAvatarURL({dynamic: true}),
 					)
 					.addField(
 						this.client.arrow + ' **Victim**:',
 						`${member} || ${member?.id}`,
-						true
+						true,
 					)
 					.addField(this.client.arrow + ' **Reason**:', reason, true)
 					.addField(this.client.arrow + ' **Duration**:', pretty(time), true)
-					.addField(this.client.arrow + '**Channel**:', message.channel, true)
+					.addField(this.client.arrow + '**Channel**:', message.channel, true),
 			);
 	}
 };

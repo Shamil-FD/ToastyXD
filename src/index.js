@@ -3,9 +3,8 @@ const {
 	InhibitorHandler,
 	ListenerHandler,
 } = require('discord-akairo');
-const { Intents, Collection } = require('discord.js');
-const { embed, captcha, split, rannum } = require(__dirname +
-	'/Util/Functions');
+const {Intents, Collection} = require('discord.js');
+const {embed, captcha, split, rannum} = require(__dirname + '/Util/Functions');
 const Command = require(__dirname + '/Struct/Command');
 const CommandHandler = require(__dirname + '/Struct/CommandHandler');
 const models = require(__dirname + '/Util/Models');
@@ -34,7 +33,7 @@ class Toasty extends AkairoClient {
 					parse: ['everyone', 'users', 'roles'],
 					repliedUser: false,
 				},
-			}
+			},
 		);
 		this.commandHandler = new CommandHandler(this, {
 			allowMention: true,

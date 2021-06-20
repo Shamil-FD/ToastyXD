@@ -1,4 +1,4 @@
-const { Listener } = require('discord-akairo');
+const {Listener} = require('discord-akairo');
 
 module.exports = class ErrorListener extends Listener {
 	constructor() {
@@ -17,9 +17,9 @@ module.exports = class ErrorListener extends Listener {
 				.setDescription(
 					`Error: \`\`\`${e.stack}\`\`\`\nCommand: ${
 						command.id ? command.id : "I don't know"
-					}`
+					}`,
 				)
-				.setColor('RED')
+				.setColor('RED'),
 		);
 	}
 };

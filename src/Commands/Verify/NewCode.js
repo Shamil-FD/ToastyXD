@@ -1,6 +1,6 @@
 const Command = require('../../Struct/Command.js');
-const { verif } = require('../../Util/Models');
-const { MessageAttachment } = require('discord.js');
+const {verif} = require('../../Util/Models');
+const {MessageAttachment} = require('discord.js');
 
 module.exports = class NewCodeCommand extends Command {
 	constructor() {
@@ -20,10 +20,10 @@ module.exports = class NewCodeCommand extends Command {
 		// Check For The Not Verified Role
 		if (!message.member.roles.cache.get(this.client.config.NotVerifiedRole))
 			return message.send(
-				this.client.embed().setDescription("You're already verified.")
+				this.client.embed().setDescription("You're already verified."),
 			);
 
-		let doc = await verif.findOne({ user: message.author.id });
+		let doc = await verif.findOne({user: message.author.id});
 		let cap = await this.client.captcha();
 		if (!doc) {
 			await new verif({
@@ -36,10 +36,10 @@ module.exports = class NewCodeCommand extends Command {
 				this.client
 					.embed()
 					.setDescription(
-						'**Please type in the code shown in the image above.\nExample: `t)verify PPSMOL`\n\nIf the code is not readable, then please make a new one.**'
+						'**Please type in the code shown in the image above.\nExample: `t)verify PPSMOL`\n\nIf the code is not readable, then please make a new one.**',
 					)
 					.setColor('#d772e0')
-					.attachFiles(new MessageAttachment(cap.png, 'verify.png'))
+					.attachFiles(new MessageAttachment(cap.png, 'verify.png')),
 			);
 		} else {
 			doc.code = cap.word;
@@ -49,10 +49,10 @@ module.exports = class NewCodeCommand extends Command {
 				this.client
 					.embed()
 					.setDescription(
-						'**Please type in the code shown in the image above.\nExample: `t)verify PpSmoL`. The code is case sensitive!\n\nIf the code is not readable, then please make a new one with `t)newcode`.**'
+						'**Please type in the code shown in the image above.\nExample: `t)verify PpSmoL`. The code is case sensitive!\n\nIf the code is not readable, then please make a new one with `t)newcode`.**',
 					)
 					.setColor('#d772e0')
-					.attachFiles(new MessageAttachment(cap.png, 'verify.png'))
+					.attachFiles(new MessageAttachment(cap.png, 'verify.png')),
 			);
 		}
 	}

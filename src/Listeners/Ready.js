@@ -4,9 +4,9 @@ const moment = require('moment');
 const cron = require('node-cron');
 const fetch = require('node-fetch');
 const mongoose = require('mongoose');
-const { exec } = require('child_process');
-const { Listener } = require('discord-akairo');
-const { black, greenBright } = require('chalk');
+const {exec} = require('child_process');
+const {Listener} = require('discord-akairo');
+const {black, greenBright} = require('chalk');
 
 module.exports = class ReadyListener extends Listener {
 	constructor() {
@@ -17,7 +17,7 @@ module.exports = class ReadyListener extends Listener {
 	}
 
 	async exec() {
-		let { models, rannum } = this.client;
+		let {models, rannum} = this.client;
 
 		console.log(black.bgGreen('[Bot]') + greenBright(" I'm online!"));
 		let guild = await this.client.guilds.cache.get('655109296400367618');
@@ -31,8 +31,8 @@ module.exports = class ReadyListener extends Listener {
 			})
 			.then(
 				console.log(
-					black.bgGreen('[MongoDB]') + greenBright(' DataBase Connected.')
-				)
+					black.bgGreen('[MongoDB]') + greenBright(' DataBase Connected.'),
+				),
 			);
 
 		// Auto Update System
@@ -44,9 +44,21 @@ module.exports = class ReadyListener extends Listener {
 					} else {
 						exec('npm i', console.log);
 						console.log(
-							black.bgGreen('[Github]') + greenBright(' Bot Updated.')
+							black.bgGreen('[Github]') + greenBright(' Bot Updated.'),
 						);
 					}
+				}
+			});
+		});
+
+		// Check For Useless Documents
+		cron.schedule('0 */1 * * *', async () => {
+			guild = await this.client.guilds.cache.get('655109296400367618');
+			let docs = await models.find();
+			docs.forEach(async (doc) => {
+				let member = await guild.members.fetch(doc.user);
+				if (!member || !member.roles.cache.has(this.client.config.StaffRole)) {
+					await doc.delete();
 				}
 			});
 		});
@@ -76,7 +88,7 @@ module.exports = class ReadyListener extends Listener {
 						if (bannedUser) {
 							await sal.members.unban(
 								unbandoc.user,
-								unbandoc.reason + ` - ${unbandoc.mod}`
+								unbandoc.reason + ` - ${unbandoc.mod}`,
 							);
 							await sal.channels.cache
 								.get(this.client.config.StaffReportChnl)
@@ -84,16 +96,16 @@ module.exports = class ReadyListener extends Listener {
 									this.client
 										.embed()
 										.setDescription(
-											`${this.client.arrow} User Appealed!\n${this.client.arrow} Unban Reason: ${unbandoc.reason}\n${this.client.arrow} Moderator: ${unbandoc.mod}`
+											`${this.client.arrow} User Appealed!\n${this.client.arrow} Unban Reason: ${unbandoc.reason}\n${this.client.arrow} Moderator: ${unbandoc.mod}`,
 										)
 										.setAuthor(
 											`Unbanned ${bannedUser.user.tag}`,
-											bannedUser.user.displayAvatarURL()
-										)
+											bannedUser.user.displayAvatarURL(),
+										),
 								);
-							await models.unban.findOneAndDelete({ user: unbandoc.user });
+							await models.unban.findOneAndDelete({user: unbandoc.user});
 						} else {
-							await models.unban.findOneAndDelete({ user: unbandoc.user });
+							await models.unban.findOneAndDelete({user: unbandoc.user});
 						}
 					});
 				}
@@ -109,18 +121,18 @@ module.exports = class ReadyListener extends Listener {
 									this.client
 										.embed()
 										.setDescription(
-											`Welcome back from your leave. Hope you had a great time during the leave! <3`
+											`Welcome back from your leave. Hope you had a great time during the leave! <3`,
 										)
 										.setAuthor('Welcome back!!')
 										.setThumbnail(
-											'https://cf.ltkcdn.net/kids/images/std/198106-425x283-Very-Excited-Toddler.jpg'
+											'https://cf.ltkcdn.net/kids/images/std/198106-425x283-Very-Excited-Toddler.jpg',
 										)
 										.addField('Reason:', l.reason)
 										.addField('Started On:', l.start, true)
-										.addField('Ended On:', l.end, true)
+										.addField('Ended On:', l.end, true),
 								);
-							await models.leave.findOneAndDelete({ user: l.user });
-							let UpdateLeave = await models.staff.findOne({ user: l.user });
+							await models.leave.findOneAndDelete({user: l.user});
+							let UpdateLeave = await models.staff.findOne({user: l.user});
 							if (UpdateLeave) {
 								UpdateLeave.onLeave = false;
 								await UpdateLeave.save();
@@ -160,10 +172,10 @@ module.exports = class ReadyListener extends Listener {
 											.addField(
 												'**Victim**:',
 												`<@${d.user}> || ${d.user}`,
-												true
+												true,
 											)
 											.addField('**Reason**:', d.reason, true)
-											.addField('**Channel**:', `<#${d.chnl}>`)
+											.addField('**Channel**:', `<#${d.chnl}>`),
 									);
 								await models.chnlmute.findOneAndDelete({
 									user: d.user,
@@ -179,11 +191,11 @@ module.exports = class ReadyListener extends Listener {
 			cron.schedule(`0 0 6 * * *`, async () => {
 				let sal = this.client.guilds.cache.get('655109296400367618');
 				let channel = await this.client.channels.cache.get(
-					'733307358070964226'
+					'733307358070964226',
 				);
 				let msg = await channel.messages.fetch('777522764525338634');
 				let clockin = await this.client.channels.cache.get(
-					'768164438627844127'
+					'768164438627844127',
 				);
 				let anmsg = await channel.messages.fetch('804073813163376650');
 				let mcount = [];
@@ -209,7 +221,7 @@ module.exports = class ReadyListener extends Listener {
 				// Check If Anyone Need To Be Striked, If Yes, Strike Them And Notify Them
 				if (no.length) {
 					no.forEach(async (n) => {
-						let StrikeDoc = await models.staff.findOne({ user: n });
+						let StrikeDoc = await models.staff.findOne({user: n});
 						if (!StrikeDoc.strikes) {
 							StrikeDoc.strikes = 1;
 							await StrikeDoc.save();
@@ -217,7 +229,7 @@ module.exports = class ReadyListener extends Listener {
 							StrikeDoc.strikes++;
 							await StrikeDoc.save();
 						}
-						if (StrikeDoc && StrikeDoc.strikes >= 3) {
+						if (StrikeDoc && StrikeDoc.strikes % 3 == 0) {
 							if (sal.members.cache.get(n)) {
 								await sal.channels.cache
 									.get('805154766455701524')
@@ -242,8 +254,8 @@ module.exports = class ReadyListener extends Listener {
 								this.client
 									.embed()
 									.setDescription(
-										"\nYou've been striked for not being active today. Check your strike count in t)staffinfo."
-									)
+										"\nYou've been striked for not being active today. Check your strike count in t)staffinfo.",
+									),
 							);
 					}
 				}
@@ -251,15 +263,15 @@ module.exports = class ReadyListener extends Listener {
 					this.client
 						.embed()
 						.setDescription(
-							msg.embeds[0].description + `\n\n${mcount.join('\n')}`
+							msg.embeds[0].description + `\n\n${mcount.join('\n')}`,
 						)
-						.setFooter(msg.embeds[0].footer ? msg.embeds[0].footer.text : '')
+						.setFooter(msg.embeds[0].footer ? msg.embeds[0].footer.text : ''),
 				);
 				msg.edit(
 					this.client
 						.embed()
 						.setDescription(`Staff who are active today`)
-						.setFooter(`Date: ${moment().format('MMM Do YY')}`)
+						.setFooter(`Date: ${moment().format('MMM Do YY')}`),
 				);
 				let staffRole = await sal.roles.cache.get(this.client.config.StaffRole);
 				let staffMessageCount = await models.staff.find();
@@ -268,15 +280,17 @@ module.exports = class ReadyListener extends Listener {
 					await countDoc.save();
 				});
 
-				anmsg.edit(
-					this.client
-						.embed()
-						.setDescription(
-							`Staff who aren't active today\n${staffRole.members
-								.map((m) => `:x: ${m.user.tag}`)
-								.join('\n')}`
-						)
-				);
+				anmsg.edit({
+					embeds: [
+						this.client
+							.embed()
+							.setDescription(
+								`Staff who aren't active today\n${staffRole.members
+									.map((m) => `:x: ${m.user.tag}`)
+									.join('\n')}`,
+							),
+					],
+				});
 			});
 		}
 	}

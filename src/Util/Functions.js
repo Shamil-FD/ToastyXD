@@ -1,10 +1,10 @@
-const { MessageEmbed, Util } = require('discord.js');
+const {MessageEmbed, Util} = require('discord.js');
 const canvas = require('canvas');
 canvas.registerFont(
 	__dirname + '/Fonts/JetBrains Mono Bold Nerd Font Complete.ttf',
 	{
 		family: 'jetbrains',
-	}
+	},
 );
 canvas.registerFont(__dirname + '/Fonts/Ubuntu-BoldItalic.ttf', {
 	family: 'ubuntuBold',
@@ -92,6 +92,6 @@ module.exports = {
 		// Buffer the Image
 		const png = canva.toBuffer();
 		// Return the Result
-		return { word, png };
+		return {word, png};
 	},
 };

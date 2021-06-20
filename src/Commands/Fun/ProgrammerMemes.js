@@ -19,7 +19,7 @@ module.exports = class MemeCommand extends Command {
 				.setTitle(meme.title)
 				.setAuthor(`u/${meme.author}`)
 				.setDescription(`${meme?.text || "I'm laughing, you?"}`)
-				.setImage(meme.img)
+				.setImage(meme.img),
 		);
 	}
 	async execSlash(message) {
@@ -33,7 +33,7 @@ module.exports = class MemeCommand extends Command {
 					description:
 						meme?.text ??
 						'Lame meme provided by the lame [ImageAPI](https://npmjs.com/package/imageapi.js) package.',
-					image: { url: meme?.img },
+					image: {url: meme?.img},
 				},
 			],
 		});

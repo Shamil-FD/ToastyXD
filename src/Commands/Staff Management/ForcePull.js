@@ -1,5 +1,5 @@
 const Command = require('../../Struct/Command.js');
-const { exec } = require('child_process');
+const {exec} = require('child_process');
 
 module.exports = class ForcePullCommand extends Command {
 	constructor() {
