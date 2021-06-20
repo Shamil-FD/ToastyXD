@@ -19,18 +19,15 @@ module.exports = class VerifyCommand extends Command {
 	async exec(message, {code}) {
 		// Check For The Not Verified Role
 		if (!message.member.roles.cache.get(this.client.config.NotVerifiedRole))
-			return message.send({ embeds: [
-				this.client.embed().setDescription("You're already verified."),
-                ]});
+			return message.send(this.client.embed().setDescription("You're already verified."));
 
 		if (!code)
-			return message.send({ embeds: [
+			return message.send(
 				this.client
 					.embed()
 					.setDescription(
 						"You can't verify by not giving me the code! If you don't have a code, create one using `t)newcode`",
-					),
-                ]});
+					));
 
 		let doc = await verif.findOne({user: message.author.id});
 
