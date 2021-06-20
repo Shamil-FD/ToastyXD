@@ -19,9 +19,7 @@ module.exports = class NewCodeCommand extends Command {
 	async exec(message) {
 		// Check For The Not Verified Role
 		if (!message.member.roles.cache.get(this.client.config.NotVerifiedRole))
-			return message.send({ embeds: [
-				this.client.embed().setDescription("You're already verified."),
-                ]});
+			return message.send(this.client.embed().setDescription("You're already verified."));
 
 		let doc = await verif.findOne({user: message.author.id});
 		let cap = await this.client.captcha();
@@ -32,7 +30,7 @@ module.exports = class NewCodeCommand extends Command {
 				count: 0,
 			}).save();
 
-			return message.send({ embeds: [
+			return message.send(
 				this.client
 					.embed()
 					.setDescription(
@@ -40,12 +38,12 @@ module.exports = class NewCodeCommand extends Command {
 					)
 					.setColor('#d772e0')
 					.attachFiles(new MessageAttachment(cap.png, 'verify.png')),
-                ]});
+                );
 		} else {
 			doc.code = cap.word;
 			await doc.save();
 
-			return message.send({ embeds: [
+			return message.send(
 				this.client
 					.embed()
 					.setDescription(
@@ -53,7 +51,7 @@ module.exports = class NewCodeCommand extends Command {
 					)
 					.setColor('#d772e0')
 					.attachFiles(new MessageAttachment(cap.png, 'verify.png')),
-                ]});
+                );
 		}
 	}
 };
