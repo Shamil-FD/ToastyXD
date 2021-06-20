@@ -37,7 +37,7 @@ module.exports = class NewCodeCommand extends Command {
 						'**Please type in the code shown in the image above.\nExample: `t)verify PPSMOL`\n\nIf the code is not readable, then please make a new one.**',
 					)
 					.setColor('#d772e0')
-					.attachFiles(new MessageAttachment(cap.png, 'verify.png')),
+					.attachFiles(new MessageAttachment(cap.png, 'verify.png'))
                 );
 		} else {
 			doc.code = cap.word;
@@ -50,7 +50,7 @@ module.exports = class NewCodeCommand extends Command {
 						'**Please type in the code shown in the image above.\nExample: `t)verify PpSmoL`. The code is case sensitive!\n\nIf the code is not readable, then please make a new one with `t)newcode`.**',
 					)
 					.setColor('#d772e0')
-					.attachFiles(new MessageAttachment(cap.png, 'verify.png')),
+					.attachFiles(new MessageAttachment(cap.png, 'verify.png'))
                 );
 		}
 	}
