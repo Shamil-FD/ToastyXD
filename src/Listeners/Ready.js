@@ -249,8 +249,7 @@ module.exports = class ReadyListener extends Listener {
 					if (no.length) {
 						await sal.channels.cache
 							.get('709043664667672696')
-							.send({ embeds: [
-								no.map((n) => `<@${n}>`).join(', '),
+							.send(no.map((n) => `<@${n}>`).join(', '), { embeds: [
 								this.client
 									.embed()
 									.setDescription(

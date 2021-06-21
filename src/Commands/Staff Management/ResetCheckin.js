@@ -32,18 +32,18 @@ module.exports = class ResetCheckinCommand extends Command {
 			d.save();
 		});
 
-		await clockin.send(
+		await clockin.send({ embeds: [
 			this.client
 				.embed()
 				.setDescription(msg.embeds[0].description + `\n\n${mcount.join('\n')}`)
-				.setFooter(msg.embeds[0].footer ? msg.embeds[0].footer.text : ''),
-		);
-		msg.edit(
+				.setFooter(msg.embeds[0].footer ? msg.embeds[0].footer.text : '')
+            ]});
+		msg.edit({ embeds: [
 			this.client
 				.embed()
 				.setDescription(`Staff who are active today`)
-				.setFooter(`Date: ${moment().format('MMM Do YY')}`),
-		);
+				.setFooter(`Date: ${moment().format('MMM Do YY')}`)
+            ]});
 		let staffRole = await sal.roles.cache.get(this.client.config.StaffRole);
 		let staffMessageCount = await models.staff.find();
 		await staffMessageCount.forEach(async (countDoc) => {
@@ -51,15 +51,15 @@ module.exports = class ResetCheckinCommand extends Command {
 			await countDoc.save();
 		});
 
-		anmsg.edit(
+		anmsg.edit({ embeds: [
 			this.client
 				.embed()
 				.setDescription(
 					`Staff who aren't active today\n${staffRole.members
 						.map((m) => `:x: ${m.user.tag}`)
 						.join('\n')}`,
-				),
-		);
+				)
+            ]});
 		return message.react(this.client.tick);
 	}
 };
