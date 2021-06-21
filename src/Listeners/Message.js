@@ -95,7 +95,7 @@ module.exports = class MessageListener extends Listener {
         // Add A Field If There's Pings
         if (afksdoc.count > 0) pingbed.addField('Jump to Message(s) That Pinged You', afksdoc.pings.join('\n'));
 
-        await models.afk.findOneAndDelete({ user: message.author.id }).then(message.channel.send(pingbed));
+        await models.afk.findOneAndDelete({ user: message.author.id }).then(message.channel.send({ embeds: [pingbed] }));
       }
 
       // Check If The Author Pinged An AFK Member And Then Inform The Author That They Are AFK
