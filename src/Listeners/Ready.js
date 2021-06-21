@@ -79,7 +79,8 @@ module.exports = class ReadyListener extends Listener {
         if (lev.length) {
           lev.forEach(async (l) => {
             if (day().isAfter(day(l.end))) {
-              await sal.channels.cache.get('757169784747065364').send(`<@${l.user}>,`, {
+              await sal.channels.cache.get('757169784747065364').send({
+                content: `<@${l.user}>,`, 
                 embeds: [
                   this.client
                     .embed()

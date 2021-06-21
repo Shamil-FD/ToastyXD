@@ -67,7 +67,7 @@ module.exports = class GuildMemberAddListener extends Listener {
     if (!doc) {
       await new verif({ user: member.id, code: cap.word, count: 0 }).save();
 
-      return await member.guild.channels.cache.get('801877313855160340').send(`<@${member.id}>`, {
+      return await member.guild.channels.cache.get('801877313855160340').send({
         embeds: [
           this.client
             .embed()
@@ -77,12 +77,13 @@ module.exports = class GuildMemberAddListener extends Listener {
             .setColor('#d772e0'),
         ],
         files: [new MessageAttachment(cap.png, 'verify.png')],
+        content: `<@${member.id}>`
       });
     } else {
       doc.code = cap.word;
       await doc.save();
 
-      return await member.guild.channels.cache.get('801877313855160340').send(`<@${member.id}>`, {
+      return await member.guild.channels.cache.get('801877313855160340').send({
         embeds: [
           this.client
             .embed()
@@ -91,6 +92,7 @@ module.exports = class GuildMemberAddListener extends Listener {
             )
             .setColor('#d772e0'),
         ],
+        content: `<@${member.id}>`,
         files: [new MessageAttachment(cap.png, 'verify.png')],
       });
     }
