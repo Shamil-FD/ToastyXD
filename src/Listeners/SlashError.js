@@ -9,8 +9,8 @@ module.exports = class ErrorListener extends Listener {
   }
 
   exec(e, message, command) {
-    if (message.replied) message.editReply(`There was an error.\n\`\`\`${e}\`\`\``);
-    else message.reply(`There was an error.\n\`\`\`${e}\`\`\``);
+    if (message.replied) message.editReply(`There was an error.\n\`\`\`${e.stack}\`\`\``);
+    else message.reply(`There was an error.\n\`\`\`${e.stack}\`\`\``);
     console.log(e);
   }
 };
