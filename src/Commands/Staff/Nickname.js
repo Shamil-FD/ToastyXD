@@ -118,35 +118,37 @@ module.exports = class NicknameCommand extends Command {
   }
   async execSlash(message) {
     if (!message.member.roles.cache.has(this.client.config.StaffRole))
-      return message.reply("You can't use this command.", { ephemeral: true });
+      return message.reply({ content: "You can't use this command.", ephemeral: true });
     message.defer();
-    if (!message.options[1]?.value && !message.options[2]?.choices[0]?.value)
-      return message.editReply('You have to provide me a valid option.', {
+
+    if (!message.options.get('nickname').length && !message.options.get('premade').choices.length)
+      return message.editReply({
+        content: 'You have to provide me a valid option.',
         ephemeral: true,
       });
 
-    if (message.options[1]?.name !== 'nickname') {
-      if (message.options[1]?.value.toLowerCase() !== 'reset') {
-        let res = await change(message.options[0]?.member, message.options[1]?.value);
+    if (!message.options.get('nickname').length) {
+      if (message.options.get('premade').choices[0].name.toLowerCase() !== 'reset') {
+        let res = await change(message.options.get('user').member, message.options.get('nickname').value);
         if (res === 'bad') {
-          return message.editReply(`I couldn't change ${message.options[0]?.member}'s nickname.`);
+          return message.editReply(`I couldn't change ${message.options.get('user').member}'s nickname.`);
         } else {
-          return message.editReply(`Changed their nickname to ${message.options[1]?.value}`);
+          return message.editReply(`Changed their nickname to ${message.options.get('nickname').value}`);
         }
       } else {
-        let res = await change(message.options[0]?.member, message.options[0]?.member?.user?.username);
+        let res = await change(message.options.get('user').member, message.options.get('user').member.user?.username);
         if (res === 'bad') {
-          return message.editReply(`I couldn't change ${message.options[0]?.member}'s nickname.`);
+          return message.editReply(`I couldn't change ${message.options.get('user').member}'s nickname.`);
         } else {
-          return message.editReply(`Changed their nickname to ${message.options[0]?.member}`);
+          return message.editReply(`Changed their nickname to ${message.options.get('user').member}`);
         }
       }
     } else {
-      let res = await change(message.options[0]?.member, message.options[1]?.value);
+      let res = await change(message.options.get('user').member, message.options.get('premade').choices[0].value);
       if (res === 'bad') {
-        return message.editReply(`I couldn't change ${message.options[0]?.member}'s nickname.`);
+        return message.editReply(`I couldn't change ${message.options.get('user').member}'s nickname.`);
       } else {
-        return message.editReply(`Changed their nickname to ${message.options[1]?.value}`);
+        return message.editReply(`Changed their nickname to ${message.options.get('premade').choices[0].value}`);
       }
     }
 

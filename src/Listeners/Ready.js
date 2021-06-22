@@ -46,9 +46,9 @@ module.exports = class ReadyListener extends Listener {
     });
 
     // Check For Useless Documents
-    cron.schedule('0 */1 * * *', async () => {
+    cron.schedule('*/59 * * * *', async () => {
       guild = await this.client.guilds.cache.get('655109296400367618');
-      let docs = await models.find();
+      let docs = await models.staff.find();
       docs.forEach(async (doc) => {
         let member = await guild.members.fetch(doc.user);
         if (!member || !member.roles.cache.has(this.client.config.StaffRole)) {
@@ -80,7 +80,7 @@ module.exports = class ReadyListener extends Listener {
           lev.forEach(async (l) => {
             if (day().isAfter(day(l.end))) {
               await sal.channels.cache.get('757169784747065364').send({
-                content: `<@${l.user}>,`, 
+                content: `<@${l.user}>,`,
                 embeds: [
                   this.client
                     .embed()
@@ -195,12 +195,13 @@ module.exports = class ReadyListener extends Listener {
             }
           });
           if (no.length) {
-            await sal.channels.cache.get('709043664667672696').send(no.map((n) => `<@${n}>`).join(', '), {
+            await sal.channels.cache.get('709043664667672696').send({
+              content: no.map((n) => `<@${n}>`).join(', '),
               embeds: [
                 this.client
                   .embed()
                   .setDescription(
-                    "\nYou've been striked for not being active today. Check your strike count in t)staffinfo.",
+                    "You've been striked for not being active today. Check your strike count in t)staffinfo.",
                   ),
               ],
             });

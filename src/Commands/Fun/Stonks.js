@@ -35,7 +35,7 @@ module.exports = class StonksCommand extends Command {
     });
   }
   async execSlash(message) {
-    let user = message.options[0]?.member ?? message.member;
+    let user = message.options.get('user').member ?? message.member;
     let buffer = await meme(user.user.displayAvatarURL());
     message.defer();
     return message.editReply({

@@ -136,8 +136,8 @@ module.exports = class DictionaryCommand extends Command {
   async execSlash(message) {
     let word;
     let urban;
-    if (message.options[0].name === 'normal') word = message.options[0]?.options[0]?.value;
-    else if (message.options[0].name === 'urban') urban = message.options[0]?.options[0]?.value;
+    if (message.options.get('normal')) word = message.options.get('normal').options.get('word').value;
+    else if (message.options.get('urban')) urban = message.options.get('urban').options.get('word').value;
 
     let search;
     let fetched;

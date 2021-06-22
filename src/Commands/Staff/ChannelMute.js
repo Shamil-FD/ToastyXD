@@ -1,6 +1,7 @@
 const Command = require('../../Struct/Command.js');
 const { chnlmute } = require('../../Util/Models.js');
 const pretty = require('pretty-ms');
+const moment = require('moment');
 const ms = require('ms');
 
 module.exports = class ChannelMuteCommand extends Command {
@@ -93,18 +94,21 @@ module.exports = class ChannelMuteCommand extends Command {
           .addField(this.client.arrow + ' **Victim**:', `${user} || ${user.id}`, true)
           .addField(this.client.arrow + ' **Reason**:', reason, true)
           .addField(this.client.arrow + ' **Duration**:', pretty(time), true)
-          .addField(this.client.arrow + '**Channel**:', message.channel, true),
+          .addField(this.client.arrow + '**Channel**:', message.channel, true)
+          .addField(this.client.arrow + '**Date**:', moment().format('DD/MM/YY')),
       ],
     });
   }
   async execSlash(message) {
     if (!message.member?.roles.cache.has(this.client.config.StaffRole))
-      return message.reply("You can't use this command.", { ephemeral: true });
-    let time = ms(message.options[1]?.value);
-    let reason = message.options[2]?.value;
-    let member = message.options[0]?.member;
+      return message.reply({ content: "You can't use this command.", ephemeral: true });
+    let time = ms(message.options.get('time').value);
+    let reason = message.options.get('reason').value;
+    let member = message.options.get('user').member;
+
     if (!time)
-      return message.reply('You provided an invalid time.', {
+      return message.reply({
+        content: 'You provided an invalid time.',
         ephemeral: true,
       });
     message.defer();
@@ -147,7 +151,8 @@ module.exports = class ChannelMuteCommand extends Command {
           .addField(this.client.arrow + ' **Victim**:', `${member} || ${member?.id}`, true)
           .addField(this.client.arrow + ' **Reason**:', reason, true)
           .addField(this.client.arrow + ' **Duration**:', pretty(time), true)
-          .addField(this.client.arrow + '**Channel**:', message.channel, true),
+          .addField(this.client.arrow + '**Channel**:', message.channel, true)
+          .addField(this.client.arrow + '**Date**:', moment().format('DD/MM/YY')),
       ],
     });
   }

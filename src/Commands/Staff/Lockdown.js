@@ -115,17 +115,15 @@ module.exports = class LockDownCommand extends Command {
                                                               SEND_MESSAGES: false,
                                                             })
                                                             .then(async () => {
-                                                              await channels.cache
-                                                                .get('738831994246529084')
-                                                                .send({
-                                                                  embeds: [
-                                                                    this.client
-                                                                      .embed()
-                                                                      .setDescription(
-                                                                        `${message.author} has locked the server.`,
-                                                                      ),
-                                                                  ],
-                                                                });
+                                                              await channels.cache.get('738831994246529084').send({
+                                                                embeds: [
+                                                                  this.client
+                                                                    .embed()
+                                                                    .setDescription(
+                                                                      `${message.author} has locked the server.`,
+                                                                    ),
+                                                                ],
+                                                              });
                                                               return msg.edit({
                                                                 embeds: [
                                                                   this.client
@@ -238,17 +236,15 @@ module.exports = class LockDownCommand extends Command {
                                                                 SEND_MESSAGES: true,
                                                               })
                                                               .then(async () => {
-                                                                await channels.cache
-                                                                  .get('738831994246529084')
-                                                                  .send({
-                                                                    embeds: [
-                                                                      this.client
-                                                                        .embed()
-                                                                        .setDescription(
-                                                                          `${message.author} has unlocked the server.`,
-                                                                        ),
-                                                                    ],
-                                                                  });
+                                                                await channels.cache.get('738831994246529084').send({
+                                                                  embeds: [
+                                                                    this.client
+                                                                      .embed()
+                                                                      .setDescription(
+                                                                        `${message.author} has unlocked the server.`,
+                                                                      ),
+                                                                  ],
+                                                                });
                                                                 return msg.edit({
                                                                   embeds: [
                                                                     this.client

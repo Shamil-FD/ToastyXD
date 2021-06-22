@@ -102,9 +102,9 @@ module.exports = class ChannelUnmuteCommand extends Command {
   }
   async execSlash(message) {
     if (!message.member?.roles.cache.has(this.client.config.StaffRole))
-      return message.reply("You can't use this command.", { ephemeral: true });
-    let user = message.options[0]?.member;
-    let reason = message.options[1]?.value;
+      return message.reply({ content: "You can't use this command.", ephemeral: true });
+    let user = message.options.get('user').member;
+    let reason = message.options.get('reason').value;
     message.defer();
 
     let doc = await chnlmute.findOne({

@@ -56,8 +56,7 @@ module.exports = class AFKCommand extends Command {
   }
   async execSlash(message) {
     const doc = await afk.findOne({ user: message.member.id });
-    let reason = message.options[0]?.value || 'be back soon xo';
-    let mute = message.options[1]?.value;
+    let reason = message.options.get('reason').value || 'be back soon xo';
     message.defer();
 
     if (!doc) {

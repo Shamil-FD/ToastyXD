@@ -51,13 +51,13 @@ module.exports = class HelpMeCommand extends Command {
     return message.delete();
   }
   async execSlash(message) {
-    let user = message.options[0]?.member || '';
+    let user = message.options.get('user').member || '';
     let bed = this.client
       .embed()
       .setDescription(
         "Uh oh, someone wants help..\n\nIf you do want help; you need to get to Level 1 on Arcane bot.\n> How do I get to Level 1?\n It's easy, just chat with people.\n> Can I spam?\n No, if you do, you are most likely not to get help.\n> I don't like this..\n Oh you don't? We don't care.",
       )
       .setTitle(await arr[Math.round(Math.random() * arr.length)]);
-    return message.reply(user, { embeds: [bed] });
+    return message.reply({ embeds: [bed], content: user });
   }
 };

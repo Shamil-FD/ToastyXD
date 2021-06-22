@@ -130,7 +130,7 @@ module.exports = class PasteCodeCommand extends Command {
 
   async execSlash(interaction) {
     sourcebin
-      .create([{ content: interaction.options[0]?.value, languageId: 'javascript' }], {
+      .create([{ content: interaction.options.get('code').value, languageId: 'javascript' }], {
         title: interaction.member.user.tag,
         description: 'OwO',
       })

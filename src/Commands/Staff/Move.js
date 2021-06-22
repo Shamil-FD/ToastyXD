@@ -65,21 +65,21 @@ module.exports = class MoveCommand extends Command {
   }
   async execSlash(message) {
     if (!message.member?.roles.cache.has(this.client.config.StaffRole))
-      return message.reply("You can't use this command.", { ephemeral: true });
-    if (message.options[0]?.channel.type === 'category')
+      return message.reply({ content: "You can't use this command.", ephemeral: true });
+    if (message.options.get('channel').channel.type === 'category')
       return message.reply("You can't move a conversation to a category channel.");
 
     message.reply({
       embeds: [
         this.client
           .embed()
-          .setDescription('Please continue the conversation in <#' + message.options[0]?.channel + '>')
+          .setDescription('Please continue the conversation in <#' + message.options.get('channel').channel + '>')
           .setThumbnail('http://picsmine.com/wp-content/uploads/2017/04/Stop-Meme-stop-now.jpg')
           .setTitle('Off-Topic Conversation!')
           .setColor('RED'),
       ],
     });
-    return message.options[0]?.channel.send({
+    return message.options.get('channel').channel.send({
       embeds: [
         this.client
           .embed()

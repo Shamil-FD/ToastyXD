@@ -28,7 +28,7 @@ module.exports = class ExecCommand extends Command {
     message.react(this.client.tick);
     message.author = user.user;
     message.content = content;
-    message.mentions.members.delete(message.mentions.members.first().id);
+    message.mentions.members.length ? message.mentions.members.delete(message.mentions.members.first().id) : null;
     this.client.emit('message', message);
   }
 };

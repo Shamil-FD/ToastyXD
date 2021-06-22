@@ -40,22 +40,22 @@ module.exports = class StaffinfoCommand extends Command {
       return message.send({
         embeds: { description: `Couldn't find \`${person}\` 😔`, color: 'RED' },
       });
-   if (!person.roles.cache.has(this.client.config.StaffRole))
+    if (!person.roles.cache.has(this.client.config.StaffRole))
       return message.send({
         embeds: {
           description: `${person} don't seem to be a Staff.`,
         },
-     });
+      });
 
     return message.channel.send({
       files: [new MessageAttachment(await CanvasGen(this.client, person), 'staffinfo.png')],
     });
   }
   async execSlash(message) {
-    let person = message.options[0]?.member || message.member;
+    let person = message.options.get('user').member || message.member;
 
     if (!message.member.roles.cache.has(this.client.config.StaffRole))
-      return message.reply("You can't use this command.");
+      return message.reply({ content: "You can't use this command.", ephemeral: true });
     if (!person.roles.cache.has(this.client.config.StaffRole)) return message.reply("They aren't a staff..");
     message.defer();
 

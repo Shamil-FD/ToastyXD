@@ -1,5 +1,6 @@
 const Command = require('../../Struct/Command.js');
-const { MessageEmbed } = require('discord.js');
+const moment = require('moment');
+const _ = require('lodash');
 
 module.exports = class EmbedCommand extends Command {
   constructor() {
@@ -10,15 +11,9 @@ module.exports = class EmbedCommand extends Command {
       staffOnly: true,
       useSlashCommand: true,
       description: {
-        info: 'Send an embed, easy. Optional things: title',
-        usage: ['t)embed ChannelMention title: TITLE-HERE Message'],
+        info: 'Send an embed, easy.',
+        usage: ['/embed Options'],
       },
-      args: [
-        { id: 'chnl', type: 'channelMention' },
-        { id: 'title', match: 'option', flag: 'title:' },
-        { id: 'ping', match: 'flag', flag: 'ping' },
-        { id: 'desc', match: 'rest' },
-      ],
       slashCommand: {
         options: [
           {
@@ -31,7 +26,12 @@ module.exports = class EmbedCommand extends Command {
             name: 'description',
             type: 'STRING',
             description: 'Description of the embed.',
-            required: 'true',
+            required: true,
+          },
+          {
+            name: 'ping',
+            type: 'BOOLEAN',
+            description: "If the bot should ping @everyone. USE THIS ONLY IF IT'S NEEDED.",
           },
           {
             name: 'title',
@@ -45,54 +45,60 @@ module.exports = class EmbedCommand extends Command {
             description: 'Color of the embed.',
             required: false,
           },
+          {
+            name: 'footer',
+            type: 'STRING',
+            description: 'Footer of the embed.',
+          },
         ],
       },
     });
   }
 
-  async exec(message, { chnl, title, desc, ping }) {
-    if (!chnl || !desc)
-      return message.send({
-        embeds: {
-          color: 'RED',
-          description: 'Proper Usage: t)embed [Channel] <title: Title-Here-No-Spaces> [Description]',
-        },
-      });
-
-    let embed = this.client.embed().setDescription(desc);
-    if (title) {
-      embed.setTitle(title.replace(/-/gi, ' '));
-    }
-    if (ping) {
-      chnl.send('@everyone', {
-        embeds: [embed.setFooter(message.author.tag, message.author.displayAvatarURL({ dynamic: true }))],
-      });
-    } else {
-      chnl.send({ embeds: [embed.setFooter(message.author.tag, message.author.displayAvatarURL({ dynamic: true }))] });
-    }
-    await message.send(this.client.embed().setDescription('Sent.'));
-    return message.delete();
+  async exec(message) {
+    return message.reply({
+      embeds: [this.client.embed().setDescription('This is disabled, use the slash command instead.')],
+    });
   }
   async execSlash(message) {
     if (!message.member.roles.cache.has(this.client.config.StaffRole))
-      return message.reply("You can't use this command.", { ephemeral: true });
+      return message.reply({ content: "You can't use this command.", ephemeral: true });
 
-    let channel = message.options[0]?.channel || message.channel;
+    let channel = message.options.get('channel').channel;
     if (channel.type === 'category')
-      return message.reply("You can't send a message to a category channel.", {
+      return message.reply({
+        content: "You can't send a message to a category channel.",
         ephemeral: true,
       });
 
-    let title;
-    let color = message.options[3]?.value || 'RANDOM';
-    if (message.options[1].value) title = message.options[2]?.value;
-    let description = message.options[1]?.value;
-    let embed = new MessageEmbed().setDescription(description);
-    title ? embed.setTitle(title) : null;
-    color ? embed.setColor(color) : embed.setColor('RANDOM');
-    embed.setFooter(message.member.user.username, message.member.user.displayAvatarURL({ dynamic: true }));
+    let title = message.options.get('title').value || null;
+    let color = message.options.get('color').value || null;
+    let description = message.options.get('description').value;
+    let footer = message.options.get('footer').value || null;
 
-    await channel.send({ embeds: [embed] });
-    return message.reply('Sent.', { ephemeral: true });
+    if (footer && footer.length > 1047) {
+      footer = _.truncate(footer, {
+        length: footer.length - `.. by ${message.member.displayName}`.length,
+        omission: `.. by ${message.member.displayName}`,
+      });
+    }
+
+    let embed = this.client.embed().setDescription(description);
+    title ? embed.setTitle(title) : null;
+    color ? embed.setColor(color) : null;
+    footer
+      ? embed.setFooter(footer, message.member.user.displayAvatarURL({ dynamic: true }))
+      : embed.setFooter(message.member.displayName, message.member.user.displayAvatarURL({ dynamic: true }));
+
+    if (message.options.get('ping').value)
+      await message.guild.channels.cache
+        .get('850627411698647050')
+        .send(
+          `${message.member.user.tag} | ${message.member.id} used @/everyone ping on /embed that was sent in <#${
+            channel.id
+          }>. Message was sent at ${moment().format('DD/MM/YY hh:mm')}`,
+        );
+    await channel.send({ content: `${message.options.get('ping').value ? '@everyone' : ''}`, embeds: [embed] });
+    return message.reply({ content: 'Sent.', ephemeral: true });
   }
 };

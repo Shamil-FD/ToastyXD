@@ -47,8 +47,8 @@ module.exports = class HelpCommand extends Command {
   }
   async execSlash(message) {
     let comd;
-    if (message.options[0]?.value) {
-      comd = this.handler.findCommand(message.options[0]?.value.toLowerCase());
+    if (message.options.get('command').value) {
+      comd = this.handler.findCommand(message.options.get('command').value.toLowerCase());
     }
     if (comd) {
       if (comd.description) {

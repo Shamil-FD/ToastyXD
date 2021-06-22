@@ -77,7 +77,7 @@ module.exports = class GuildMemberAddListener extends Listener {
             .setColor('#d772e0'),
         ],
         files: [new MessageAttachment(cap.png, 'verify.png')],
-        content: `<@${member.id}>`
+        content: `<@${member.id}>`,
       });
     } else {
       doc.code = cap.word;
