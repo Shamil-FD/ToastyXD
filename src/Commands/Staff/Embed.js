@@ -76,10 +76,10 @@ module.exports = class EmbedCommand extends Command {
     let description = message.options.get('description').value;
     let footer = message.options.get('footer')?.value || null;
 
-    if (footer && footer.length > 1047) {
+    if (footer && footer.length > 1029) {
       footer = _.truncate(footer, {
-        length: footer.length - `.. by ${message.member.displayName}`.length,
-        omission: `.. by ${message.member.displayName}`,
+        length: footer.length - `.. | ${message.member.displayName}`.length,
+        omission: `.. | ${message.member.displayName}`,
       });
     }
 
@@ -87,7 +87,7 @@ module.exports = class EmbedCommand extends Command {
     title ? embed.setTitle(title) : null;
     color ? embed.setColor(color) : null;
     footer
-      ? embed.setFooter(footer, message.member.user.displayAvatarURL({ dynamic: true }))
+      ? embed.setFooter(footer + `| ${message.member.displayName}`, message.member.user.displayAvatarURL({ dynamic: true }))
       : embed.setFooter(message.member.displayName, message.member.user.displayAvatarURL({ dynamic: true }));
 
     if (message.options.get('ping')?.value)
