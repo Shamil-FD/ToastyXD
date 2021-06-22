@@ -15,7 +15,7 @@ module.exports = class ErrorListener extends Listener {
         this.client
           .embed()
           .setTitle('Error')
-          .setDescription(`Error: \`\`\`${e}\`\`\`\nCommand: ${command.id ? command.id : "I don't know"}`)
+          .setDescription(`Error: \`\`\`${e.stack}\`\`\`\nCommand: ${command.id ? command.id : "I don't know"}`)
           .setColor('RED'),
       ],
     });
