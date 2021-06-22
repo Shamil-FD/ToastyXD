@@ -121,14 +121,14 @@ module.exports = class NicknameCommand extends Command {
       return message.reply({ content: "You can't use this command.", ephemeral: true });
     message.defer();
 
-    if (!message.options.get('nickname').length && !message.options.get('premade').choices.length)
+    if (!message.options.get('nickname')?.length && !message.options.get('premade')?.choices.length)
       return message.editReply({
         content: 'You have to provide me a valid option.',
         ephemeral: true,
       });
 
     if (!message.options.get('nickname').length) {
-      if (message.options.get('premade').choices[0].name.toLowerCase() !== 'reset') {
+      if (message.options.get('premade')?.choices[0].name.toLowerCase() !== 'reset') {
         let res = await change(message.options.get('user').member, message.options.get('nickname').value);
         if (res === 'bad') {
           return message.editReply(`I couldn't change ${message.options.get('user').member}'s nickname.`);
@@ -144,11 +144,11 @@ module.exports = class NicknameCommand extends Command {
         }
       }
     } else {
-      let res = await change(message.options.get('user').member, message.options.get('premade').choices[0].value);
+      let res = await change(message.options.get('user').member, message.options.get('premade')?.choices[0].value);
       if (res === 'bad') {
         return message.editReply(`I couldn't change ${message.options.get('user').member}'s nickname.`);
       } else {
-        return message.editReply(`Changed their nickname to ${message.options.get('premade').choices[0].value}`);
+        return message.editReply(`Changed their nickname to ${message.options.get('premade')?.choices[0].value}`);
       }
     }
 

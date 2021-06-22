@@ -65,10 +65,10 @@ module.exports = class SetColorCommand extends Command {
     if (!message.options.length)
       return message.editReply({ ephemeral: true, content: 'You have to choose at least one option.' });
 
-    doc.infoCard.borders = message.options.get('borders').value || doc.infoCard?.borders;
-    doc.infoCard.background = message.options.get('background').value || doc.infoCard?.background;
-    doc.infoCard.img = message.options.get('image').value || 'none';
-    doc.infoCard.text = message.options.get('text').value || doc.infoCard?.text;
+    doc.infoCard.borders = message.options.get('borders')?.value || doc.infoCard?.borders;
+    doc.infoCard.background = message.options.get('background')?.value || doc.infoCard?.background;
+    doc.infoCard.img = message.options.get('image')?.value || 'none';
+    doc.infoCard.text = message.options.get('text')?.value || doc.infoCard?.text;
     await doc.save();
     return message.editReply({ content: 'Successfully saved changes.', ephemeral: true });
   }

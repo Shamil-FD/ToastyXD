@@ -71,10 +71,10 @@ module.exports = class EmbedCommand extends Command {
         ephemeral: true,
       });
 
-    let title = message.options.get('title').value || null;
-    let color = message.options.get('color').value || null;
+    let title = message.options.get('title')?.value || null;
+    let color = message.options.get('color')?.value || null;
     let description = message.options.get('description').value;
-    let footer = message.options.get('footer').value || null;
+    let footer = message.options.get('footer')?.value || null;
 
     if (footer && footer.length > 1047) {
       footer = _.truncate(footer, {
@@ -90,7 +90,7 @@ module.exports = class EmbedCommand extends Command {
       ? embed.setFooter(footer, message.member.user.displayAvatarURL({ dynamic: true }))
       : embed.setFooter(message.member.displayName, message.member.user.displayAvatarURL({ dynamic: true }));
 
-    if (message.options.get('ping').value)
+    if (message.options.get('ping')?.value)
       await message.guild.channels.cache
         .get('850627411698647050')
         .send(
@@ -98,7 +98,7 @@ module.exports = class EmbedCommand extends Command {
             channel.id
           }>. Message was sent at ${moment().format('DD/MM/YY hh:mm')}`,
         );
-    await channel.send({ content: `${message.options.get('ping').value ? '@everyone' : ''}`, embeds: [embed] });
+    await channel.send({ content: `${message.options.get('ping')?.value ? '@everyone' : ''}`, embeds: [embed] });
     return message.reply({ content: 'Sent.', ephemeral: true });
   }
 };
