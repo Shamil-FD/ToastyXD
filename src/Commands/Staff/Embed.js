@@ -98,7 +98,7 @@ module.exports = class EmbedCommand extends Command {
             channel.id
           }>. Message was sent at ${moment().format('DD/MM/YY hh:mm')}`,
         );
-    await channel.send({ content: `${message.options.get('ping')?.value ? '@everyone' : ''}`, embeds: [embed] });
+    await channel.send({ content: message.options.get('ping')?.value ? '@everyone' : null, embeds: [embed] });
     return message.reply({ content: 'Sent.', ephemeral: true });
   }
 };
