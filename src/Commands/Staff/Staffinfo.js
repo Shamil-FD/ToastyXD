@@ -52,7 +52,7 @@ module.exports = class StaffinfoCommand extends Command {
     });
   }
   async execSlash(message) {
-    let person = message.options.get('user').member || message.member;
+    let person = message.options.get('user')?.member || message?.member;
 
     if (!message.member.roles.cache.has(this.client.config.StaffRole))
       return message.reply({ content: "You can't use this command.", ephemeral: true });

@@ -51,7 +51,7 @@ module.exports = class HelpMeCommand extends Command {
     return message.delete();
   }
   async execSlash(message) {
-    let user = message.options.get('user').member || '';
+    let user = message.options.get('user')?.member || '';
     let bed = this.client
       .embed()
       .setDescription(
