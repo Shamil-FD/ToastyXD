@@ -38,27 +38,19 @@ module.exports = class MoveCommand extends Command {
       .embed()
       .setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }));
 
-    await message
-      .send({
-        embeds: [
-          embed
-            .setDescription('Please continue the conversation in <#' + chnl.id + '>')
+      embed.setDescription(`Please continue the conversation in <#${chnl.id}>`)
             .setThumbnail('http://picsmine.com/wp-content/uploads/2017/04/Stop-Meme-stop-now.jpg')
             .setTitle('Off-Topic Conversation!')
             .setColor('RED'),
-        ],
+        
+    await message
+      .send({
+        embeds: [embed],
       })
       .then(() => {
+        embed.setDescription(`Please continue the conversation in <#${chnl.id}>`).setThumbnail('http://www.quickmeme.com/img/dc/dc9a3d179c3d7f195c265e7e76f2a330547d096edfebcfa826eb3698d0019a0a.jpg').setTitle('Conversation Moved!').setColor('GREEN'),      
         chnl.send({
-          embeds: [
-            embed
-              .setDescription('Continuing conversation from <#' + message.channel.id + '>')
-              .setThumbnail(
-                'http://www.quickmeme.com/img/dc/dc9a3d179c3d7f195c265e7e76f2a330547d096edfebcfa826eb3698d0019a0a.jpg',
-              )
-              .setTitle('Conversation Moved!')
-              .setColor('GREEN'),
-          ],
+          embeds: [embed],
         });
       });
     return message.delete();
@@ -73,7 +65,7 @@ module.exports = class MoveCommand extends Command {
       embeds: [
         this.client.tools
           .embed()
-          .setDescription('Please continue the conversation in <#' + message.options.get('channel').channel + '>')
+          .setDescription(`Please continue the conversation in <#${message.options.get('channel')?.channel?.id}>`)
           .setThumbnail('http://picsmine.com/wp-content/uploads/2017/04/Stop-Meme-stop-now.jpg')
           .setTitle('Off-Topic Conversation!')
           .setColor('RED'),
@@ -83,7 +75,7 @@ module.exports = class MoveCommand extends Command {
       embeds: [
         this.client.tools
           .embed()
-          .setDescription('Continuing conversation from <#' + message.channel.id + '>')
+          .setDescription(`Continuing conversation from <#${message.channel.id}>`)
           .setThumbnail(
             'http://www.quickmeme.com/img/dc/dc9a3d179c3d7f195c265e7e76f2a330547d096edfebcfa826eb3698d0019a0a.jpg',
           )
