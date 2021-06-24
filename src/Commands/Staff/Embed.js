@@ -57,7 +57,7 @@ module.exports = class EmbedCommand extends Command {
 
   async exec(message) {
     return message.reply({
-      embeds: [this.client.embed().setDescription('This is disabled, use the slash command instead.')],
+      embeds: [this.client.tools.embed().setDescription('This is disabled, use the slash command instead.')],
     });
   }
   async execSlash(message) {
@@ -83,11 +83,14 @@ module.exports = class EmbedCommand extends Command {
       });
     }
 
-    let embed = this.client.embed().setDescription(description);
+    let embed = this.client.tools.embed().setDescription(description);
     title ? embed.setTitle(title) : null;
     color ? embed.setColor(color) : null;
     footer
-      ? embed.setFooter(footer + `| ${message.member.displayName}`, message.member.user.displayAvatarURL({ dynamic: true }))
+      ? embed.setFooter(
+          footer + `| ${message.member.displayName}`,
+          message.member.user.displayAvatarURL({ dynamic: true }),
+        )
       : embed.setFooter(message.member.displayName, message.member.user.displayAvatarURL({ dynamic: true }));
 
     if (message.options.get('ping')?.value)

@@ -17,9 +17,9 @@ module.exports = class CooldownListener extends Listener {
       'bUy pRemIuM t0 rEmOve cO0lDownS',
       'nah nah too fast',
       'mhm can ya slow it down',
-      'SLOW IT MAN',
+      'SLOW IT HOOman',
     ];
-    let embed = this.client
+    let embed = this.client.tools
       .embed()
       .setDescription(
         `${command} doesn't want to be run right now. Wait ${ms(remaining, {

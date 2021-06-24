@@ -12,7 +12,7 @@ module.exports = class ErrorListener extends Listener {
     console.log(e);
     return message.reply({
       embeds: [
-        this.client
+        this.client.tools
           .embed()
           .setTitle('Error')
           .setDescription(`Error: \`\`\`${e.stack}\`\`\`\nCommand: ${command.id ? command.id : "I don't know"}`)

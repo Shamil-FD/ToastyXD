@@ -14,7 +14,8 @@ module.exports = class BlacklistCommand extends Command {
     });
   }
   async exec(message, { wild, action, word }) {
-    let { models, arrow } = this.client;
+    let { models } = this.client.tools;
+    let { arrow } = this.client.config;
     if (!word || !action)
       return message.send({
         embeds: {

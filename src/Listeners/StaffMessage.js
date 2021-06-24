@@ -1,5 +1,4 @@
 const { Listener } = require('discord-akairo');
-const CommandHandler = require('../Struct/CommandHandler');
 
 module.exports = class StaffMessageListener extends Listener {
   constructor() {
@@ -10,16 +9,14 @@ module.exports = class StaffMessageListener extends Listener {
   }
 
   async exec(message) {
-    let models = this.client.models;
     if (message.author.bot === true) return;
-    let { rannum } = this.client;
+    let { models, rannum } = this.client.tools;
     // Check If Channel Is A Guild Channel
     if (message.channel.type === 'text') {
       // Staff Check-In Stuff
       if (['709043831995105360', '781221115271970826', '853552430515093534'].includes(message.channel.id)) return;
       if (message.member.roles.cache.has('752632482943205546') === true) {
-        //let isCommand = await CommandHandler.parseCommand(message);
-        //if (isCommand?.command) return;
+        if (message.content.toLowerCase().startsWith(this.client.config.prefix)) return;
         let doc = await models.staff.findOne({ user: message.author.id });
 
         if (!doc) {
@@ -47,11 +44,11 @@ module.exports = class StaffMessageListener extends Listener {
             if (!msgs.embeds[0].description.includes(message.author.tag)) {
               await msgs.edit({
                 embeds: [
-                  this.client
+                  this.client.tools
                     .embed()
                     .setDescription(
                       msgs.embeds[0].description +
-                        `\n${this.client.tick} ${message.author.tag} - ${doc.dailyCount} messages today`,
+                        `\n${this.client.config.tick} ${message.author.tag} - ${doc.dailyCount} messages today`,
                     )
                     .setColor('GREEN')
                     .setFooter(msgs.embeds[0].footer ? msgs.embeds[0].footer.text : ''),
@@ -67,7 +64,7 @@ module.exports = class StaffMessageListener extends Listener {
             let ReplacedMsg = NotCheckedIn.embeds[0].description.replace(`:x: ${message.author.tag}`, '');
             ReplacedMsg = ReplacedMsg.replace(/(^[ \t]*\n)/gm, '');
             NotCheckedIn.edit({
-              embeds: [this.client.embed().setDescription(ReplacedMsg).setColor('RED')],
+              embeds: [this.client.tools.embed().setDescription(ReplacedMsg).setColor('RED')],
             });
           }
         }

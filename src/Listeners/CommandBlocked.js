@@ -13,14 +13,11 @@ module.exports = class CommandBlockedListener extends Listener {
     if (reason === 'owner') return;
     else if (reason === 'guild') result = 'This command can only be used inside a guild';
     else if (reason === 'staffOnly') result = "You can't use this command. Very sadge";
-    else if (reason === 'managerOnly')
-      return message.send(
-        'https://tenor.com/view/notthatclair-cerp-entertainment-wandavisionbycerp70s-wandavision-gif-20024594',
-      );
+    else if (reason === 'managerOnly') result = "Maybe some day you'll be able to use this";
     else if (reason === 'beta')
       result = 'This command is only for beta testers for now. Please wait until the full release.';
-
-    let embed = this.client.embed().setColor('RED').setTitle('No').setDescription(result);
+    else if (reason === 'adminOnly') result = "You aren't special yet";
+    let embed = this.client.tools.embed().setColor('RED').setDescription(result);
     return message.reply({ embeds: [embed] });
   }
 };

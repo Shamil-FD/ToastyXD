@@ -26,11 +26,11 @@ module.exports = class HelpCommand extends Command {
         return message.send({
           embeds: {
             title: `Command: ${comd.id}`,
-            description: `${this.client.arrow} **Info**: ${comd.description.info}\n${
-              this.client.arrow
+            description: `${this.client.config.arrow} **Info**: ${comd.description.info}\n${
+              this.client.config.arrow
             } **Usage**: ${comd.description.usage.map((u) => `\`${u}\``).join('\n')}\n${
               comd.aliases.length > 1
-                ? `${this.client.arrow} **Aliases**: ${comd.aliases
+                ? `${this.client.config.arrow} **Aliases**: ${comd.aliases
                     .slice(0)
                     .map((a) => `\`${a}\``)
                     .join(', ')}`
@@ -57,11 +57,11 @@ module.exports = class HelpCommand extends Command {
             {
               title: `Command: ${comd.id}`,
               color: 'BLURPLE',
-              description: `${this.client.arrow} **Info**: ${comd.description.info}\n${
-                this.client.arrow
+              description: `${this.client.config.arrow} **Info**: ${comd.description.info}\n${
+                this.client.config.arrow
               } **Usage**: ${comd.description.usage.map((u) => `\`${u}\``).join('\n')}\n${
                 comd.aliases.length > 1
-                  ? `${this.client.arrow} **Aliases**: ${comd.aliases
+                  ? `${this.client.config.arrow} **Aliases**: ${comd.aliases
                       .slice(0)
                       .map((a) => `\`${a}\``)
                       .join(', ')}`
@@ -83,7 +83,7 @@ function helpCmd(handler, client, message, slash) {
   let fields = [];
   for (const [name, category] of handler.categories.filter((cm) => !['flag'].includes(cm.id))) {
     fields.push({
-      name: `${client.arrow} ${name.replace(/(\b\w)/gi, (str) => str.toUpperCase())}`,
+      name: `${client.config.arrow} ${name.replace(/(\b\w)/gi, (str) => str.toUpperCase())}`,
       value:
         category
           .filter((cmd) => (cmd.aliases ? cmd.aliases.length > 0 : false))
@@ -95,7 +95,7 @@ function helpCmd(handler, client, message, slash) {
   if (!slash) {
     return message.send({
       embeds: {
-        title: client.arrow + ' Commands ❮',
+        title: client.config.arrow + ' Commands ❮',
         url: 'https://youtube.com/watch?v=dQw4w9WgXcQ',
         fields: fields,
         thumbnail: {
@@ -106,9 +106,9 @@ function helpCmd(handler, client, message, slash) {
   } else {
     return message.reply({
       embeds: [
-        client
+        client.tools
           .embed()
-          .setTitle(client.arrow + ' Commands ❮')
+          .setTitle(client.config.arrow + ' Commands ❮')
           .setURL('https://youtube.com/watch?v=dQw4w9WgXcQ')
           .addFields(fields)
           .setThumbnail(message.member?.user?.displayAvatarURL({ dynamic: true })),

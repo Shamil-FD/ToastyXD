@@ -30,7 +30,7 @@ module.exports = class MessageListener extends Listener {
     if (message.content.startsWith('s!bins') || message.content.startsWith('s!bin')) {
       message.send({
         embeds: [
-          this.client
+          this.client.tools
             .embed()
             .setDescription(
               'Try our `t)pc` command or `/pc` slash command to paste your code in a source bin from here!',
@@ -84,7 +84,7 @@ module.exports = class MessageListener extends Listener {
       if (afksdoc) {
         let a = moment(afksdoc.date);
         let b = moment().format();
-        let pingbed = this.client
+        let pingbed = this.client.tools
           .embed()
           .setDescription(
             `${message.author}, glad to see you back!\n${
@@ -114,7 +114,7 @@ module.exports = class MessageListener extends Listener {
           let b = moment().format();
           return message.channel.send({
             embeds: [
-              this.client
+              this.client.tools
                 .embed()
                 .setDescription(
                   `${message.mentions.members.first()} has been AFK for ${a.from(b, true)}\nReason: ${afkdoc.reason}`,

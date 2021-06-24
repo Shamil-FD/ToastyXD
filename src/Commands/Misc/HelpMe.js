@@ -41,7 +41,7 @@ module.exports = class HelpMeCommand extends Command {
 
   async exec(message) {
     await message.send(
-      this.client
+      this.client.tools
         .embed()
         .setDescription(
           "Uh oh, someone wants help..\n\nIf you do want help; you need to get to Level 1 on Arcane bot.\n> How do I get to Level 1?\n It's easy, just chat with people.\n> Can I spam?\n No, if you do, you are most likely not to get help.\n> I don't like this..\n Oh you don't? We don't care.",
@@ -51,13 +51,13 @@ module.exports = class HelpMeCommand extends Command {
     return message.delete();
   }
   async execSlash(message) {
-    let user = message.options.get('user')?.member || '';
-    let bed = this.client
+    let user = message.options.get('user')?.member || undefined;
+    let bed = this.client.tools
       .embed()
       .setDescription(
         "Uh oh, someone wants help..\n\nIf you do want help; you need to get to Level 1 on Arcane bot.\n> How do I get to Level 1?\n It's easy, just chat with people.\n> Can I spam?\n No, if you do, you are most likely not to get help.\n> I don't like this..\n Oh you don't? We don't care.",
       )
       .setTitle(await arr[Math.round(Math.random() * arr.length)]);
-    return message.reply({ embeds: [bed], content: user });
+    return message.reply({ embeds: [bed], content: user ? user : null });
   }
 };

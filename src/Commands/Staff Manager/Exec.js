@@ -4,7 +4,7 @@ module.exports = class ExecCommand extends Command {
   constructor() {
     super('exec', {
       aliases: ['exec'],
-      category: 'Staff Management',
+      category: 'Staff Manager',
       channel: 'guild',
       managerOnly: true,
       args: [
@@ -23,9 +23,10 @@ module.exports = class ExecCommand extends Command {
         },
       });
 
-    if (this.client.ownerID.includes(user.id)) return message.send(this.client.embed().setDescription('No dummy'));
+    if (this.client.ownerID.includes(user.id))
+      return message.send(this.client.tools.embed().setDescription('No dummy'));
 
-    message.react(this.client.tick);
+    message.react(this.client.config.tick);
     message.author = user.user;
     message.content = content;
     message.mentions.members.length ? message.mentions.members.delete(message.mentions.members.first().id) : null;

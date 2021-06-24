@@ -37,9 +37,27 @@ module.exports = class ToastyHandler extends CommandHandler {
     let slashCmd = this.modules.get(interaction.commandName);
     if (!slashCmd) return false;
     // Add interaction.author since it doesn't exist on interactions
-    interaction.author = interaction.member;
+    interaction.author = interaction.member?.user;
+
+    // Check Command use permissions
+    let RejectReply = () => {
+      return interaction.reply("You can't use this command.");
+    };
+    if (slashCmd?.ownerOnly === true && !this.client.ownerID.includes(interaction.member.id)) return RejectReply();
+    if (
+      !this.client.ownerID.includes(interaction.member.id) ||
+      !interaction.member.roles.cache.has(this.client.config.StaffManagerRole)
+    ) {
+      if (slashCmd?.managerOnly === true && !interaction.member.roles.cache.has(this.client.config.StaffManagerRole))
+        return RejectReply();
+      else if (slashCmd?.adminOnly === true && !interaction.member.roles.cache.has(this.client.config.AdminRole))
+        return RejectReply();
+      else if (slashCmd?.staffOnly === true && !interaction.member.roles.cache.has(this.client.config.StaffRole))
+        return RejectReply();
+    }
+
     try {
-      await slashCmd.execSlash(interaction);
+      if (this.runCooldowns(interaction, slashCmd)) await slashCmd.execSlash(interaction);
       return true;
     } catch (e) {
       this.emit('slashError', e, interaction, slashCmd);

@@ -66,14 +66,14 @@ module.exports = class StaffinfoCommand extends Command {
   }
 };
 async function CanvasGen(client, person) {
-  let doc = await client.models.staff.findOne({ user: person.id });
+  let doc = await client.tools.models.staff.findOne({ user: person.id });
   if (!doc.infoCard) {
     doc.infoCard.borders = '#070707';
     doc.infoCard.background = '#212121';
     doc.infoCard.text = 'black';
     doc.infoCard.img = 'none';
     await doc.save();
-    doc = await client.models.staff.findOne({ user: person.id });
+    doc = await client.tools.models.staff.findOne({ user: person.id });
   }
 
   let borderColor = doc.infoCard?.borders;
@@ -150,19 +150,19 @@ async function CanvasGen(client, person) {
 
   // Check if the bio is longer than 22 chars. If yes, add in a new line for the bio. If no, add in the bio
   if (bio.length < 21) {
-    ctx.fillText(`${client.arrow} Bio:`, 250, 70);
+    ctx.fillText(`${client.config.arrow} Bio:`, 250, 70);
     ctx.fillText(` ${bio}`, 340, 70);
 
-    ctx.fillText(`${client.arrow} Messages Today: ${doc.msgs}`, 250, 105);
+    ctx.fillText(`${client.config.arrow} Messages Today: ${doc.msgs}`, 250, 105);
 
-    ctx.fillText(`${client.arrow} Check-in for Today: ${doc.dailyCount}`, 250, 145);
+    ctx.fillText(`${client.config.arrow} Check-in for Today: ${doc.dailyCount}`, 250, 145);
 
-    ctx.fillText(`${client.arrow} Total Messages: ${doc.total}`, 250, 185);
+    ctx.fillText(`${client.config.arrow} Total Messages: ${doc.total}`, 250, 185);
 
-    ctx.fillText(`${client.arrow} Strikes: ${doc.strikes ?? '0'}`, 250, 225);
+    ctx.fillText(`${client.config.arrow} Strikes: ${doc.strikes ?? '0'}`, 250, 225);
 
     ctx.fillText(
-      `${client.arrow} Pronouns: ${
+      `${client.config.arrow} Pronouns: ${
         person.roles.cache.has('853560859677425674')
           ? 'he/him'
           : person.roles.cache.has('853560886605119528')
@@ -177,21 +177,21 @@ async function CanvasGen(client, person) {
       265,
     );
   } else {
-    ctx.fillText(client.arrow + ' Bio:', 250, 70);
+    ctx.fillText(client.config.arrow + ' Bio:', 250, 70);
     let splittedBio = bio.lastIndexOf(' ');
     splittedBio = bio.substr(24).trim();
     ctx.fillText(' ' + bio.slice(0, 24) + '\n' + splittedBio, 340, 70);
 
-    ctx.fillText(`${client.arrow} Messages Today: ${doc.msgs}`, 250, 145);
+    ctx.fillText(`${client.config.arrow} Messages Today: ${doc.msgs}`, 250, 145);
 
-    ctx.fillText(`${client.arrow} Check-in for Today: ${doc.dailyCount}`, 250, 190);
+    ctx.fillText(`${client.config.arrow} Check-in for Today: ${doc.dailyCount}`, 250, 190);
 
-    ctx.fillText(`${client.arrow} Total Messages: ${doc.total}`, 250, 235);
+    ctx.fillText(`${client.config.arrow} Total Messages: ${doc.total}`, 250, 235);
 
-    ctx.fillText(`${client.arrow} Strikes: ${doc.strikes ?? '0'}`, 250, 275);
+    ctx.fillText(`${client.config.arrow} Strikes: ${doc.strikes ?? '0'}`, 250, 275);
 
     ctx.fillText(
-      `${client.arrow} Pronouns: ${
+      `${client.config.arrow} Pronouns: ${
         person.roles.cache.has('853560859677425674')
           ? 'he/him'
           : person.roles.cache.has('853560886605119528')

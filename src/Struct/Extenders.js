@@ -25,14 +25,14 @@ Structures.extend('Message', (Message) => {
             } else embed = value;
             if (!embed.color) embed.color = 'BLURPLE';
           } else {
-            content = content || '';
+            content = content;
             content += value;
           }
         });
 
         return this.channel.send({
           embeds: embed ? [embed] : null,
-          content: content,
+          content: content ? content : null,
           reply: { messageReference: this.id, failIfNotExists: true },
         });
       };

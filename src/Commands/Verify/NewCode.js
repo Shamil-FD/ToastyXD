@@ -19,10 +19,10 @@ module.exports = class NewCodeCommand extends Command {
   async exec(message) {
     // Check For The Not Verified Role
     if (!message.member.roles.cache.get(this.client.config.NotVerifiedRole))
-      return message.send(this.client.embed().setDescription("You're already verified."));
+      return message.send(this.client.tools.embed().setDescription("You're already verified."));
 
     let doc = await verif.findOne({ user: message.author.id });
-    let cap = await this.client.captcha();
+    let cap = await this.client.tools.captcha();
 
     if (!doc) {
       await new verif({
@@ -33,7 +33,7 @@ module.exports = class NewCodeCommand extends Command {
 
       return message.reply({
         embeds: [
-          this.client
+          this.client.tools
             .embed()
             .setDescription(
               '**Please type in the code shown in the image above.\nExample: `t)verify PPSMOL`\n\nIf the code is not readable, then please make a new one.**',
@@ -48,7 +48,7 @@ module.exports = class NewCodeCommand extends Command {
 
       return message.reply({
         embeds: [
-          this.client
+          this.client.tools
             .embed()
             .setDescription(
               '**Please type in the code shown in the image above.\nExample: `t)verify PPSMOL`\n\nIf the code is not readable, then please make a new one.**',

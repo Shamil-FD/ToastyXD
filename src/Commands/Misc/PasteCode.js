@@ -29,7 +29,7 @@ module.exports = class PasteCodeCommand extends Command {
   }
 
   async exec(message, { cont }) {
-    let embed = this.client.embed();
+    let embed = this.client.tools.embed();
     message.delete();
 
     if (cont == '<code>' || cont == 'code') {
@@ -66,7 +66,7 @@ module.exports = class PasteCodeCommand extends Command {
                 },
               )
               .then((json) => {
-                return message.channel.send(
+                return message.reply(
                   embed
                     .setDescription(`Here's your link: ${json.url}`)
                     .setAuthor(message.author.tag, message.author.displayAvatarURL({ dynamic: true }))
@@ -106,7 +106,7 @@ module.exports = class PasteCodeCommand extends Command {
           },
         )
         .then((json) => {
-          return message.channel.send({
+          return message.reply({
             embeds: [
               embed
                 .setDescription(`Here's your link: ${json.url}`)

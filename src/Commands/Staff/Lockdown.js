@@ -30,7 +30,7 @@ module.exports = class LockDownCommand extends Command {
       await new pos({ pos: true }).save();
 
       let msg = await message.send(
-        this.client.embed().setDescription('Locking the server.. Please wait until this message gets edited..'),
+        this.client.tools.embed().setDescription('Locking the server.. Please wait until this message gets edited..'),
       );
 
       await channels.cache.get('801877313855160340').createOverwrite(this.client.config.NotVerifiedRole, {
@@ -117,7 +117,7 @@ module.exports = class LockDownCommand extends Command {
                                                             .then(async () => {
                                                               await channels.cache.get('738831994246529084').send({
                                                                 embeds: [
-                                                                  this.client
+                                                                  this.client.tools
                                                                     .embed()
                                                                     .setDescription(
                                                                       `${message.author} has locked the server.`,
@@ -126,7 +126,7 @@ module.exports = class LockDownCommand extends Command {
                                                               });
                                                               return msg.edit({
                                                                 embeds: [
-                                                                  this.client
+                                                                  this.client.tools
                                                                     .embed()
                                                                     .setDescription('Locked the whole server.')
                                                                     .setColor('GREEN'),
@@ -149,7 +149,9 @@ module.exports = class LockDownCommand extends Command {
     } else {
       if (doc.pos === true) {
         let msg = await message.send(
-          this.client.embed().setDescription('Unlocking the server.. Please wait until this message gets edited...'),
+          this.client.tools
+            .embed()
+            .setDescription('Unlocking the server.. Please wait until this message gets edited...'),
         );
         await doc.delete();
         await channels.cache.get('801877313855160340').createOverwrite(this.client.config.NotVerifiedRole, {
@@ -238,7 +240,7 @@ module.exports = class LockDownCommand extends Command {
                                                               .then(async () => {
                                                                 await channels.cache.get('738831994246529084').send({
                                                                   embeds: [
-                                                                    this.client
+                                                                    this.client.tools
                                                                       .embed()
                                                                       .setDescription(
                                                                         `${message.author} has unlocked the server.`,
@@ -247,7 +249,7 @@ module.exports = class LockDownCommand extends Command {
                                                                 });
                                                                 return msg.edit({
                                                                   embeds: [
-                                                                    this.client
+                                                                    this.client.tools
                                                                       .embed()
                                                                       .setDescription('Unlocked the whole server.')
                                                                       .setColor('GREEN'),

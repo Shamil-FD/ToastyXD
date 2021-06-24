@@ -55,7 +55,9 @@ module.exports = class LeaveCommand extends Command {
 
   async exec(message) {
     return message.reply({
-      embeds: [this.client.embed().setDescription('This is disabled, use the slash command instead.').setColor('RED')],
+      embeds: [
+        this.client.tools.embed().setDescription('This is disabled, use the slash command instead.').setColor('RED'),
+      ],
     });
   }
   async execSlash(message) {
@@ -63,10 +65,12 @@ module.exports = class LeaveCommand extends Command {
     if (message.options.get('end')) {
       let doc = await leave.findOne({ user: message.member?.id });
       if (!doc)
-        return message.editReply({ embeds: [this.client.embed().setDescription("You aren't on leave, dummy.")] });
+        return message.editReply({ embeds: [this.client.tools.embed().setDescription("You aren't on leave, dummy.")] });
 
       await doc.delete();
-      return message.editReply({ embeds: [this.client.embed().setTitle('Hey!').setDescription('Welcome back! :D')] });
+      return message.editReply({
+        embeds: [this.client.tools.embed().setTitle('Hey!').setDescription('Welcome back! :D')],
+      });
     } else {
       let start = message.options.get('begin').options.get('start').value;
       let end = message.options.get('begin').options.get('end').value;
@@ -114,10 +118,10 @@ module.exports = class LeaveCommand extends Command {
         await doc.save();
       }
 
-      message.editReply(this.client.tick);
+      message.editReply(this.client.config.tick);
       return message.guild.channels.cache.get('757169784747065364').send({
         embeds: [
-          this.client
+          this.client.tools
             .embed()
             .setAuthor(message.member?.user?.username, message.member?.user?.displayAvatarURL({ dynamic: true }))
             .addField('Reasoning:', reason)

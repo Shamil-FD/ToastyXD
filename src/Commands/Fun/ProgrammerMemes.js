@@ -14,7 +14,7 @@ module.exports = class MemeCommand extends Command {
   async exec(message) {
     const meme = await imageapi.advanced('programmerhumor', 'top');
     message.send(
-      this.client
+      this.client.tools
         .embed()
         .setTitle(meme.title)
         .setAuthor(`u/${meme.author}`)

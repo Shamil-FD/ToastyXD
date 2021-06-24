@@ -17,7 +17,7 @@ module.exports = class ReadyListener extends Listener {
   }
 
   async exec() {
-    let { models, rannum } = this.client;
+    let { models, rannum } = this.client.tools;
 
     console.log(black.bgGreen('[Bot]') + greenBright(" I'm online!"));
     let guild = await this.client.guilds.cache.get('655109296400367618');
@@ -82,7 +82,7 @@ module.exports = class ReadyListener extends Listener {
               await sal.channels.cache.get('757169784747065364').send({
                 content: `<@${l.user}>,`,
                 embeds: [
-                  this.client
+                  this.client.tools
                     .embed()
                     .setDescription(`Welcome back from your leave. Hope you had a great time during the leave! <3`)
                     .setAuthor('Welcome back!!')
@@ -122,7 +122,7 @@ module.exports = class ReadyListener extends Listener {
               if (hasError === false) {
                 await sal.channels.cache.get(this.client.config.StaffReportChnl).send({
                   embeds: [
-                    this.client
+                    this.client.tools
                       .embed()
                       .setTitle('Auto Unmute')
                       .setAuthor(`Mod: ${d.mod}`)
@@ -198,7 +198,7 @@ module.exports = class ReadyListener extends Listener {
             await sal.channels.cache.get('709043664667672696').send({
               content: no.map((n) => `<@${n}>`).join(', '),
               embeds: [
-                this.client
+                this.client.tools
                   .embed()
                   .setDescription(
                     "You've been striked for not being active today. Check your strike count in t)staffinfo.",
@@ -209,7 +209,7 @@ module.exports = class ReadyListener extends Listener {
         }
         await clockin.send({
           embeds: [
-            this.client
+            this.client.tools
               .embed()
               .setDescription(msg.embeds[0].description + `\n\n${mcount.join('\n')}`)
               .setFooter(msg.embeds[0].footer ? msg.embeds[0].footer.text : ''),
@@ -217,7 +217,7 @@ module.exports = class ReadyListener extends Listener {
         });
         msg.edit({
           embeds: [
-            this.client
+            this.client.tools
               .embed()
               .setDescription(`Staff who are active today`)
               .setFooter(`Date: ${moment().format('MMM Do YY')}`),
@@ -232,7 +232,7 @@ module.exports = class ReadyListener extends Listener {
 
         anmsg.edit({
           embeds: [
-            this.client
+            this.client.tools
               .embed()
               .setDescription(
                 `Staff who aren't active today\n${staffRole.members.map((m) => `:x: ${m.user.tag}`).join('\n')}`,

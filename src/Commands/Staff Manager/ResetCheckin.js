@@ -5,7 +5,7 @@ module.exports = class ResetCheckinCommand extends Command {
   constructor() {
     super('resetcheckin', {
       aliases: ['resetcheckin'],
-      category: 'Staff Management',
+      category: 'Staff Manager',
       channel: 'guild',
       cooldown: 240000,
       managerOnly: true,
@@ -13,7 +13,7 @@ module.exports = class ResetCheckinCommand extends Command {
   }
 
   async exec(message) {
-    let { models, rannum } = this.client;
+    let { models, rannum } = this.client.tools;
     let sal = this.client.guilds.cache.get('655109296400367618');
     let channel = await this.client.channels.cache.get('733307358070964226');
     let msg = await channel.messages.fetch('777522764525338634');
@@ -34,7 +34,7 @@ module.exports = class ResetCheckinCommand extends Command {
 
     await clockin.send({
       embeds: [
-        this.client
+        this.client.tools
           .embed()
           .setDescription(msg.embeds[0].description + `\n\n${mcount.join('\n')}`)
           .setFooter(msg.embeds[0].footer ? msg.embeds[0].footer.text : ''),
@@ -42,7 +42,7 @@ module.exports = class ResetCheckinCommand extends Command {
     });
     msg.edit({
       embeds: [
-        this.client
+        this.client.tools
           .embed()
           .setDescription(`Staff who are active today`)
           .setFooter(`Date: ${moment().format('MMM Do YY')}`),
@@ -57,13 +57,13 @@ module.exports = class ResetCheckinCommand extends Command {
 
     anmsg.edit({
       embeds: [
-        this.client
+        this.client.tools
           .embed()
           .setDescription(
             `Staff who aren't active today\n${staffRole.members.map((m) => `:x: ${m.user.tag}`).join('\n')}`,
           ),
       ],
     });
-    return message.react(this.client.tick);
+    return message.react(this.client.config.tick);
   }
 };

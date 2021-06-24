@@ -93,7 +93,9 @@ module.exports = class DictionaryCommand extends Command {
               'current_vote',
             ].includes(key)
           ) {
-            result.push(`${this.client.arrow} **${key.replace(/(\b\w)/gi, (str) => str.toUpperCase())}**: ${prop}`);
+            result.push(
+              `${this.client.config.arrow} **${key.replace(/(\b\w)/gi, (str) => str.toUpperCase())}**: ${prop}`,
+            );
           }
         });
       });
@@ -116,12 +118,12 @@ module.exports = class DictionaryCommand extends Command {
           f.meanings
             .map(
               (m) =>
-                `${this.client.arrow} **Part Of Speech**: ${m.partOfSpeech}\n${m.definitions
+                `${this.client.config.arrow} **Part Of Speech**: ${m.partOfSpeech}\n${m.definitions
                   .map(
                     (d) =>
-                      `${this.client.arrow} **Definition**: ${d.definition}${
-                        d.example ? `\n${this.client.arrow} **Example**: ${d.example}` : ''
-                      }${d.synonyms ? `\n${this.client.arrow} **Synonyms**: ${d.synonyms.join('\n')}` : ''} `,
+                      `${this.client.config.arrow} **Definition**: ${d.definition}${
+                        d.example ? `\n${this.client.config.arrow} **Example**: ${d.example}` : ''
+                      }${d.synonyms ? `\n${this.client.config.arrow} **Synonyms**: ${d.synonyms.join('\n')}` : ''} `,
                   )
                   .join('\n')}`,
             )
@@ -184,7 +186,9 @@ module.exports = class DictionaryCommand extends Command {
               'current_vote',
             ].includes(key)
           ) {
-            result.push(`${this.client.arrow} **${key.replace(/(\b\w)/gi, (str) => str.toUpperCase())}**: ${prop}`);
+            result.push(
+              `${this.client.config.arrow} **${key.replace(/(\b\w)/gi, (str) => str.toUpperCase())}**: ${prop}`,
+            );
           }
         });
       });
@@ -213,12 +217,12 @@ module.exports = class DictionaryCommand extends Command {
           f.meanings
             .map(
               (m) =>
-                `${this.client.arrow} **Part Of Speech**: ${m.partOfSpeech}\n${m.definitions
+                `${this.client.config.arrow} **Part Of Speech**: ${m.partOfSpeech}\n${m.definitions
                   .map(
                     (d) =>
-                      `${this.client.arrow} **Definition**: ${d.definition}${
-                        d.example ? `\n${this.client.arrow} **Example**: ${d.example}` : ''
-                      }${d.synonyms ? `\n${this.client.arrow} **Synonyms**: ${d.synonyms.join('\n')}` : ''} `,
+                      `${this.client.config.arrow} **Definition**: ${d.definition}${
+                        d.example ? `\n${this.client.config.arrow} **Example**: ${d.example}` : ''
+                      }${d.synonyms ? `\n${this.client.config.arrow} **Synonyms**: ${d.synonyms.join('\n')}` : ''} `,
                   )
                   .join('\n')}`,
             )

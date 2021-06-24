@@ -52,7 +52,7 @@ module.exports = class SetColorCommand extends Command {
 
   async exec(message) {
     return message.reply({
-      embeds: [this.client.embed().setDescription('This is disabled, use the slash command instead.')],
+      embeds: [this.client.tools.embed().setDescription('This is disabled, use the slash command instead.')],
     });
   }
   async execSlash(message) {
@@ -60,7 +60,7 @@ module.exports = class SetColorCommand extends Command {
       return message.reply({ content: "You can't use this command.", ephemeral: true });
 
     message.defer();
-    let doc = await this.client.models.staff.findOne({ user: message.member.id });
+    let doc = await this.client.tools.models.staff.findOne({ user: message.member.id });
     if (!doc) return message.editReply({ content: 'There was an error, please try again.', ephemeral: true });
     if (!message.options.length)
       return message.editReply({ ephemeral: true, content: 'You have to choose at least one option.' });

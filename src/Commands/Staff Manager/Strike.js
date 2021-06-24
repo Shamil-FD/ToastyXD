@@ -4,7 +4,7 @@ module.exports = class StrikeCommand extends Command {
   constructor() {
     super('strike', {
       aliases: ['strike'],
-      category: 'Staff Management',
+      category: 'Staff Manager',
       managerOnly: true,
       channel: 'guild',
       args: [
@@ -15,7 +15,7 @@ module.exports = class StrikeCommand extends Command {
   }
 
   async exec(message, { user, reason }) {
-    let { staff } = this.client.models;
+    let { staff } = this.client.tools.models;
     if (!user)
       return message.send({
         embeds: { description: 'No member mention provided.' },

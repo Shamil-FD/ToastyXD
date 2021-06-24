@@ -50,7 +50,7 @@ module.exports = class BlackListListener extends Listener {
       if (message.member.roles.cache.get(this.client.config.StaffRole)) return;
       let action = docs.action;
       message.delete();
-      let embed = this.client
+      let embed = this.client.tools
         .embed()
         .setAuthor('Blacklisted Word Detected!', this.client.user.displayAvatarURL())
         .setThumbnail(message.author.displayAvatarURL({ dynamic: true }));
@@ -60,7 +60,7 @@ module.exports = class BlackListListener extends Listener {
         return ReportChnl.send({
           embeds: [
             embed.setDescription(
-              `${this.client.arrow} **User**: ${message.author} || ${message.author.id}\n${this.client.arrow} **Message**: \`${message.content}\`\n${this.client.arrow} **Blacklisted Word**: \`${docs.word}\`\n${this.client.arrow} **Channel**: ${message.channel}`,
+              `${this.client.config.arrow} **User**: ${message.author} || ${message.author.id}\n${this.client.config.arrow} **Message**: \`${message.content}\`\n${this.client.config.arrow} **Blacklisted Word**: \`${docs.word}\`\n${this.client.config.arrow} **Channel**: ${message.channel}`,
             ),
           ],
         }).catch(() => {});
@@ -68,7 +68,7 @@ module.exports = class BlackListListener extends Listener {
         await message.author
           .send({
             embeds: [
-              this.client
+              this.client.tools
                 .embed()
                 .setDescription(`Please do not use ${docs.word} in your messages. You have been warned.`)
                 .setFooter("Salvage's Oasis", message.guild.iconURL({ dynamic: true }))
@@ -83,7 +83,7 @@ module.exports = class BlackListListener extends Listener {
           embeds: [
             embed
               .setDescription(
-                `${this.client.arrow} **User**: ${message.author} || ${message.author.id}\n${this.client.arrow} **Message**: \`${message.content}\`\n${this.client.arrow} **Blacklisted Word**: \`${docs.word}\`\n${this.client.arrow} **Channel**: ${message.channel}`,
+                `${this.client.config.arrow} **User**: ${message.author} || ${message.author.id}\n${this.client.config.arrow} **Message**: \`${message.content}\`\n${this.client.config.arrow} **Blacklisted Word**: \`${docs.word}\`\n${this.client.config.arrow} **Channel**: ${message.channel}`,
               )
               .setTitle('Verbal Warn'),
           ],
@@ -103,7 +103,7 @@ module.exports = class BlackListListener extends Listener {
               embeds: [
                 embed
                   .setDescription(
-                    `${this.client.arrow} **User**: ${message.author.tag} || ${message.author.id}\n${this.client.arrow} **Message**: \`${message.content}\`\n${this.client.arrow} **Blacklisted Word**: \`${docs.word}\`\n${this.client.arrow} **Channel**: ${message.channel}`,
+                    `${this.client.config.arrow} **User**: ${message.author.tag} || ${message.author.id}\n${this.client.config.arrow} **Message**: \`${message.content}\`\n${this.client.config.arrow} **Blacklisted Word**: \`${docs.word}\`\n${this.client.config.arrow} **Channel**: ${message.channel}`,
                   )
                   .setTitle('Kicked a Member')
                   .setFooter("I couldn't dm them"),
@@ -116,7 +116,7 @@ module.exports = class BlackListListener extends Listener {
           embeds: [
             embed
               .setDescription(
-                `${this.client.arrow} **User**: ${message.author.tag} || ${message.author.id}\n${this.client.arrow} **Message**: \`${message.content}\`\n${this.client.arrow} **Blacklisted Word**: \`${docs.word}\`\n${this.client.arrow} **Channel**: ${message.channel}`,
+                `${this.client.config.arrow} **User**: ${message.author.tag} || ${message.author.id}\n${this.client.config.arrow} **Message**: \`${message.content}\`\n${this.client.config.arrow} **Blacklisted Word**: \`${docs.word}\`\n${this.client.config.arrow} **Channel**: ${message.channel}`,
               )
               .setFooter("I dm'd them")
               .setTitle('Kicked a Member'),
@@ -137,7 +137,7 @@ module.exports = class BlackListListener extends Listener {
               embeds: [
                 embed
                   .setDescription(
-                    `${this.client.arrow} **User**: ${message.author.tag} || ${message.author.id}\n${this.client.arrow} **Message**: \`${message.content}\`\n${this.client.arrow} **Blacklisted Word**: \`${docs.word}\`\n**Channel**: ${message.channel}`,
+                    `${this.client.config.arrow} **User**: ${message.author.tag} || ${message.author.id}\n${this.client.config.arrow} **Message**: \`${message.content}\`\n${this.client.config.arrow} **Blacklisted Word**: \`${docs.word}\`\n**Channel**: ${message.channel}`,
                   )
                   .setFooter("I couldn't dm them")
                   .setTitle('Banned a Member'),
@@ -150,7 +150,7 @@ module.exports = class BlackListListener extends Listener {
           embeds: [
             embed
               .setDescription(
-                `${this.client.arrow} **User**: ${message.author.tag} || ${message.author.id}\n${this.client.arrow} **Message**: \`${message.content}\`\n${this.client.arrow} **Blacklisted Word**: \`${docs.word}\`\n**Channel**: ${message.channel}`,
+                `${this.client.config.arrow} **User**: ${message.author.tag} || ${message.author.id}\n${this.client.config.arrow} **Message**: \`${message.content}\`\n${this.client.config.arrow} **Blacklisted Word**: \`${docs.word}\`\n**Channel**: ${message.channel}`,
               )
               .setTitle('Banned a Member')
               .setFooter("I dm'd them"),

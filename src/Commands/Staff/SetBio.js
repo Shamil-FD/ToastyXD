@@ -32,7 +32,7 @@ module.exports = class SetbioCommand extends Command {
   }
 
   async exec(message, { bio }) {
-    let { staff } = this.client.models;
+    let { staff } = this.client.tools.models;
     if (!bio)
       return message.send({
         embeds: {
@@ -55,7 +55,7 @@ module.exports = class SetbioCommand extends Command {
     });
   }
   async execSlash(message) {
-    let { staff } = this.client.models;
+    let { staff } = this.client.tools.models;
     if (!message.member.roles.cache.has(this.client.config.StaffRole))
       return message.reply({ content: "You can't use this command.", ephemeral: true });
     message.defer();

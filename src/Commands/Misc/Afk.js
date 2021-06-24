@@ -46,7 +46,7 @@ module.exports = class AFKCommand extends Command {
         reason: reason,
       }).save();
 
-      let bed = this.client.embed().setDescription(`${message.author} is now AFK: ${reason}`);
+      let bed = this.client.tools.embed().setDescription(`${message.author} is now AFK: ${reason}`);
       message.send(bed).then((msg) => {
         setTimeout(() => {
           message.delete();
@@ -67,7 +67,7 @@ module.exports = class AFKCommand extends Command {
         reason: reason,
       }).save();
 
-      let bed = this.client.embed().setDescription(`<@${message.member.id}> is now AFK: ${reason}`);
+      let bed = this.client.tools.embed().setDescription(`<@${message.member.id}> is now AFK: ${reason}`);
       return message.editReply({ embeds: [bed] });
     }
   }

@@ -59,7 +59,7 @@ module.exports = class ChannelUnmuteCommand extends Command {
       user: user.id,
       chnl: message.channel.id,
     });
-    if (!doc) return message.send(client.embed().setDescription('They are already unmuted'));
+    if (!doc) return message.send(client.tools.embed().setDescription('They are already unmuted'));
     let hasError = false;
 
     await doc.delete();
@@ -71,14 +71,14 @@ module.exports = class ChannelUnmuteCommand extends Command {
 
     if (hasError === false) {
       message.send(
-        client
+        client.tools
           .embed()
           .setDescription(`Unmuted ${user} in this channel for ${reason}`)
           .setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true })),
       );
     } else {
       message.send(
-        this.client
+        this.client.tools
           .embed()
           .setDescription(`${user} was already unmuted in this channel, but I deleted the document from my database.`)
           .setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true })),
@@ -87,16 +87,16 @@ module.exports = class ChannelUnmuteCommand extends Command {
 
     message.guild.channels.cache.get(this.client.config.StaffReportChnl).send({
       embeds: [
-        client
+        client.tools
           .embed()
           .setTitle('Unmuted')
           .setAuthor(
-            `${this.client.arrow} Moderator: ${message.author.username}`,
+            `${this.client.config.arrow} Moderator: ${message.author.username}`,
             message.author.displayAvatarURL({ dynamic: true }),
           )
-          .addField(this.client.arrow + ' **Victim**:', `${user} || ${user.id}`, true)
-          .addField(this.client.arrow + ' **Reason**:', reason, true)
-          .addField(this.client.arrow + ' **Channel**:', message.channel, true),
+          .addField(this.client.config.arrow + ' **Victim**:', `${user} || ${user.id}`, true)
+          .addField(this.client.config.arrow + ' **Reason**:', reason, true)
+          .addField(this.client.config.arrow + ' **Channel**:', message.channel, true),
       ],
     });
   }
@@ -111,7 +111,8 @@ module.exports = class ChannelUnmuteCommand extends Command {
       user: user?.id,
       chnl: message.channel.id,
     });
-    if (!doc) return message.editReply({ embeds: [this.client.embed().setDescription('They are already unmuted.')] });
+    if (!doc)
+      return message.editReply({ embeds: [this.client.tools.embed().setDescription('They are already unmuted.')] });
 
     let hasError = false;
     await doc.delete();
@@ -124,7 +125,7 @@ module.exports = class ChannelUnmuteCommand extends Command {
     if (hasError === false) {
       message.editReply({
         embeds: [
-          this.client
+          this.client.tools
             .embed()
             .setDescription(`Unmuted ${user} in this channel for ${reason}`)
             .setAuthor(message.member?.user?.username, message.member?.user?.displayAvatarURL({ dynamic: true })),
@@ -133,7 +134,7 @@ module.exports = class ChannelUnmuteCommand extends Command {
     } else {
       message.editReply({
         embeds: [
-          this.client
+          this.client.tools
             .embed()
             .setDescription(`${user} was already unmuted in this channel, but I deleted the document from my database.`)
             .setAuthor(message.member?.user?.username, message.member?.user?.displayAvatarURL({ dynamic: true })),
@@ -143,16 +144,16 @@ module.exports = class ChannelUnmuteCommand extends Command {
 
     return message.guild.channels.cache.get(this.client.config.StaffReportChnl).send({
       embeds: [
-        this.client
+        this.client.tools
           .embed()
           .setTitle('User Unmuted')
           .setAuthor(
-            `${this.client.arrow} Moderator: ${message.member?.user?.username}`,
+            `${this.client.config.arrow} Moderator: ${message.member?.user?.username}`,
             message.member?.user?.displayAvatarURL({ dynamic: true }),
           )
-          .addField(this.client.arrow + ' **Victim**:', `${user} || ${user?.id}`, true)
-          .addField(this.client.arrow + ' **Reason**:', reason, true)
-          .addField(this.client.arrow + ' **Channel**:', message.channel, true),
+          .addField(this.client.config.arrow + ' **Victim**:', `${user} || ${user?.id}`, true)
+          .addField(this.client.config.arrow + ' **Reason**:', reason, true)
+          .addField(this.client.config.arrow + ' **Channel**:', message.channel, true),
       ],
     });
   }

@@ -33,14 +33,14 @@ module.exports = class GuildMemberAddListener extends Listener {
     }
 
     let doc = await verif.findOne({ user: member.id });
-    let cap = await this.client.captcha();
+    let cap = await this.client.tools.captcha();
     await member.roles.add(this.client.config.NotVerifiedRole);
     if (parseInt(num) < 2) {
       await member.send('Your account is too new to join our server.').catch((e) => {});
       await member.ban({ reason: 'Account age under 2 days.' });
       return member.guild.channels.cache.get(this.client.config.StaffReportChnl).send({
         embeds: [
-          this.client
+          this.client.tools
             .embed()
             .setDescription(
               `User: ${member.user.tag} | ${member.id}\nCreation Date: ${moment(
@@ -53,7 +53,7 @@ module.exports = class GuildMemberAddListener extends Listener {
     }
     member.guild.channels.cache.get(this.client.config.StaffReportChnl).send({
       embeds: [
-        this.client
+        this.client.tools
           .embed()
           .setDescription(
             `User:   ${member.user.tag} | ${member.id}\nCreation Date: ${moment(
@@ -69,7 +69,7 @@ module.exports = class GuildMemberAddListener extends Listener {
 
       return await member.guild.channels.cache.get('801877313855160340').send({
         embeds: [
-          this.client
+          this.client.tools
             .embed()
             .setDescription(
               '**Please type the code shown in the image above using the command `t)verify Code`\nIf the code is too hard to read, use the command `t)newcode` to get a new one.**',
@@ -85,7 +85,7 @@ module.exports = class GuildMemberAddListener extends Listener {
 
       return await member.guild.channels.cache.get('801877313855160340').send({
         embeds: [
-          this.client
+          this.client.tools
             .embed()
             .setDescription(
               '**Please type the code shown in the image above using the command `t)verify Code`\nIf the code is too hard to read, use the command `t)newcode` to get a new one.**',

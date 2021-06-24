@@ -19,11 +19,11 @@ module.exports = class VerifyCommand extends Command {
   async exec(message, { code }) {
     // Check For The Not Verified Role
     if (!message.member.roles.cache.get(this.client.config.NotVerifiedRole))
-      return message.send(this.client.embed().setDescription("You're already verified."));
+      return message.send(this.client.tools.embed().setDescription("You're already verified."));
 
     if (!code)
       return message.send(
-        this.client
+        this.client.tools
           .embed()
           .setDescription(
             "You can't verify by not giving me the code! If you don't have a code, create one using `t)newcode`",
@@ -54,7 +54,7 @@ module.exports = class VerifyCommand extends Command {
         await message.author
           .send({
             embeds: [
-              this.client
+              this.client.tools
                 .embed()
                 .setDescription(`You were kicked from ${message.guild.name}\nReason: You failed to verify 5+ times.`),
             ],
@@ -65,7 +65,7 @@ module.exports = class VerifyCommand extends Command {
         await doc.delete();
         return message.guild.channels.cache.get(this.client.config.StaffReportChnl).send({
           embeds: [
-            this.client
+            this.client.tools
               .embed()
               .setTitle('Kicked')
               .setDescription(
@@ -85,7 +85,7 @@ module.exports = class VerifyCommand extends Command {
 
     message.guild.channels.cache.get(this.client.config.StaffReportChnl).send({
       embeds: [
-        this.client
+        this.client.tools
           .embed()
           .setTitle('Verification Complete')
           .setDescription(`${message.author.tag} | ${message.author.id} has completed the captcha.`)

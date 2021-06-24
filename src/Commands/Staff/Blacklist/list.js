@@ -10,7 +10,8 @@ module.exports = class BlacklistCommand extends Command {
     });
   }
   async exec(message) {
-    let { models, arrow } = this.client;
+    let { models } = this.client.tools;
+    let { arrow } = this.client.config;
     let docs = await models.blacklist.find();
     let str = await docs
       .map((documents) => `${arrow} ${documents.word} - ${documents.action} ${documents.wild ? `- wildcard` : ''}`)

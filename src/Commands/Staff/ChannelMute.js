@@ -46,21 +46,27 @@ module.exports = class ChannelMuteCommand extends Command {
     let client = this.client;
 
     if (!user)
-      return message.send(client.embed().setDescription('Proper usage: `t)channelmute @User [5m | 5h | 5d] [reason]`'));
+      return message.send(
+        client.tools.embed().setDescription('Proper usage: `t)channelmute @User [5m | 5h | 5d] [reason]`'),
+      );
 
     if (!time)
-      return message.send(client.embed().setDescription('Proper usage: `t)channelmute @User [5m | 5h | 5d] [reason]`'));
-    if (!reason) return message.send(client.embed().setDescription('No reason = No mute dum dum'));
+      return message.send(
+        client.tools.embed().setDescription('Proper usage: `t)channelmute @User [5m | 5h | 5d] [reason]`'),
+      );
+    if (!reason) return message.send(client.tools.embed().setDescription('No reason = No mute dum dum'));
 
     let doc = await chnlmute.findOne({
       user: user.id,
       chnl: message.channel.id,
     });
-    if (doc) return message.send(client.embed().setDescription('They are already muted'));
+    if (doc) return message.send(client.tools.embed().setDescription('They are already muted'));
 
     time = ms(time);
     if (!time)
-      return message.send(client.embed().setDescription('Proper usage: `t)channelmute @User [5m | 5h | 5d] [reason]`'));
+      return message.send(
+        client.tools.embed().setDescription('Proper usage: `t)channelmute @User [5m | 5h | 5d] [reason]`'),
+      );
 
     await new chnlmute({
       user: user.id,
@@ -76,26 +82,28 @@ module.exports = class ChannelMuteCommand extends Command {
     });
 
     message.send(
-      client
+      client.tools
         .embed()
-        .setDescription(`${this.client.arrow} Muted ${user} in this channel for ${pretty(time)}\nReason: ${reason}`)
+        .setDescription(
+          `${this.client.config.arrow} Muted ${user} in this channel for ${pretty(time)}\nReason: ${reason}`,
+        )
         .setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true })),
     );
 
     message.guild.channels.cache.get(this.client.config.StaffReportChnl).send({
       embeds: [
-        client
+        client.tools
           .embed()
           .setTitle('Muted')
           .setAuthor(
-            `${this.client.arrow} Moderator: ${message.author.username}`,
+            `${this.client.config.arrow} Moderator: ${message.author.username}`,
             message.author.displayAvatarURL({ dynamic: true }),
           )
-          .addField(this.client.arrow + ' **Victim**:', `${user} || ${user.id}`, true)
-          .addField(this.client.arrow + ' **Reason**:', reason, true)
-          .addField(this.client.arrow + ' **Duration**:', pretty(time), true)
-          .addField(this.client.arrow + '**Channel**:', message.channel, true)
-          .addField(this.client.arrow + '**Date**:', moment().format('DD/MM/YY')),
+          .addField(this.client.config.arrow + ' **Victim**:', `${user} || ${user.id}`, true)
+          .addField(this.client.config.arrow + ' **Reason**:', reason, true)
+          .addField(this.client.config.arrow + ' **Duration**:', pretty(time), true)
+          .addField(this.client.config.arrow + '**Channel**:', message.channel, true)
+          .addField(this.client.config.arrow + '**Date**:', moment().format('DD/MM/YY')),
       ],
     });
   }
@@ -134,25 +142,25 @@ module.exports = class ChannelMuteCommand extends Command {
 
     await message.editReply({
       embeds: [
-        this.client
+        this.client.tools
           .embed()
           .setDescription(`Muted ${member} in this channel for \`${pretty(time)}\`, reasoning \`${reason}\``),
       ],
     });
     return message.guild.channels.cache.get(this.client.config.StaffReportChnl).send({
       embeds: [
-        this.client
+        this.client.tools
           .embed()
           .setTitle('Muted')
           .setAuthor(
             `${this.client.arrow} Moderator: ${message.member?.user?.username}`,
             message.member?.user?.displayAvatarURL({ dynamic: true }),
           )
-          .addField(this.client.arrow + ' **Victim**:', `${member} || ${member?.id}`, true)
-          .addField(this.client.arrow + ' **Reason**:', reason, true)
-          .addField(this.client.arrow + ' **Duration**:', pretty(time), true)
-          .addField(this.client.arrow + '**Channel**:', message.channel, true)
-          .addField(this.client.arrow + '**Date**:', moment().format('DD/MM/YY')),
+          .addField(this.client.config.arrow + ' **Victim**:', `${member} || ${member?.id}`, true)
+          .addField(this.client.config.arrow + ' **Reason**:', reason, true)
+          .addField(this.client.config.arrow + ' **Duration**:', pretty(time), true)
+          .addField(this.client.config.arrow + '**Channel**:', message.channel, true)
+          .addField(this.client.config.arrow + '**Date**:', moment().format('DD/MM/YY')),
       ],
     });
   }

@@ -34,7 +34,7 @@ module.exports = class MoveCommand extends Command {
       return message.send({
         embeds: { description: "You didn't give me a channel." },
       });
-    let embed = this.client
+    let embed = this.client.tools
       .embed()
       .setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }));
 
@@ -71,7 +71,7 @@ module.exports = class MoveCommand extends Command {
 
     message.reply({
       embeds: [
-        this.client
+        this.client.tools
           .embed()
           .setDescription('Please continue the conversation in <#' + message.options.get('channel').channel + '>')
           .setThumbnail('http://picsmine.com/wp-content/uploads/2017/04/Stop-Meme-stop-now.jpg')
@@ -81,7 +81,7 @@ module.exports = class MoveCommand extends Command {
     });
     return message.options.get('channel').channel.send({
       embeds: [
-        this.client
+        this.client.tools
           .embed()
           .setDescription('Continuing conversation from <#' + message.channel.id + '>')
           .setThumbnail(
