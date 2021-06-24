@@ -13,6 +13,6 @@ let client = new Client({
   tick: '✅',
   cross: '❌',
   arrow: '❯',
-  prefix: 't/',
+  prefix: 't)',
 });
 client.start({ Token });
