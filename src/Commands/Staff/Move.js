@@ -44,7 +44,7 @@ module.exports = class MoveCommand extends Command {
             .setColor('RED'),
         
     await message
-      .send({
+      .reply({
         embeds: [embed],
       })
       .then(() => {
