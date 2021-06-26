@@ -29,12 +29,15 @@ Structures.extend('Message', (Message) => {
             content += value;
           }
         });
+        let data = {
+            embeds: embed ? [embed] : null,
+            reply: { messageReference: this.id, failIfNotExists: true },
 
-        return this.channel.send({
-          embeds: embed ? [embed] : null,
-          content: content,
-          reply: { messageReference: this.id, failIfNotExists: true },
-        });
+        }
+        if(content?.length) {
+            data.content = content;
+        }
+        return this.channel.send(data);
       };
       this.getMember = async (content, guild) => {
         if (!content) return undefined;
