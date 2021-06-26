@@ -38,21 +38,27 @@ module.exports = class MoveCommand extends Command {
       .embed()
       .setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }));
 
-      embed.setDescription(`Please continue the conversation in <#${chnl.id}>`)
-            .setThumbnail('http://picsmine.com/wp-content/uploads/2017/04/Stop-Meme-stop-now.jpg')
-            .setTitle('Off-Topic Conversation!')
-            .setColor('RED'),
-        
-    await message
-      .reply({
-        embeds: [embed],
-      })
-      .then(() => {
-        embed.setDescription(`Please continue the conversation in <#${chnl.id}>`).setThumbnail('http://www.quickmeme.com/img/dc/dc9a3d179c3d7f195c265e7e76f2a330547d096edfebcfa826eb3698d0019a0a.jpg').setTitle('Conversation Moved!').setColor('GREEN'),      
-        chnl.send({
+    embed
+      .setDescription(`Please continue the conversation in <#${chnl.id}>`)
+      .setThumbnail('http://picsmine.com/wp-content/uploads/2017/04/Stop-Meme-stop-now.jpg')
+      .setTitle('Off-Topic Conversation!')
+      .setColor('RED'),
+      await message
+        .reply({
           embeds: [embed],
+        })
+        .then(() => {
+          embed
+            .setDescription(`Please continue the conversation in <#${chnl.id}>`)
+            .setThumbnail(
+              'http://www.quickmeme.com/img/dc/dc9a3d179c3d7f195c265e7e76f2a330547d096edfebcfa826eb3698d0019a0a.jpg',
+            )
+            .setTitle('Conversation Moved!')
+            .setColor('GREEN'),
+            chnl.send({
+              embeds: [embed],
+            });
         });
-      });
     return message.delete();
   }
   async execSlash(message) {

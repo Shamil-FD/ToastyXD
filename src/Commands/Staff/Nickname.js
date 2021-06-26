@@ -56,7 +56,9 @@ module.exports = class NicknameCommand extends Command {
   }
 
   async exec(message) {
-    return message.reply({ embeds: [this.client.tools.embed().setDescription('This is disabled, use the slash command instead.')] });
+    return message.reply({
+      embeds: [this.client.tools.embed().setDescription('This is disabled, use the slash command instead.')],
+    });
   }
   async execSlash(message) {
     if (!message.member.roles.cache.has(this.client.config.StaffRole))

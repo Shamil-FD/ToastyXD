@@ -17,9 +17,9 @@ module.exports = class ToastyHandler extends CommandHandler {
       // Slash Command Handler.
       this.client.on('interaction', async (interaction) => {
         try {
-        this.handleSlash(interaction)
-        } catch(e) { 
-            return this.emit('slashError', e, interaction, interaction.commandName)        
+          this.handleSlash(interaction);
+        } catch (e) {
+          return this.emit('slashError', e, interaction, interaction.commandName);
         }
       });
     });
@@ -61,8 +61,8 @@ module.exports = class ToastyHandler extends CommandHandler {
     }
 
     try {
-      await this.runCooldowns(interaction, slashCmd)
-      await slashCmd.execSlash(interaction);      
+      await this.runCooldowns(interaction, slashCmd);
+      await slashCmd.execSlash(interaction);
       return true;
     } catch (e) {
       this.emit('slashError', e, interaction, slashCmd);

@@ -62,7 +62,8 @@ module.exports = class SetColorCommand extends Command {
     message.defer();
     let doc = await this.client.tools.models.staff.findOne({ user: message.member.id });
     if (!doc) return message.editReply({ content: 'There was an error, please try again.', ephemeral: true });
-    if (message.options.size < 0) return message.editReply({ ephemeral: true, content: 'You have to choose at least one option.' });
+    if (message.options.size < 0)
+      return message.editReply({ ephemeral: true, content: 'You have to choose at least one option.' });
 
     doc.infoCard.borders = message.options.get('borders')?.value || doc.infoCard?.borders;
     doc.infoCard.background = message.options.get('background')?.value || doc.infoCard?.background;
