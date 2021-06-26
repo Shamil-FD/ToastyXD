@@ -15,7 +15,7 @@ Structures.extend('Message', (Message) => {
             }
             if (!value.color) value.color = 'BLURPLE';
             if (value.description && value.description.length >= 2048) {
-              const splitted = await split(value.description);
+              const splitted = split(value.description);
               splitted.map((value) =>
                 this.channel.send({
                   embeds: [value.setDescription(value)],
@@ -32,7 +32,7 @@ Structures.extend('Message', (Message) => {
 
         return this.channel.send({
           embeds: embed ? [embed] : null,
-          content: content ? content : null,
+          content: content,
           reply: { messageReference: this.id, failIfNotExists: true },
         });
       };
