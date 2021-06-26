@@ -25,7 +25,7 @@ Structures.extend('Message', (Message) => {
             } else embed = value;
             if (!embed.color) embed.color = 'BLURPLE';
           } else {
-            content = content;
+            content = " ";
             content += value;
           }
         });
