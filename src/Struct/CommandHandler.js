@@ -36,7 +36,7 @@ module.exports = class ToastyHandler extends CommandHandler {
   }
   async handleSlash(interaction) {
     // Check if the interaction is a command.
-    if (!interaction.isCommand()) return true;
+    if (!interaction.isCommand()) return;
     // Get the command
     let slashCmd = this.modules.get(interaction.commandName);
     if (!slashCmd) return false;
