@@ -61,9 +61,9 @@ module.exports = class ToastyHandler extends CommandHandler {
     }
 
     try {
-      await this.runCooldowns(interaction, slashCmd);
-      await slashCmd.execSlash(interaction);
-      return true;
+      if(await this.runCooldowns(interaction, slashCmd) === false){
+      return slashCmd.execSlash(interaction);
+      } else return false
     } catch (e) {
       this.emit('slashError', e, interaction, slashCmd);
       return false;
