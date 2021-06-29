@@ -7,7 +7,7 @@ module.exports = class NicknameCommand extends Command {
       category: 'Staff',
       channel: 'guild',
       staffOnly: true,
-      slashCommand: true,
+      useSlashCommand: true,
       description: {
         info: 'Change a user\'s nickname. Optional Stuff: `moderated` for "Moderated Nickname", `copy` for "CopyPaster", `dehoist` for "z I got dehoisted" OR anything else.',
         usage: ['/nickname User Options/Name'],
