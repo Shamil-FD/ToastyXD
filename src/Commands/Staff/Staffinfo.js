@@ -20,6 +20,7 @@ module.exports = class StaffinfoCommand extends Command {
       useSlashCommand: true,
       args: [{ id: 'person', match: 'content', default: (msg) => msg.author.id }],
       slashCommand: {
+        name: 'si',
         options: [
           {
             name: 'user',
@@ -67,17 +68,9 @@ module.exports = class StaffinfoCommand extends Command {
 };
 async function CanvasGen(client, person) {
   let doc = await client.tools.models.staff.findOne({ user: person.id });
-  if (!doc.infoCard) {
-    doc.infoCard.borders = '#070707';
-    doc.infoCard.background = '#212121';
-    doc.infoCard.text = 'black';
-    doc.infoCard.img = 'none';
-    await doc.save();
-    doc = await client.tools.models.staff.findOne({ user: person.id });
-  }
 
-  let borderColor = doc.infoCard?.borders;
-  let backgroundColor = doc.infoCard?.background;
+  let borderColor = doc.infoCard?.borders ?? '#070707';
+  let backgroundColor = doc.infoCard?.background ?? '#212121';
   let textColor = doc.infoCard?.text ?? 'white';
   let backgroundImage = doc.infoCard.img || undefined;
   let bio = doc.desc ?? 'Mysterious Person';

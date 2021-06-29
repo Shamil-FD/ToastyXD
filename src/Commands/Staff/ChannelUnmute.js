@@ -11,12 +11,8 @@ module.exports = class ChannelUnmuteCommand extends Command {
       channel: 'guild',
       description: {
         info: 'Unmute a person who were muted in the current channel',
-        usage: ['t)channelunmute User Reason'],
+        usage: ['/channelunmute User Reason'],
       },
-      args: [
-        { id: 'user', type: 'memberMention' },
-        { id: 'reason', match: 'rest' },
-      ],
       slashCommand: {
         options: [
           {
@@ -36,75 +32,14 @@ module.exports = class ChannelUnmuteCommand extends Command {
     });
   }
 
-  async exec(message, { user, reason }) {
-    let client = this.client;
-
-    if (!user)
-      return message.send({
-        embeds: {
-          color: 'RED',
-          description: 'Proper usage: `t)channelunmute @User [reason]`',
-        },
-      });
-
-    if (!reason)
-      return message.send({
-        embeds: {
-          description: "I don't see any reason provided.",
-          color: 'RED',
-        },
-      });
-
-    let doc = await chnlmute.findOne({
-      user: user.id,
-      chnl: message.channel.id,
-    });
-    if (!doc) return message.send(client.tools.embed().setDescription('They are already unmuted'));
-    let hasError = false;
-
-    await doc.delete();
-    try {
-      await message.channel.permissionOverwrites.get(user.id).delete();
-    } catch (e) {
-      hasError = true;
-    }
-
-    if (hasError === false) {
-      message.send(
-        client.tools
-          .embed()
-          .setDescription(`Unmuted ${user} in this channel for ${reason}`)
-          .setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true })),
-      );
-    } else {
-      message.send(
-        this.client.tools
-          .embed()
-          .setDescription(`${user} was already unmuted in this channel, but I deleted the document from my database.`)
-          .setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true })),
-      );
-    }
-
-    message.guild.channels.cache.get(this.client.config.StaffReportChnl).send({
-      embeds: [
-        client.tools
-          .embed()
-          .setTitle('Unmuted')
-          .setAuthor(
-            `${this.client.config.arrow} Moderator: ${message.author.username}`,
-            message.author.displayAvatarURL({ dynamic: true }),
-          )
-          .addField(this.client.config.arrow + ' **Victim**:', `${user} || ${user.id}`, true)
-          .addField(this.client.config.arrow + ' **Reason**:', reason, true)
-          .addField(this.client.config.arrow + ' **Channel**:', message.channel, true),
-      ],
+  async exec(message) {
+    return message.reply({
+      embeds: [this.client.tools.embed().setDescription('This is disabled, use the slash command instead.')],
     });
   }
   async execSlash(message) {
-    if (!message.member?.roles.cache.has(this.client.config.StaffRole))
-      return message.reply({ content: "You can't use this command.", ephemeral: true });
-    let user = message.options.get('user').member;
-    let reason = message.options.get('reason').value;
+    let user = message.options.get('user')?.member;
+    let reason = message.options.get('reason')?.value;
     message.defer();
 
     let doc = await chnlmute.findOne({

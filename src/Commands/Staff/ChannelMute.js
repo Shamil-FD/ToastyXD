@@ -14,9 +14,8 @@ module.exports = class ChannelMuteCommand extends Command {
       useSlashCommand: true,
       description: {
         info: 'Mute a user in the current channel.',
-        usage: ['t)channelmute User Time Reason'],
+        usage: ['/channelmute User Time Reason'],
       },
-      args: [{ id: 'user', type: 'memberMention' }, { id: 'time' }, { id: 'reason', match: 'rest' }],
       slashCommand: {
         options: [
           {
@@ -42,77 +41,15 @@ module.exports = class ChannelMuteCommand extends Command {
     });
   }
 
-  async exec(message, { user, time, reason }) {
-    let client = this.client;
-
-    if (!user)
-      return message.send(
-        client.tools.embed().setDescription('Proper usage: `t)channelmute @User [5m | 5h | 5d] [reason]`'),
-      );
-
-    if (!time)
-      return message.send(
-        client.tools.embed().setDescription('Proper usage: `t)channelmute @User [5m | 5h | 5d] [reason]`'),
-      );
-    if (!reason) return message.send(client.tools.embed().setDescription('No reason = No mute dum dum'));
-
-    let doc = await chnlmute.findOne({
-      user: user.id,
-      chnl: message.channel.id,
-    });
-    if (doc) return message.send(client.tools.embed().setDescription('They are already muted'));
-
-    time = ms(time);
-    if (!time)
-      return message.send(
-        client.tools.embed().setDescription('Proper usage: `t)channelmute @User [5m | 5h | 5d] [reason]`'),
-      );
-
-    await new chnlmute({
-      user: user.id,
-      chnl: message.channel.id,
-      time: time,
-      date: Date.now(),
-      reason: reason,
-      mod: message.author.tag,
-    }).save();
-    await message.channel.createOverwrite(user, {
-      SEND_MESSAGES: false,
-      ADD_REACTIONS: false,
-    });
-
-    message.send(
-      client.tools
-        .embed()
-        .setDescription(
-          `${this.client.config.arrow} Muted ${user} in this channel for ${pretty(time)}\nReason: ${reason}`,
-        )
-        .setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true })),
-    );
-
-    message.guild.channels.cache.get(this.client.config.StaffReportChnl).send({
-      embeds: [
-        client.tools
-          .embed()
-          .setTitle('Muted')
-          .setAuthor(
-            `${this.client.config.arrow} Moderator: ${message.author.username}`,
-            message.author.displayAvatarURL({ dynamic: true }),
-          )
-          .addField(this.client.config.arrow + ' **Victim**:', `${user} || ${user.id}`, true)
-          .addField(this.client.config.arrow + ' **Reason**:', reason, true)
-          .addField(this.client.config.arrow + ' **Duration**:', pretty(time), true)
-          .addField(this.client.config.arrow + '**Channel**:', message.channel, true)
-          .addField(this.client.config.arrow + '**Date**:', moment().format('DD/MM/YY')),
-      ],
+  async exec(message) {
+    return message.reply({
+      embeds: [this.client.tools.embed().setDescription('This is disabled, use the slash command instead.')],
     });
   }
   async execSlash(message) {
-    if (!message.member?.roles.cache.has(this.client.config.StaffRole))
-      return message.reply({ content: "You can't use this command.", ephemeral: true });
-    let time = ms(message.options.get('time').value);
-    let reason = message.options.get('reason').value;
-    let member = message.options.get('user').member;
+    let time = ms(message.options.get('time')?.value);
+    let reason = message.options.get('reason')?.value;
+    let member = message.options.get('user')?.member;
 
     if (!time)
       return message.reply({
@@ -156,11 +93,11 @@ module.exports = class ChannelMuteCommand extends Command {
             `${this.client.arrow} Moderator: ${message.member?.user?.username}`,
             message.member?.user?.displayAvatarURL({ dynamic: true }),
           )
-          .addField(this.client.config.arrow + ' **Victim**:', `${member} || ${member?.id}`, true)
-          .addField(this.client.config.arrow + ' **Reason**:', reason, true)
-          .addField(this.client.config.arrow + ' **Duration**:', pretty(time), true)
-          .addField(this.client.config.arrow + '**Channel**:', message.channel, true)
-          .addField(this.client.config.arrow + '**Date**:', moment().format('DD/MM/YY')),
+          .addField(this.client.config.arrow + ' **Victim**:', `${member} || ${member?.id}`)
+          .addField(this.client.config.arrow + ' **Reason**:', reason)
+          .addField(this.client.config.arrow + ' **Duration**:', await pretty(time))
+          .addField(this.client.config.arrow + '**Channel**:', message.channel)
+          .addField(this.client.config.arrow + '**Date**:', await moment().format('DD/MM/YY')),
       ],
     });
   }

@@ -6,6 +6,7 @@ module.exports = class ToastyModule extends Command {
     this.staffOnly = CommandOptions.staffOnly || false;
     this.managerOnly = CommandOptions.managerOnly || false;
     this.adminOnly = CommandOptions.adminOnly || false;
+    this.moderatorOnly = CommandOptions.moderatorOnly || false;
     this.beta = CommandOptions.beta || false;
     this.useSlashCommand = CommandOptions.useSlashCommand || false;
     this.slashCommand = {

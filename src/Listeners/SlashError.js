@@ -12,6 +12,8 @@ module.exports = class ErrorListener extends Listener {
     if (message.replied) message.editReply(`There was an error.\n\`\`\`${e.stack}\`\`\``);
     else message.reply(`There was an error.\n\`\`\`${e.stack}\`\`\``);
     console.log(e);
-    return this.client.channels.cache.get('850627411698647050').send({ content: `Error on ${command}\n\`\`\`${e.stack}\`\`\``})
+    return this.client.channels.cache
+      .get('850627411698647050')
+      .send({ content: `Error on ${command}\n\`\`\`${e.stack}\`\`\`` });
   }
 };

@@ -58,12 +58,17 @@ module.exports = class ToastyHandler extends CommandHandler {
         return RejectReply();
       else if (slashCmd?.staffOnly === true && !interaction.member.roles.cache.has(this.client.config.StaffRole))
         return RejectReply();
+      else if (
+        slashCmd?.moderatorOnly === true &&
+        !interaction.member.roles.cache.has(this.client.config.ModeratorRole)
+      )
+        return RejectReply();
     }
 
     try {
-      if(await this.runCooldowns(interaction, slashCmd) === false){
-      return slashCmd.execSlash(interaction);
-      } else return false
+      if ((await this.runCooldowns(interaction, slashCmd)) === false) {
+        return slashCmd.execSlash(interaction);
+      } else return false;
     } catch (e) {
       this.emit('slashError', e, interaction, slashCmd);
       return false;

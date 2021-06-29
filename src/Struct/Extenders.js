@@ -25,17 +25,16 @@ Structures.extend('Message', (Message) => {
             } else embed = value;
             if (!embed.color) embed.color = 'BLURPLE';
           } else {
-            content = " ";
+            content = ' ';
             content += value;
           }
         });
         let data = {
-            embeds: embed ? [embed] : null,
-            reply: { messageReference: this.id, failIfNotExists: true },
-
-        }
-        if(content?.length) {
-            data.content = content;
+          embeds: embed ? [embed] : null,
+          reply: { messageReference: this.id, failIfNotExists: true },
+        };
+        if (content?.length) {
+          data.content = content;
         }
         return this.channel.send(data);
       };
@@ -49,13 +48,13 @@ Structures.extend('Message', (Message) => {
         }
         return (
           this.mentions.members.first() ||
-          guild.members.fetch(content) ||
-          guild.members.cache.find(
+          (await guild.members.fetch(content)) ||
+          (await guild.members.cache.find(
             (m) =>
               m.user.tag.toLowerCase() == content.toLowerCase() ||
               m.displayName.toLowerCase() == content.toLowerCase() ||
               m.user.username.toLowerCase() == content.toLowerCase(),
-          ) ||
+          )) ||
           undefined
         );
       };

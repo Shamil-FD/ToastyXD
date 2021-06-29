@@ -57,7 +57,7 @@ module.exports = class ToastyClient extends AkairoClient {
       models: models,
       rannum: rannum,
       split: split,
-      wait: require('util').promisify(setTimeout)
+      wait: require('util').promisify(setTimeout),
     };
 
     this.commandHandler.useListenerHandler(this.listenerHandler);

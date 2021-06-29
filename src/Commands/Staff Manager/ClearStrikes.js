@@ -12,7 +12,7 @@ module.exports = class ResetStrikesCommand extends Command {
   }
 
   async exec(message, { user }) {
-    let { staff } = this.client.models;
+    let { staff } = this.client.tools.models;
     user = await message.getMember(user);
     if (!user) return message.send({ embeds: { description: 'Invalid user!' } });
 
