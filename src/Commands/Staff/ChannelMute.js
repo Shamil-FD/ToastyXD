@@ -56,7 +56,7 @@ module.exports = class ChannelMuteCommand extends Command {
         content: 'You provided an invalid time.',
         ephemeral: true,
       });
-    message.defer();
+     await message.defer();
 
     let doc = await chnlmute.findOne({
       user: member?.id,
@@ -96,7 +96,7 @@ module.exports = class ChannelMuteCommand extends Command {
           .addField(this.client.config.arrow + ' **Victim**:', `${member} || ${member?.id}`)
           .addField(this.client.config.arrow + ' **Reason**:', reason)
           .addField(this.client.config.arrow + ' **Duration**:', await pretty(time))
-          .addField(this.client.config.arrow + '**Channel**:', message.channel)
+          .addField(this.client.config.arrow + '**Channel**:', `<#${message.channel.id}>`)
           .addField(this.client.config.arrow + '**Date**:', await moment().format('DD/MM/YY')),
       ],
     });

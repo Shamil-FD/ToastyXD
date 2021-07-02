@@ -62,7 +62,7 @@ module.exports = class EditMessageCommand extends Command {
     let msgcolor = message.options.get('message-color')?.value || undefined;
     let embed;
 
-    message.defer(true);
+    await message.defer(true);
     if (['category', 'voice'].includes(channel.type)) return message.reply("Don't try to break me because I will.");
     let gotmsg = await channel.messages.fetch(msgid);
     if (!gotmsg || gotmsg.author.id === this.client.user.id)

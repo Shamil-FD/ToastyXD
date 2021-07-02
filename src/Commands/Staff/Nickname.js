@@ -63,16 +63,17 @@ module.exports = class NicknameCommand extends Command {
   async execSlash(message) {
     if (!message.member.roles.cache.has(this.client.config.StaffRole))
       return message.reply({ content: "You can't use this command.", ephemeral: true });
-    message.defer();
+    await message.defer();
 
-    if (!message.options.get('nickname')?.length && !message.options.get('premade')?.choices.length)
+    if (!message.options.get('nickname')?.value.length && !message.options.get('premade')?.choices.length)
       return message.editReply({
         content: 'You have to provide me a valid option.',
         ephemeral: true,
       });
 
     if (!message.options.get('nickname').length) {
-      if (message.options.get('premade')?.choices[0].name.toLowerCase() !== 'reset') {
+      if (message.options.get('premade')?.choices[0].name.toLowerCase() !== 'reset') {        
+        if (message.options.get('nickname').value.length > 33) return message.editReply('Nickname\'s can\'t be more than 32 characters.');  
         let res = await change(message.options.get('user').member, message.options.get('nickname').value);
         if (res === 'bad') {
           return message.editReply(`I couldn't change ${message.options.get('user').member}'s nickname.`);
@@ -102,6 +103,7 @@ module.exports = class NicknameCommand extends Command {
         await user.setNickname(name);
         res = 'good';
       } catch (e) {
+        console.log(e)
         res = 'bad';
       }
       return res;

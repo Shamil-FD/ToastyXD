@@ -38,7 +38,7 @@ module.exports = class ToastyHandler extends CommandHandler {
     // Check if the interaction is a command.
     if (interaction.isCommand()) {
     // Get the command
-    let slashCmd = this.modules.get(interaction.commandName);
+    let slashCmd = await this.findCommand(interaction.commandName);
     if (!slashCmd) return false;
     // Add interaction.author since it doesn't exist on interactions
     interaction.author = interaction.member?.user;

@@ -11,12 +11,11 @@
 	"author": "The XD contributors",
 	"license": "ISC",
 	"dependencies": {
-		"@canvacord/emoji-parser": "^1.0.1",
 		"canvas": "^2.6.1",
 		"chalk": "^4.1.0",
 		"dayjs": "^1.10.4",
 		"discord-akairo": "discord-akairo/discord-akairo",
-		"discord.js": "^13.0.0-dev.1f8f3ab0f8dbd346154bbfa14a98726b8df25d57",
+		"discord.js": "^13.0.0-dev",
 		"imageapi.js": "^1.7.0",
 		"lodash": "^4.17.21",
 		"moment": "^2.29.1",

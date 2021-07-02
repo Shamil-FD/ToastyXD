@@ -25,13 +25,13 @@ module.exports = class LeaveCommand extends Command {
             options: [
               {
                 name: 'start',
-                description: 'The start date.',
+                description: 'The start date. Format DD/MM/YYYY OR DD/MM/YY',
                 required: true,
                 type: 'STRING',
               },
               {
                 name: 'end',
-                description: "The end date or 'indefinite' for no end date.",
+                description: "The end date or 'indefinite' for no end date. Format DD/MM/YYYY OR DD/MM/YY",
                 required: true,
                 type: 'STRING',
               },
@@ -61,7 +61,7 @@ module.exports = class LeaveCommand extends Command {
     });
   }
   async execSlash(message) {
-    message.defer();
+    await message.defer();
     if (message.options.get('end')) {
       let doc = await leave.findOne({ user: message.member?.id });
       if (!doc)

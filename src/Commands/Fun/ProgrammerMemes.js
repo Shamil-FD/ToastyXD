@@ -23,7 +23,7 @@ module.exports = class MemeCommand extends Command {
     );
   }
   async execSlash(message) {
-    message.defer();
+    await message.defer();
     const meme = await imageapi.advanced('programmerhumor', 'top');
     return message.editReply({
       embeds: [

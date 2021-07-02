@@ -11,26 +11,25 @@ module.exports = class ButtonListener extends Listener {
   async exec(interaction) {
     if (interaction.isButton()) {
       if (interaction.customID.toLowerCase() == 'purgeverify') {
-        if (!interaction.member?.roles.cache.has(this.client.config.StaffRole))
-          return interaction.reply({
-            ephemeral: true,
-            content: `${interaction.member}, you can't use this button, dummy.`,
-          });
-
-        interaction.defer(true);
+        await interaction.defer(true);          
+        if (!interaction.member?.roles.cache.has(this.client.config.StaffRole)) {
+          await interaction.editReply({ embeds: [this.client.tools.embed().setColor('RED').setDescription(`${interaction.member}, you can't use this button, dummy.`)] });
+          await this.client.tools.wait(5000);            
+          return interaction.editReply({ embeds: [this.client.tools.embed().setColor('RED').setDescription(`Press the button below to delete any unpinned messages.`)] })
+        }
         let DeleteMessages = await FetchAndDelete(interaction);
         if (DeleteMessages.status === false) {
-          return interaction.reply({
-            ephemeral: true,
-            content: `There was an error, try again later.\nError: \`\`\`${DeleteMessages.error}\`\`\``,
-          });
+          await interaction.editReply({ embeds: [this.client.tools.embed().setColor('RED').setDescription(`There was an error, try again later.\nError: \`\`\`${DeleteMessages.error}\`\`\``)] });
+          await this.client.tools.wait(5000);            
+          return interaction.editReply({ embeds: [this.client.tools.embed().setColor('RED').setDescription(`Press the button below to delete any unpinned messages.`)] })            
         } else if (DeleteMessages.deleted > 0) {
-          return interaction.reply({
-            ephemeral: true,
-            content: `Successfully deleted ${DeleteMessages.deleted} messages.`,
-          });
+          await interaction.editReply({ embeds: [this.client.tools.embed().setColor('GREEN').setDescription(`Successfully deleted ${DeleteMessages.deleted} messages.`)] });
+          await this.client.tools.wait(5000);            
+          return interaction.editReply({ embeds: [this.client.tools.embed().setColor('RED').setDescription(`Press the button below to delete any unpinned messages.`)] })            
         } else {
-          return interaction.reply({ ephemeral: true, content: `There are 0 unpinned messages, dummy.` });
+          await interaction.editReply({ embeds: [this.client.tools.embed().setColor('RED').setDescription(`There are 0 unpinned messages, dummy.`)] });
+          await this.client.tools.wait(5000);            
+          return interaction.editReply({ embeds: [this.client.tools.embed().setColor('RED').setDescription(`Press the button below to delete any unpinned messages.`)] })          
         }
       }
     }

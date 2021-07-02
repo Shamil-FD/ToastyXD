@@ -40,7 +40,7 @@ module.exports = class ChannelUnmuteCommand extends Command {
   async execSlash(message) {
     let user = message.options.get('user')?.member;
     let reason = message.options.get('reason')?.value;
-    message.defer();
+     await message.defer();
 
     let doc = await chnlmute.findOne({
       user: user?.id,
@@ -86,9 +86,9 @@ module.exports = class ChannelUnmuteCommand extends Command {
             `${this.client.config.arrow} Moderator: ${message.member?.user?.username}`,
             message.member?.user?.displayAvatarURL({ dynamic: true }),
           )
-          .addField(this.client.config.arrow + ' **Victim**:', `${user} || ${user?.id}`, true)
-          .addField(this.client.config.arrow + ' **Reason**:', reason, true)
-          .addField(this.client.config.arrow + ' **Channel**:', message.channel, true),
+          .addField(this.client.config.arrow + ' **Victim**:', `${user} || ${user?.id}`)
+          .addField(this.client.config.arrow + ' **Reason**:', reason)
+          .addField(this.client.config.arrow + ' **Channel**:', `<#${message.channel}>`),
       ],
     });
   }

@@ -37,7 +37,7 @@ module.exports = class NotStonksCommand extends Command {
   async execSlash(message) {
     let user = message.options.get('user')?.member ?? message.member;
     let buffer = await meme(user.user.displayAvatarURL());
-    message.defer();
+    await message.defer();
     return message.editReply({
       files: [new MessageAttachment(await buffer, 'notstonks.png')],
     });

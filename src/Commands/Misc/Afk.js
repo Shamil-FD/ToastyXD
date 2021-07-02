@@ -57,7 +57,7 @@ module.exports = class AFKCommand extends Command {
   async execSlash(message) {
     const doc = await afk.findOne({ user: message.member.id });
     let reason = message.options.get('reason').value || 'be back soon xo';
-    message.defer();
+    await message.defer();
 
     if (!doc) {
       await new afk({
