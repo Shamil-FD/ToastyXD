@@ -19,14 +19,16 @@ module.exports = class CooldownListener extends Listener {
       'mhm can ya slow it down',
       'SLOW IT HOOman',
     ];
+    let ads = ['https://cdn.discordapp.com/attachments/845362485707276298/859866680389795840/twitt.gif', 'https://cdn.discordapp.com/attachments/845362485707276298/859866704209379348/sub.gif']
     let embed = this.client.tools
       .embed()
       .setDescription(
         `${command} doesn't want to be run right now. Wait ${ms(remaining, {
           verbose: true,
-        })} to use the command again`,
+        })} to use the command again\nWhile you wait watch this ad..`,
       )
-      .setTitle(arr[Math.round(Math.random() * arr.length)]);
+      .setTitle(await arr[Math.round(Math.random() * arr.length)])
+      .setImage(await ads[Math.round(Math.random() * arr.length)]);
     return message.reply({ embeds: [embed] });
   }
 };
