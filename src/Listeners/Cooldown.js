@@ -9,7 +9,7 @@ module.exports = class CooldownListener extends Listener {
     });
   }
 
-  exec(message, command, remaining) {
+  async exec(message, command, remaining) {
     const arr = [
       'Woah there! slow it',
       'stop, wait, do it again',
