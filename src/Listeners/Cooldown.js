@@ -28,7 +28,7 @@ module.exports = class CooldownListener extends Listener {
         })} to use the command again\nWhile you wait watch this ad..`,
       )
       .setTitle(await arr[Math.round(Math.random() * arr.length)])
-      .setImage(await ads[Math.round(Math.random() * arr.length)]);
+      .setImage(await ads[Math.round(Math.random() * ads.length)]);
     return message.reply({ embeds: [embed] });
   }
 };

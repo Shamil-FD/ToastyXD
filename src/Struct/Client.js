@@ -38,6 +38,7 @@ module.exports = class ToastyClient extends AkairoClient {
       automateCategories: true,
       defaultCooldown: 5000,
       commandUtilLifetime: 300000,
+      ignoreCooldown: [],
       directory: `${path.dirname(require?.main?.filename)}${path.sep}Commands/`,
     });
 
