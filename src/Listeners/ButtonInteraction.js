@@ -44,7 +44,7 @@ module.exports = class ButtonListener extends Listener {
             ],
             ephemeral: true,
           });
-         } else {
+        } else {
           await interaction.reply({
             embeds: [this.client.tools.embed().setColor('RED').setDescription(`There are 0 unpinned messages, dummy.`)],
             ephemeral: true,
