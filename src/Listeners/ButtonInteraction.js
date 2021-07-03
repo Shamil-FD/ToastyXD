@@ -22,16 +22,6 @@ module.exports = class ButtonListener extends Listener {
             ],
             ephemeral: true,
           });
-          await this.client.tools.wait(5000);
-          return interaction.reply({
-            embeds: [
-              this.client.tools
-                .embed()
-                .setColor('RED')
-                .setDescription(`Press the button below to delete any unpinned messages.`),
-            ],
-            ephemeral: true,
-          });
         }
         let DeleteMessages = await FetchAndDelete(interaction);
         if (DeleteMessages.status === false) {
@@ -41,16 +31,6 @@ module.exports = class ButtonListener extends Listener {
                 .embed()
                 .setColor('RED')
                 .setDescription(`There was an error, try again later.\nError: \`\`\`${DeleteMessages.error}\`\`\``),
-            ],
-            ephemeral: true,
-          });
-          await this.client.tools.wait(5000);
-          return interaction.reply({
-            embeds: [
-              this.client.tools
-                .embed()
-                .setColor('RED')
-                .setDescription(`Press the button below to delete any unpinned messages.`),
             ],
             ephemeral: true,
           });
@@ -64,29 +44,9 @@ module.exports = class ButtonListener extends Listener {
             ],
             ephemeral: true,
           });
-          await this.client.tools.wait(5000);
-          return interaction.reply({
-            embeds: [
-              this.client.tools
-                .embed()
-                .setColor('RED')
-                .setDescription(`Press the button below to delete any unpinned messages.`),
-            ],
-            ephemeral: true,
-          });
-        } else {
+         } else {
           await interaction.reply({
             embeds: [this.client.tools.embed().setColor('RED').setDescription(`There are 0 unpinned messages, dummy.`)],
-            ephemeral: true,
-          });
-          await this.client.tools.wait(5000);
-          return interaction.reply({
-            embeds: [
-              this.client.tools
-                .embed()
-                .setColor('RED')
-                .setDescription(`Press the button below to delete any unpinned messages.`),
-            ],
             ephemeral: true,
           });
         }
