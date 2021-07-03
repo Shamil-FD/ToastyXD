@@ -22,8 +22,8 @@ module.exports = class EvalCommand extends Command {
     if (!code) return message.reply('No code provided!');
     const clean = (stuff) => {
       if (typeof stuff === 'string') {
-        const tokenRegex = new RegExp(`${this.client.token}|${this.client.token.split('').reverse().join('[^]{0,2}')}`, 'g');         
-        return stuff.replace(/`/g, '`' + String.fromCharCode(8203)).replace(/@/g, '@' + String.fromCharCode(8203)).replace(tokenRegex, '[Censored Hentai]');
+        stuff = stuff.replace(this.client.token, '[CENSORED HENTAI]')
+        stuff = stuff.replace(this.client.config.Mongo, '[CENSORED HENTAI]')
         } else return stuff;
     }
 
