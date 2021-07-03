@@ -31,6 +31,9 @@ module.exports = class ReadyListener extends Listener {
       })
       .then(console.log(black.bgGreen('[MongoDB]') + greenBright(' DataBase Connected.')));
 
+    // Check if testMode is turned on
+    if (this.client.config.testMode === true) return;
+
     // Auto Update System
     cron.schedule('*/15 * * * *', async () => {
       exec(`git pull ${this.client.config.Github}`, async (error, stdout) => {

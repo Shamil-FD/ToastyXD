@@ -58,7 +58,7 @@ module.exports = class SetbioCommand extends Command {
     let { staff } = this.client.tools.models;
     if (!message.member.roles.cache.has(this.client.config.StaffRole))
       return message.reply({ content: "You can't use this command.", ephemeral: true });
-     await message.defer();
+    await message.defer();
 
     if (!message.options.get('bio').value || message.options.get('bio').value.length > 49)
       return message.editReply({

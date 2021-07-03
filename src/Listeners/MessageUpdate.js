@@ -13,6 +13,8 @@ module.exports = class MessageUpdateListener extends Listener {
   }
 
   async exec(Old, New) {
+    // Check if testMode is turned on
+    if (this.client.config.testMode === true) return;
     if (Old.guild.id !== '655109296400367618') return;
     // This File Is For Checking If a Message That's Been Edited Has A Blacklisted Word.
     New = await New.fetch().catch((error) => {

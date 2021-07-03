@@ -13,6 +13,8 @@ module.exports = class BlackListListener extends Listener {
   }
 
   async exec(message) {
+    // Check if testMode is turned on
+    if (this.client.config.testMode === true) return;
     if (message.guild.id !== '655109296400367618') return;
     if (message.author.bot === true) return;
     if (message.channel.type !== 'text') return;

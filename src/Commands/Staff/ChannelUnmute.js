@@ -40,7 +40,7 @@ module.exports = class ChannelUnmuteCommand extends Command {
   async execSlash(message) {
     let user = message.options.get('user')?.member;
     let reason = message.options.get('reason')?.value;
-     await message.defer();
+    await message.defer();
 
     let doc = await chnlmute.findOne({
       user: user?.id,

@@ -15,5 +15,6 @@ let client = new Client({
   cross: '❌',
   arrow: '❯',
   prefix: 't)',
+  testMode: false,
 });
 client.start({ Token });

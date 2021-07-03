@@ -12,6 +12,8 @@ module.exports = class GuildMemberAddListener extends Listener {
   }
 
   async exec(member) {
+    // Check if testMode is turned on
+    if (this.client.config.testMode === true) return;
     // Check If Member Is A Bot
     if (member.user.bot) return;
 

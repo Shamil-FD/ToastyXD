@@ -72,8 +72,9 @@ module.exports = class NicknameCommand extends Command {
       });
 
     if (!message.options.get('nickname').length) {
-      if (message.options.get('premade')?.choices[0].name.toLowerCase() !== 'reset') {        
-        if (message.options.get('nickname').value.length > 33) return message.editReply('Nickname\'s can\'t be more than 32 characters.');  
+      if (message.options.get('premade')?.choices[0].name.toLowerCase() !== 'reset') {
+        if (message.options.get('nickname').value.length > 33)
+          return message.editReply("Nickname's can't be more than 32 characters.");
         let res = await change(message.options.get('user').member, message.options.get('nickname').value);
         if (res === 'bad') {
           return message.editReply(`I couldn't change ${message.options.get('user').member}'s nickname.`);
@@ -103,7 +104,7 @@ module.exports = class NicknameCommand extends Command {
         await user.setNickname(name);
         res = 'good';
       } catch (e) {
-        console.log(e)
+        console.log(e);
         res = 'bad';
       }
       return res;

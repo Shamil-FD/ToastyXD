@@ -11,6 +11,8 @@ module.exports = class MessageListener extends Listener {
   }
 
   async exec(message) {
+    // Check if testMode is turned on
+    if (this.client.config.testMode === true) return;
     if (message.author.bot) return;
 
     // Inform Someone Who Just Joined A Few Rules About Help Channels.

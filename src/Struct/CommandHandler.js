@@ -37,43 +37,43 @@ module.exports = class ToastyHandler extends CommandHandler {
   async handleSlash(interaction) {
     // Check if the interaction is a command.
     if (interaction.isCommand()) {
-    // Get the command
-    let slashCmd = await this.findCommand(interaction.commandName);
-    if (!slashCmd) return false;
-    // Add interaction.author since it doesn't exist on interactions
-    interaction.author = interaction.member?.user;
+      // Get the command
+      let slashCmd = await this.findCommand(interaction.commandName);
+      if (!slashCmd) return false;
+      // Add interaction.author since it doesn't exist on interactions
+      interaction.author = interaction.member?.user;
 
-    // Check Command use permissions
-    let RejectReply = () => {
-      return interaction.reply("You can't use this command.");
-    };
-    if (slashCmd?.ownerOnly === true && !this.client.ownerID.includes(interaction.member.id)) return RejectReply();
-    if (
-      !this.client.ownerID.includes(interaction.member.id) ||
-      !interaction.member.roles.cache.has(this.client.config.StaffManagerRole)
-    ) {
-      if (slashCmd?.managerOnly === true && !interaction.member.roles.cache.has(this.client.config.StaffManagerRole))
-        return RejectReply();
-      else if (slashCmd?.adminOnly === true && !interaction.member.roles.cache.has(this.client.config.AdminRole))
-        return RejectReply();
-      else if (slashCmd?.staffOnly === true && !interaction.member.roles.cache.has(this.client.config.StaffRole))
-        return RejectReply();
-      else if (
-        slashCmd?.moderatorOnly === true &&
-        !interaction.member.roles.cache.has(this.client.config.ModeratorRole)
-      )
-        return RejectReply();
-    }
+      // Check Command use permissions
+      let RejectReply = () => {
+        return interaction.reply("You can't use this command.");
+      };
+      if (slashCmd?.ownerOnly === true && !this.client.ownerID.includes(interaction.member.id)) return RejectReply();
+      if (
+        !this.client.ownerID.includes(interaction.member.id) ||
+        !interaction.member.roles.cache.has(this.client.config.StaffManagerRole)
+      ) {
+        if (slashCmd?.managerOnly === true && !interaction.member.roles.cache.has(this.client.config.StaffManagerRole))
+          return RejectReply();
+        else if (slashCmd?.adminOnly === true && !interaction.member.roles.cache.has(this.client.config.AdminRole))
+          return RejectReply();
+        else if (slashCmd?.staffOnly === true && !interaction.member.roles.cache.has(this.client.config.StaffRole))
+          return RejectReply();
+        else if (
+          slashCmd?.moderatorOnly === true &&
+          !interaction.member.roles.cache.has(this.client.config.ModeratorRole)
+        )
+          return RejectReply();
+      }
 
-    try {
-      if ((await this.runCooldowns(interaction, slashCmd)) === false) {
-        return slashCmd.execSlash(interaction);
-      } else return false;
-    } catch (e) {
-      this.emit('slashError', e, interaction, slashCmd);
+      try {
+        if ((await this.runCooldowns(interaction, slashCmd)) === false) {
+          return slashCmd.execSlash(interaction);
+        } else return false;
+      } catch (e) {
+        this.emit('slashError', e, interaction, slashCmd);
+        return false;
+      }
       return false;
-    }
-    return false;
     }
   }
 };

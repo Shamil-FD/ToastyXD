@@ -59,7 +59,7 @@ module.exports = class SetColorCommand extends Command {
     if (!message.member.roles.cache.has(this.client.config.StaffRole))
       return message.reply({ content: "You can't use this command.", ephemeral: true });
 
-     await message.defer();
+    await message.defer();
     let doc = await this.client.tools.models.staff.findOne({ user: message.member.id });
     if (!doc) return message.editReply({ content: 'There was an error, please try again.', ephemeral: true });
     if (message.options.size < 0)

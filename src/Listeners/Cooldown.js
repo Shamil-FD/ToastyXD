@@ -19,7 +19,10 @@ module.exports = class CooldownListener extends Listener {
       'mhm can ya slow it down',
       'SLOW IT HOOman',
     ];
-    let ads = ['https://cdn.discordapp.com/attachments/845362485707276298/859866680389795840/twitt.gif', 'https://cdn.discordapp.com/attachments/845362485707276298/859866704209379348/sub.gif']
+    let ads = [
+      'https://cdn.discordapp.com/attachments/845362485707276298/859866680389795840/twitt.gif',
+      'https://cdn.discordapp.com/attachments/845362485707276298/859866704209379348/sub.gif',
+    ];
     let embed = this.client.tools
       .embed()
       .setDescription(
@@ -29,6 +32,13 @@ module.exports = class CooldownListener extends Listener {
       )
       .setTitle(await arr[Math.round(Math.random() * arr.length)])
       .setImage(await ads[Math.round(Math.random() * ads.length)]);
-    return message.reply({ embeds: [embed] });
+    let replied = await message.reply({ embeds: [embed] });
+    await this.client.tools.wait(remaining);
+    try {
+      await message.delete();
+      return replied.delete();
+    } catch (e) {
+      return;
+    }
   }
 };

@@ -1,4 +1,4 @@
-const Command = require('../Struct/Command.js');
+const Command = require('../../Struct/Command.js');
 const util = require('util');
 
 module.exports = class RestartCommand extends Command {

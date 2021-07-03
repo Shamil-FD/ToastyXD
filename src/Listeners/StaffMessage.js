@@ -9,6 +9,9 @@ module.exports = class StaffMessageListener extends Listener {
   }
 
   async exec(message) {
+    // Check if testMode is turned on
+    if (this.client.config.testMode === true) return;
+
     if (message.author.bot === true) return;
     let { models, rannum } = this.client.tools;
     // Check If Channel Is A Guild Channel
