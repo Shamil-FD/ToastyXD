@@ -22,23 +22,24 @@ module.exports = class EvalCommand extends Command {
     if (!code) return message.reply('No code provided!');
     const clean = (stuff) => {
       if (typeof stuff === 'string') {
-        stuff = stuff.replace(new RegExp(this.client.token, 'gi'), '[CENSORED HENTAI]');
-        stuff = stuff.replace(new RegExp(this.client.config.Mongo, 'gi'), '[CENSORED HENTAI]');
-      } else return stuff;
-    };
+        stuff = stuff.replace(this.client.token, '[CENSORED HENTAI]')
+        stuff = stuff.replace(this.client.config.Mongo, '[CENSORED HENTAI]')
+        } else return stuff;
+    }
 
     try {
       let evaled = eval(code);
-      if (typeof evaled != 'string') evaled = inspect(evaled, { depth: 0 });
-      evaled = clean(evaled);
+
+      if (typeof evaled !== 'string') evaled = await clean(inspect(evaled, { depth: 0 }));
       evaled = await splitMessage(evaled, { maxLength: 3000 });
 
       let replyDeleted = false;
       (await message.fetch()) ? (replyDeleted = false) : (replyDeleted = true);
 
       let embeds = [];
-      for (let ArrNum = 0; ArrNum < evaled.length; ArrNum++) {
-        await embeds.push(this.client.tools.embed().setDescription(`\`\`\`${evaled[ArrNum]}\`\`\``));
+      for(let ArrNum = 0; ArrNum < evaled.length; ArrNum++) {
+        
+      await embeds.push(this.client.tools.embed().setDescription(`\`\`\`${evaled[ArrNum]}\`\`\``));
       }
       if (!replyDeleted) return message.reply({ embeds: embeds });
       else return message.channel.send({ embeds: embeds });
