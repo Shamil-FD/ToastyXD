@@ -17,7 +17,6 @@ module.exports = class StaffMessageListener extends Listener {
     // Check If Channel Is A Guild Channel
     if (message.channel.type === 'text') {
       // Staff Check-In Stuff
-      if (['709043831995105360', '781221115271970826', '853552430515093534'].includes(message.channel.id)) return;
       if (message.member.roles.cache.has('752632482943205546') === true) {
         if (message.content.toLowerCase().startsWith(this.client.config.prefix)) return;
         let doc = await models.staff.findOne({ user: message.author.id });
@@ -25,17 +24,20 @@ module.exports = class StaffMessageListener extends Listener {
         if (!doc) {
           await new models.staff({
             user: message.author.id,
-            msgs: 1,
+            msgs: 0,
             dailyCount: rannum(),
             total: 1,
             onLeave: false,
             strikes: 0,
           }).save();
         } else {
+      if (!['709043831995105360', '781221115271970826', '853552430515093534'].includes(message.channel.id)) {          
           doc.msgs++;
+      }
           doc.total ? doc.total++ : (doc.total = 1);
-          await doc.save();
+          await doc.save();            
         }
+        if (['709043831995105360', '781221115271970826', '853552430515093534'].includes(message.channel.id)) return;                    
         doc = await models.staff.findOne({ user: message.author.id });
         // If A Staff's Total Message Count Is Equal To Or Greater Than Their Daily Message Count Then Execute These
         if (doc.msgs > doc.dailyCount) {

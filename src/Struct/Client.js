@@ -1,11 +1,10 @@
 const { AkairoClient, InhibitorHandler, ListenerHandler } = require('discord-akairo');
-const { embed, captcha, split, rannum } = require('../Util/Functions');
+const { embed, captcha, split, rannum, getRole, getMember, getChannel } = require('../Util/Functions');
 const { Intents, Collection } = require('discord.js');
 const CommandHandler = require('./CommandHandler');
 const models = require('../Util/Models');
 const Command = require('./Command');
 const path = require('path');
-require('./Extenders');
 
 module.exports = class ToastyClient extends AkairoClient {
   constructor(config = {}) {
@@ -59,6 +58,9 @@ module.exports = class ToastyClient extends AkairoClient {
       rannum: rannum,
       split: split,
       wait: require('util').promisify(setTimeout),
+      getRole: getRole,
+      getMember: getMember,
+      getChannel: getChannel,
     };
 
     this.commandHandler.useListenerHandler(this.listenerHandler);

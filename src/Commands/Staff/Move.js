@@ -31,8 +31,8 @@ module.exports = class MoveCommand extends Command {
   }
   async exec(message, { chnl }) {
     if (!chnl)
-      return message.send({
-        embeds: { description: "You didn't give me a channel." },
+      return message.reply({
+        embeds: [{ description: "You didn't give me a channel." }],
       });
     let embed = this.client.tools
       .embed()

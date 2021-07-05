@@ -34,24 +34,24 @@ module.exports = class SetbioCommand extends Command {
   async exec(message, { bio }) {
     let { staff } = this.client.tools.models;
     if (!bio)
-      return message.send({
-        embeds: {
+      return message.reply({
+        embeds: [{
           description: "Didn't quite catch that.. Can you give me a description of yourself?",
           color: 'RED',
-        },
+        }],
       });
     if (bio.length > 48)
-      return message.send({
-        embeds: {
+      return message.reply({
+        embeds: [{
           description: "You can't make your bio longer than 48 characters.",
           color: 'RED',
-        },
+        }],
       });
     let doc = await staff.findOne({ user: message.author.id });
     doc.desc = bio;
     await doc.save();
-    return message.send({
-      embeds: { color: 'GREEN', description: `Set \`${bio}\` as your bio.` },
+    return message.reply({
+      embeds: [{ color: 'GREEN', description: `Set \`${bio}\` as your bio.` }],
     });
   }
   async execSlash(message) {

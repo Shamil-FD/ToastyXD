@@ -52,6 +52,7 @@ module.exports = class ToastyHandler extends CommandHandler {
         !this.client.ownerID.includes(interaction.member.id) ||
         !interaction.member.roles.cache.has(this.client.config.StaffManagerRole)
       ) {
+        if (slashCmd?.betaOnly === true) return RejectReply(); 
         if (slashCmd?.managerOnly === true && !interaction.member.roles.cache.has(this.client.config.StaffManagerRole))
           return RejectReply();
         else if (slashCmd?.adminOnly === true && !interaction.member.roles.cache.has(this.client.config.AdminRole))

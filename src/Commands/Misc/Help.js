@@ -23,8 +23,8 @@ module.exports = class HelpCommand extends Command {
   exec(message, { comd }) {
     if (comd) {
       if (comd.description) {
-        return message.send({
-          embeds: {
+        return message.reply({
+          embeds: [{
             title: `Command: ${comd.id}`,
             description: `${this.client.config.arrow} **Info**: ${comd.description.info}\n${
               this.client.config.arrow
@@ -36,7 +36,7 @@ module.exports = class HelpCommand extends Command {
                     .join(', ')}`
                 : ''
             }`,
-          },
+          }],
         });
       } else {
         return helpCmd(this.handler, this.client, message);
@@ -71,15 +71,15 @@ module.exports = class HelpCommand extends Command {
           ],
         });
       } else {
-        return helpCmd(this.handler, this.client, message, true);
+        return helpCmd(this.handler, this.client, message);
       }
     } else {
-      return helpCmd(this.handler, this.client, message, true);
+      return helpCmd(this.handler, this.client, message);
     }
   }
 };
 
-function helpCmd(handler, client, message, slash) {
+function helpCmd(handler, client, message) {
   let fields = [];
   for (const [name, category] of handler.categories.filter((cm) => !['flag'].includes(cm.id))) {
     fields.push({
@@ -91,19 +91,6 @@ function helpCmd(handler, client, message, slash) {
           .join(', ') || 'Bug!',
     });
   }
-
-  if (!slash) {
-    return message.send({
-      embeds: {
-        title: client.config.arrow + ' Commands ❮',
-        url: 'https://youtube.com/watch?v=dQw4w9WgXcQ',
-        fields: fields,
-        thumbnail: {
-          url: message.author.displayAvatarURL({ dynamic: true }),
-        },
-      },
-    });
-  } else {
     return message.reply({
       embeds: [
         client.tools
@@ -113,6 +100,5 @@ function helpCmd(handler, client, message, slash) {
           .addFields(fields)
           .setThumbnail(message.member?.user?.displayAvatarURL({ dynamic: true })),
       ],
-    });
-  }
+    });  
 }

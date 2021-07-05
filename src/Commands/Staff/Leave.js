@@ -86,9 +86,9 @@ module.exports = class LeaveCommand extends Command {
       }
       if (end.toLowerCase() !== 'indefinite') {
         if (cumEnd.length == 4) {
-          end = dayjs(end + ' 00:00', 'DD/MM/YYYY HH:mm');
+          end = dayjs(end + ' 07:00', 'DD/MM/YYYY HH:mm');
         } else {
-          end = dayjs(end + ' 06:00', 'DD/MM/YY HH:mm');
+          end = dayjs(end + ' 07:00', 'DD/MM/YY HH:mm');
         }
       } else {
         end = dayjs().add(11, 'year');

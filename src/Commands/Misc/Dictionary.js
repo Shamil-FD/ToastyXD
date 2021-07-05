@@ -68,11 +68,11 @@ module.exports = class DictionaryCommand extends Command {
     if (urban) {
       fetched = await urbanDic.define(search);
       if (!fetched)
-        return message.send({
-          embeds: {
+        return message.reply({
+          embeds: [{
             description: `No definitions found for ${search}`,
             color: 'RED',
-          },
+          }],
         });
       fetched = fetched.slice(0, 3);
 
@@ -99,18 +99,18 @@ module.exports = class DictionaryCommand extends Command {
           }
         });
       });
-      return message.send({ embeds: { description: result.join('\n') } });
+      return message.reply({ embeds: [{ description: result.join('\n') }] });
     } else {
       await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en_GB/${search}`)
         .then((res) => res.json())
         .then((res) => (fetched = res));
 
       if (fetched?.title === 'No Definitions Found')
-        return message.send({
-          embeds: {
+        return message.reply({
+          embeds: [{
             description: `No definitions found for ${search}`,
             color: 'RED',
-          },
+          }],
         });
 
       fetched.forEach((f) => {
@@ -130,8 +130,8 @@ module.exports = class DictionaryCommand extends Command {
             .join('\n\n'),
         );
       });
-      return message.send({
-        embeds: { title: search, description: result.join('\n') },
+      return message.reply({
+        embeds: [{ title: search, description: result.join('\n') }],
       });
     }
   }

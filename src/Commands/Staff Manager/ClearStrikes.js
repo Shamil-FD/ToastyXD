@@ -13,17 +13,17 @@ module.exports = class ResetStrikesCommand extends Command {
 
   async exec(message, { user }) {
     let { staff } = this.client.tools.models;
-    user = await message.getMember(user);
-    if (!user) return message.send({ embeds: { description: 'Invalid user!' } });
+    user = await this.client.tools.getMember({ user: user, message: message });
+    if (!user) return message.reply({ embeds: [{ description: 'Invalid user!' }] });
 
     let doc = await staff.findOne({ user: user.id });
     if (!doc)
-      return message.send({
-        embeds: { description: "They don't have any strikes." },
+      return message.reply({
+        embeds: [{ description: "They don't have any strikes." }],
       });
 
     doc.strikes = 0;
     await doc.save();
-    return message.send({ embeds: { description: 'POOF! Begone strikes!' } });
+    return message.reply({ embeds: [{ description: 'POOF! Begone strikes!' }] });
   }
 };

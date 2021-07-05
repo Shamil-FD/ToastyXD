@@ -26,35 +26,35 @@ class GithubCommand extends Command {
 
   async exec(message, { author, repo }) {
     if (!author)
-      return message.send({
-        embeds: {
+      return message.reply({
+        embeds: [{
           description: 'Specify the owner of the repos username',
           color: 'RED',
-        },
+        }],
       });
     if (!repo)
-      return message.send({
-        embeds: {
+      return message.reply({
+        embeds: [{
           description: 'Specify the repository name.',
           color: 'RED',
-        },
+        }],
       });
 
     const data = await fetch(`https://api.github.com/repos/${author[0]}/${encodeURIComponent(repo[1])}`, {
       headers: { 'User-Agent': author },
     });
     if (data.status !== 200)
-      return message.send({
-        embeds: { description: "Couldn't find that repository.", color: 'RED' },
+      return message.reply({
+        embeds: [{ description: "Couldn't find that repository.", color: 'RED' }],
       });
 
     const json = await data.json();
     if (!json.name)
-      return message.send({
-        embeds: {
+      return message.reply({
+        embeds: [{
           description: "Couldn't find that repository.",
           color: 'RED',
-        },
+        }],
       });
 
     const embed = new MessageEmbed()
@@ -102,7 +102,7 @@ class GithubCommand extends Command {
       .setFooter('Created At')
       .setTimestamp(new Date(json.created_at))
       .setColor('GREEN');
-    return message.send(embed);
+    return message.reply({ embeds: [embed] });
   }
 }
 

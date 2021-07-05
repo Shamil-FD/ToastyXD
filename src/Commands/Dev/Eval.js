@@ -6,7 +6,7 @@ module.exports = class EvalCommand extends Command {
   constructor() {
     super('eval', {
       aliases: ['eval'],
-      category: 'flag',
+      category: 'Dev',
       ownerOnly: true,
       quoted: false,
       args: [
@@ -22,17 +22,24 @@ module.exports = class EvalCommand extends Command {
     if (!code) return message.reply('No code provided!');
     const clean = (stuff) => {
       if (typeof stuff === 'string') {
-        stuff = stuff.replace(this.client.token, '[CENSORED HENTAI]')
-        stuff = stuff.replace(this.client.config.Mongo, '[CENSORED HENTAI]')
-        } else return stuff;
+    const token = this.client.token.split("").join("[^]{0,2}");
+    const revToken = this.client.token.split("").reverse().join("[^]{0,2}");
+    const tokenRegex = new RegExp(`${token}|${revToken}`, "g");
+    return stuff.replace(tokenRegex, '[CENSORED HENTAI]')
+      } else return stuff;
     }
 
     try {
       let evaled = eval(code);
 
-      if (typeof evaled !== 'string') evaled = await clean(inspect(evaled, { depth: 0 }));
+      if (typeof evaled !== 'string') evaled = await inspect(evaled, { depth: 0 });
       evaled = await splitMessage(evaled, { maxLength: 3000 });
-
+      let cleaned = []
+      for(let i = 0; i < evaled.length; i++) {
+          cleaned.push(await clean(evaled[i]))
+      };
+      evaled = cleaned;
+        
       let replyDeleted = false;
       (await message.fetch()) ? (replyDeleted = false) : (replyDeleted = true);
 

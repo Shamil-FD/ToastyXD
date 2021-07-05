@@ -17,8 +17,8 @@ module.exports = class BlacklistCommand extends Command {
       .map((documents) => `${arrow} ${documents.word} - ${documents.action} ${documents.wild ? `- wildcard` : ''}`)
       .join('\n');
 
-    return message.send({
-      embeds: { description: str, title: 'Blacklisted Words' },
+    return message.reply({
+      embeds: [{ description: str, title: 'Blacklisted Words' }],
     });
   }
 };

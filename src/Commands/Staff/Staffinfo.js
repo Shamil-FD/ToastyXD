@@ -35,17 +35,17 @@ module.exports = class StaffinfoCommand extends Command {
 
   async exec(message, { person }) {
     try {
-      person = await message.getMember(person);
+      person = await this.client.tools.getMember({ user: person, message: message });
     } catch {}
     if (!person.id)
-      return message.send({
-        embeds: { description: `Couldn't find \`${person}\` 😔`, color: 'RED' },
+      return message.reply({
+        embeds: [{ description: `Couldn't find \`${person}\` 😔`, color: 'RED' }],
       });
     if (!person.roles.cache.has(this.client.config.StaffRole))
-      return message.send({
-        embeds: {
+      return message.reply({
+        embeds: [{
           description: `${person} don't seem to be a Staff.`,
-        },
+        }],
       });
 
     return message.channel.send({
@@ -55,8 +55,6 @@ module.exports = class StaffinfoCommand extends Command {
   async execSlash(message) {
     let person = message.options.get('user')?.member || message?.member;
 
-    if (!message.member.roles.cache.has(this.client.config.StaffRole))
-      return message.reply({ content: "You can't use this command.", ephemeral: true });
     if (!person.roles.cache.has(this.client.config.StaffRole)) return message.reply("They aren't a staff..");
     await message.defer();
 

@@ -30,7 +30,7 @@ module.exports = class StonksCommand extends Command {
 
   async exec(message, { user }) {
     let buffer = await meme(user.displayAvatarURL());
-    return message.send({
+    return message.reply({
       files: [new MessageAttachment(await buffer, 'stonks.png')],
     });
   }

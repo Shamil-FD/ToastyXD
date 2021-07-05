@@ -17,19 +17,19 @@ module.exports = class StrikeCommand extends Command {
   async exec(message, { user, reason }) {
     let { staff } = this.client.tools.models;
     if (!user)
-      return message.send({
-        embeds: { description: 'No member mention provided.' },
+      return message.reply({
+        embeds: [{ description: 'No member mention provided.' }],
       });
-    if (!reason) return message.send({ embeds: { description: 'Provide me a reason.' } });
+    if (!reason) return message.reply({ embeds: [{ description: 'Provide me a reason.' }] });
 
     let doc = await staff.findOne({ user: user.id });
     doc.strikes ? doc.strikes++ : (doc.strikes = 1);
     await doc.save();
     await user.send("You've been given a strike. Strike reasoning: " + reason).catch(() => {});
-    return message.send({
-      embeds: {
+    return message.reply({
+      embeds: [{
         description: `Striked ${user} for ${reason}. They now have ${doc.strikes} strike(s).`,
-      },
+      }],
     });
   }
 };

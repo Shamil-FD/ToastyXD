@@ -5,7 +5,7 @@ module.exports = class RestartCommand extends Command {
   constructor() {
     super('restart', {
       aliases: ['restart'],
-      category: 'flag',
+      category: 'Dev',
       ownerOnly: true,
       quoted: false,
     });

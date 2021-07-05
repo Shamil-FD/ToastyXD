@@ -12,7 +12,7 @@ module.exports = class PingCommand extends Command {
   }
 
   async exec(message) {
-    message.send(new MessageEmbed().setDescription('Pong!')).then((m) =>
+    message.reply({ embeds: [new MessageEmbed().setDescription('Pong!')] }).then((m) =>
       m.edit({
         embeds: [
           new MessageEmbed()

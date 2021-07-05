@@ -66,12 +66,12 @@ module.exports = class PasteCodeCommand extends Command {
                 },
               )
               .then((json) => {
-                return message.reply(
+                return message.reply({ embeds: [
                   embed
                     .setDescription(`Here's your link: ${json.url}`)
                     .setAuthor(message.author.tag, message.author.displayAvatarURL({ dynamic: true }))
                     .setFooter('Thanks for using Toasty'),
-                );
+                ]});
               })
               .catch((e) => {
                 console.log(e);

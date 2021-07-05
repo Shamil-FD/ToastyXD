@@ -16,15 +16,15 @@ module.exports = class ExecCommand extends Command {
 
   async exec(message, { user, content }) {
     if (!user || !content)
-      return message.send({
-        embeds: {
+      return message.reply({
+        embeds: [{
           description:
             'Proper Usage: t)exec @User t)CommandName <ARGS>\nExample: t)exec @User channelmute @User 5m He sucks',
-        },
+        }],
       });
 
     if (this.client.ownerID.includes(user.id))
-      return message.send(this.client.tools.embed().setDescription('No dummy'));
+      return message.reply({ embeds: [this.client.tools.embed().setDescription('No dummy')] });
 
     message.react(this.client.config.tick);
     message.author = user.user;

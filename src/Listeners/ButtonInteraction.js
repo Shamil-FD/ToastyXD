@@ -57,7 +57,7 @@ module.exports = class ButtonListener extends Listener {
 
 async function FetchAndDelete(interaction) {
   let msgs = await interaction.channel.messages.fetch({ limit: 100 });
-  msgs = msgs.filter((m) => m.pinned === false);
+  msgs = msgs.filter((m) => m.pinned === false).filter(m => m.id !== interaction.id);
   try {
     await interaction.channel.bulkDelete(msgs);
     return { status: true, deleted: msgs.size };
