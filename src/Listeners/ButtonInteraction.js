@@ -12,7 +12,7 @@ module.exports = class ButtonListener extends Listener {
   async exec(interaction) {
     if (interaction.isButton()) {
       if (interaction.customId.toLowerCase() == 'purgeverify') {
-        let msg = await interaction.defer(true);
+        await interaction.defer(true);
         if (!interaction.member?.roles.cache.has(this.client.config.StaffRole)) {
           await interaction.reply({
             embeds: [
@@ -24,7 +24,7 @@ module.exports = class ButtonListener extends Listener {
             ephemeral: true,
           });
         }
-        let DeleteMessages = await FetchAndDelete(interaction, msg);
+        let DeleteMessages = await FetchAndDelete(interaction);
         if (DeleteMessages.status === false) {
           await interaction.reply({
             embeds: [
@@ -191,9 +191,9 @@ async function GetMember(interaction) {
   return member || undefined;
 }
 
-async function FetchAndDelete(interaction, msg) {
+async function FetchAndDelete(interaction) {
   let msgs = await interaction.channel.messages.fetch({ limit: 100 });
-  msgs = msgs.filter((m) => m.pinned === false && m.id !== msg?.id);
+  msgs = msgs.filter((m) => m.pinned === false);
   try {
     await interaction.channel.bulkDelete(msgs);
     return { status: true, deleted: msgs.size };
