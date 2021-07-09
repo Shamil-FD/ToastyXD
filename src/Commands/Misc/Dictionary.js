@@ -69,10 +69,12 @@ module.exports = class DictionaryCommand extends Command {
       fetched = await urbanDic.define(search);
       if (!fetched)
         return message.reply({
-          embeds: [{
-            description: `No definitions found for ${search}`,
-            color: 'RED',
-          }],
+          embeds: [
+            {
+              description: `No definitions found for ${search}`,
+              color: 'RED',
+            },
+          ],
         });
       fetched = fetched.slice(0, 3);
 
@@ -107,10 +109,12 @@ module.exports = class DictionaryCommand extends Command {
 
       if (fetched?.title === 'No Definitions Found')
         return message.reply({
-          embeds: [{
-            description: `No definitions found for ${search}`,
-            color: 'RED',
-          }],
+          embeds: [
+            {
+              description: `No definitions found for ${search}`,
+              color: 'RED',
+            },
+          ],
         });
 
       fetched.forEach((f) => {

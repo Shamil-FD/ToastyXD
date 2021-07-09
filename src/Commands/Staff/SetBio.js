@@ -35,17 +35,21 @@ module.exports = class SetbioCommand extends Command {
     let { staff } = this.client.tools.models;
     if (!bio)
       return message.reply({
-        embeds: [{
-          description: "Didn't quite catch that.. Can you give me a description of yourself?",
-          color: 'RED',
-        }],
+        embeds: [
+          {
+            description: "Didn't quite catch that.. Can you give me a description of yourself?",
+            color: 'RED',
+          },
+        ],
       });
     if (bio.length > 48)
       return message.reply({
-        embeds: [{
-          description: "You can't make your bio longer than 48 characters.",
-          color: 'RED',
-        }],
+        embeds: [
+          {
+            description: "You can't make your bio longer than 48 characters.",
+            color: 'RED',
+          },
+        ],
       });
     let doc = await staff.findOne({ user: message.author.id });
     doc.desc = bio;

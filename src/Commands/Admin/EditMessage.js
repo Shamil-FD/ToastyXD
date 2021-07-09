@@ -63,7 +63,8 @@ module.exports = class EditMessageCommand extends Command {
     let embed;
 
     await message.defer(true);
-    if (['category', 'voice'].includes(channel.type)) return message.reply("Don't try to break me because I will.");
+    if (['GUILD_CATEGORY', 'GUILD_VOICE'].includes(channel.type))
+      return message.reply("Don't try to break me because I will.");
     let gotmsg = await channel.messages.fetch(msgid);
     if (!gotmsg || gotmsg.author.id === this.client.user.id)
       return message.reply("That message either doesn't exist or it wasn't sent by me.");

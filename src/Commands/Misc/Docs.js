@@ -26,10 +26,12 @@ module.exports = class DocsCommand extends Command {
   async exec(message, { query, src }) {
     if (!query)
       return message.reply({
-        embeds: [{
-          description: `Specify something to search for.`,
-          color: 'RED',
-        }],
+        embeds: [
+          {
+            description: `Specify something to search for.`,
+            color: 'RED',
+          },
+        ],
       });
     if (!src) {
       const data = await fetch(`https://djsdocs.sorta.moe/v2/embed?src=stable&q=${encodeURIComponent(query)}`);

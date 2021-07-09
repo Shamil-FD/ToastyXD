@@ -19,7 +19,7 @@ module.exports = class NewCodeCommand extends Command {
   async exec(message) {
     // Check For The Not Verified Role
     if (!message.member.roles.cache.get(this.client.config.NotVerifiedRole))
-      return message.send(this.client.tools.embed().setDescription("You're already verified."));
+      return message.reply({ embeds: [this.client.tools.embed().setDescription("You're already verified.")] });
 
     let doc = await verif.findOne({ user: message.author.id });
     let cap = await this.client.tools.captcha();

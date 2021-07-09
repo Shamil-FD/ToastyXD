@@ -8,7 +8,7 @@ module.exports = class BlackListListener extends Listener {
   constructor() {
     super('blacklist', {
       emitter: 'client',
-      event: 'message',
+      event: 'messageCreate',
     });
   }
 
@@ -17,7 +17,7 @@ module.exports = class BlackListListener extends Listener {
     if (this.client.config.testMode === true) return;
     if (message.guild.id !== '655109296400367618') return;
     if (message.author.bot === true) return;
-    if (message.channel.type !== 'text') return;
+    if (message.channel.type !== 'GUILD_TEXT') return;
     let { content } = message;
     content = Util.escapeMarkdown(content);
     content = content.replace(/`/g, '');
@@ -49,7 +49,11 @@ module.exports = class BlackListListener extends Listener {
       }
     }
     if (docs) {
-      if (message.member.roles.cache.get(this.client.config.StaffRole)) return;
+      if (
+        message.content.toLowerCase().startsWith(`${this.client.config.prefix}blacklist`) &&
+        message.member.roles.cache.get(this.client.config.StaffRole)
+      )
+        return;
       let action = docs.action;
       message.delete();
       let embed = this.client.tools

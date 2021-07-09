@@ -64,7 +64,7 @@ module.exports = class MoveCommand extends Command {
   async execSlash(message) {
     if (!message.member?.roles.cache.has(this.client.config.StaffRole))
       return message.reply({ content: "You can't use this command.", ephemeral: true });
-    if (message.options.get('channel').channel.type === 'category')
+    if (message.options.get('channel').channel.type === 'GUILD_CATEGORY')
       return message.reply("You can't move a conversation to a category channel.");
 
     message.reply({

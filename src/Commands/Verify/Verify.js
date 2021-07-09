@@ -19,32 +19,38 @@ module.exports = class VerifyCommand extends Command {
   async exec(message, { code }) {
     // Check For The Not Verified Role
     if (!message.member.roles.cache.get(this.client.config.NotVerifiedRole))
-      return message.send(this.client.tools.embed().setDescription("You're already verified."));
+      return message.reply({ embeds: [this.client.tools.embed().setDescription("You're already verified.")] });
 
     if (!code)
-      return message.reply({ embeds: [
-        this.client.tools
-          .embed()
-          .setDescription(
-            "You can't verify by not giving me the code! If you don't have a code, create one using `t)newcode`",
-          ),
-      ]});
+      return message.reply({
+        embeds: [
+          this.client.tools
+            .embed()
+            .setDescription(
+              "You can't verify by not giving me the code! If you don't have a code, create one using `t)newcode`",
+            ),
+        ],
+      });
 
     let doc = await verif.findOne({ user: message.author.id });
 
     if (!doc) {
       return message.reply({
-        embeds: [{
-          description:
-            "You don't have a code attached to your account. Please create one using the command `t)newcode`",
-        }],
+        embeds: [
+          {
+            description:
+              "You don't have a code attached to your account. Please create one using the command `t)newcode`",
+          },
+        ],
       });
     } else if (code.toLowerCase() === 'ppsmol' && doc.code !== code) {
       return message.reply({
-        embeds: [{
-          title: 'Dumb alert!',
-          description: 'Why are you so dumb?',
-        }],
+        embeds: [
+          {
+            title: 'Dumb alert!',
+            description: 'Why are you so dumb?',
+          },
+        ],
       });
     } else if (doc.code != code) {
       doc.count++;
@@ -76,10 +82,12 @@ module.exports = class VerifyCommand extends Command {
       }
 
       return message.reply({
-        embeds: [{
-          description:
-            '**Please provide me the correct code!\nMake sure that is YOUR code\nIf the code is not readable, then use `t)newcode` to get a new one**',
-        }],
+        embeds: [
+          {
+            description:
+              '**Please provide me the correct code!\nMake sure that is YOUR code\nIf the code is not readable, then use `t)newcode` to get a new one**',
+          },
+        ],
       });
     }
 

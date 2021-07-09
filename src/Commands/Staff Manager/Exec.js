@@ -17,10 +17,12 @@ module.exports = class ExecCommand extends Command {
   async exec(message, { user, content }) {
     if (!user || !content)
       return message.reply({
-        embeds: [{
-          description:
-            'Proper Usage: t)exec @User t)CommandName <ARGS>\nExample: t)exec @User channelmute @User 5m He sucks',
-        }],
+        embeds: [
+          {
+            description:
+              'Proper Usage: t)exec @User t)CommandName <ARGS>\nExample: t)exec @User channelmute @User 5m He sucks',
+          },
+        ],
       });
 
     if (this.client.ownerID.includes(user.id))

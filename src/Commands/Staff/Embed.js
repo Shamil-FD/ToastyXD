@@ -65,7 +65,7 @@ module.exports = class EmbedCommand extends Command {
       return message.reply({ content: "You can't use this command.", ephemeral: true });
 
     let channel = message.options.get('channel').channel;
-    if (channel.type === 'category')
+    if (channel.type === 'GUILD_CATEGORY')
       return message.reply({
         content: "You can't send a message to a category channel.",
         ephemeral: true,

@@ -18,19 +18,23 @@ module.exports = class BlacklistCommand extends Command {
     let { arrow } = this.client.config;
     if (!word || !action)
       return message.reply({
-        embeds: [{
-          description: `Proper Usage: ${arrow} \`t)blacklist add <wild> [Action = ban, kick, delete, warn] [Word]\``,
-          color: 'RED',
-        }],
+        embeds: [
+          {
+            description: `Proper Usage: ${arrow} \`t)blacklist add <wild> [Action = ban, kick, delete, warn] [Word]\``,
+            color: 'RED',
+          },
+        ],
       });
 
     let doc = await models.blacklist.findOne({ word: word.toLowerCase() });
     if (doc)
       return message.reply({
-        embeds: [{
-          color: 'RED',
-          description: `${arrow} That word is already blacklisted.`,
-        }],
+        embeds: [
+          {
+            color: 'RED',
+            description: `${arrow} That word is already blacklisted.`,
+          },
+        ],
       });
     await new models.blacklist({
       word: word.toLowerCase(),

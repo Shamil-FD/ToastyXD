@@ -1,6 +1,7 @@
 const Command = require('../../Struct/Command.js');
 const { MessageAttachment } = require('discord.js');
 const canvas = require('canvas');
+const { fillTextWithTwemoji } = require('node-canvas-with-twemoji-and-discord-emoji');
 canvas.registerFont('src/Util/Fonts/JetBrains Mono Bold Nerd Font Complete.ttf', {
   family: 'jetbrains',
 });
@@ -43,9 +44,11 @@ module.exports = class StaffinfoCommand extends Command {
       });
     if (!person.roles.cache.has(this.client.config.StaffRole))
       return message.reply({
-        embeds: [{
-          description: `${person} don't seem to be a Staff.`,
-        }],
+        embeds: [
+          {
+            description: `${person} don't seem to be a Staff.`,
+          },
+        ],
       });
 
     return message.channel.send({
@@ -142,7 +145,7 @@ async function CanvasGen(client, person) {
   // Check if the bio is longer than 22 chars. If yes, add in a new line for the bio. If no, add in the bio
   if (bio.length < 21) {
     ctx.fillText(`${client.config.arrow} Bio:`, 250, 70);
-    ctx.fillText(` ${bio}`, 340, 70);
+    await fillTextWithTwemoji(ctx, ` ${bio}`, 340, 70);
 
     ctx.fillText(`${client.config.arrow} Messages Today: ${doc.msgs}`, 250, 105);
 
@@ -171,7 +174,7 @@ async function CanvasGen(client, person) {
     ctx.fillText(client.config.arrow + ' Bio:', 250, 70);
     let splittedBio = bio.lastIndexOf(' ');
     splittedBio = bio.substr(24).trim();
-    ctx.fillText(' ' + bio.slice(0, 24) + '\n' + splittedBio, 340, 70);
+    await fillTextWithTwemoji(ctx, ' ' + bio.slice(0, 24) + '\n' + splittedBio, 340, 70);
 
     ctx.fillText(`${client.config.arrow} Messages Today: ${doc.msgs}`, 250, 145);
 

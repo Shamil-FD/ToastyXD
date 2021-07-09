@@ -22,7 +22,7 @@ module.exports = class MessageUpdateListener extends Listener {
     });
     if (!New) return;
     if (New.deleted === true) return;
-    if (New.channel.type !== 'text') return;
+    if (New.channel.type !== 'GUILD_TEXT') return;
     if (New.author.bot === true) return;
     let { member, author, guild, content } = New;
     content = await Util.escapeMarkdown(content);
@@ -56,7 +56,6 @@ module.exports = class MessageUpdateListener extends Listener {
       }
     }
     if (docs) {
-      if (New.member.roles.cache.get(this.client.config.StaffRole)) return;
       let action = docs.action;
       New.delete();
       let embed = this.client.tools

@@ -15,7 +15,7 @@ module.exports = class ToastyHandler extends CommandHandler {
       if (guild) guild.commands?.set(this.slashCommands);
 
       // Slash Command Handler.
-      this.client.on('interaction', async (interaction) => {
+      this.client.on('interactionCreate', async (interaction) => {
         try {
           this.handleSlash(interaction);
         } catch (e) {
@@ -52,7 +52,7 @@ module.exports = class ToastyHandler extends CommandHandler {
         !this.client.ownerID.includes(interaction.member.id) ||
         !interaction.member.roles.cache.has(this.client.config.StaffManagerRole)
       ) {
-        if (slashCmd?.betaOnly === true) return RejectReply(); 
+        if (slashCmd?.betaOnly === true) return RejectReply();
         if (slashCmd?.managerOnly === true && !interaction.member.roles.cache.has(this.client.config.StaffManagerRole))
           return RejectReply();
         else if (slashCmd?.adminOnly === true && !interaction.member.roles.cache.has(this.client.config.AdminRole))

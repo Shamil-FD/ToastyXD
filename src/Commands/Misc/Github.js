@@ -27,17 +27,21 @@ class GithubCommand extends Command {
   async exec(message, { author, repo }) {
     if (!author)
       return message.reply({
-        embeds: [{
-          description: 'Specify the owner of the repos username',
-          color: 'RED',
-        }],
+        embeds: [
+          {
+            description: 'Specify the owner of the repos username',
+            color: 'RED',
+          },
+        ],
       });
     if (!repo)
       return message.reply({
-        embeds: [{
-          description: 'Specify the repository name.',
-          color: 'RED',
-        }],
+        embeds: [
+          {
+            description: 'Specify the repository name.',
+            color: 'RED',
+          },
+        ],
       });
 
     const data = await fetch(`https://api.github.com/repos/${author[0]}/${encodeURIComponent(repo[1])}`, {
@@ -51,10 +55,12 @@ class GithubCommand extends Command {
     const json = await data.json();
     if (!json.name)
       return message.reply({
-        embeds: [{
-          description: "Couldn't find that repository.",
-          color: 'RED',
-        }],
+        embeds: [
+          {
+            description: "Couldn't find that repository.",
+            color: 'RED',
+          },
+        ],
       });
 
     const embed = new MessageEmbed()

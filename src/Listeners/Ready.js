@@ -166,7 +166,9 @@ module.exports = class ReadyListener extends Listener {
             }
           }
           // Save The Message Count To An Array And Reset Their Message Count
-          await mcount.push(`Messages: ${d.msgs} - <@${d.user}>`);
+          await mcount.push(
+            `<@${d.user}> - Messages Yesterday: ${d.msgs} - Checkin Count for Yesterday: ${d.dailyCount} `,
+          );
           d.msgs = 0;
           d.save();
         });

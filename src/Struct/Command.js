@@ -8,6 +8,7 @@ module.exports = class ToastyModule extends Command {
     this.adminOnly = CommandOptions.adminOnly || false;
     this.moderatorOnly = CommandOptions.moderatorOnly || false;
     this.beta = CommandOptions.beta || false;
+    this.appealServerOnly = CommandOptions.appealServerOnly || false;
     this.useSlashCommand = CommandOptions.useSlashCommand || false;
     this.slashCommand = {
       name: CommandOptions.slashCommand?.name || id,

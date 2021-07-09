@@ -61,44 +61,18 @@ module.exports = class NicknameCommand extends Command {
     });
   }
   async execSlash(message) {
-    if (!message.member.roles.cache.has(this.client.config.StaffRole))
-      return message.reply({ content: "You can't use this command.", ephemeral: true });
-    await message.defer();
+    await message.defer(true);
 
-    if (!message.options.get('nickname')?.value.length && !message.options.get('premade')?.choices.length)
+    if (!message.options.get('nickname')?.value && !message.options.get('premade')?.value)
       return message.editReply({
         content: 'You have to provide me a valid option.',
         ephemeral: true,
       });
 
-    if (!message.options.get('nickname').length) {
-      if (message.options.get('premade')?.choices[0].name.toLowerCase() !== 'reset') {
-        if (message.options.get('nickname').value.length > 33)
-          return message.editReply("Nickname's can't be more than 32 characters.");
-        let res = await change(message.options.get('user').member, message.options.get('nickname').value);
-        if (res === 'bad') {
-          return message.editReply(`I couldn't change ${message.options.get('user').member}'s nickname.`);
-        } else {
-          return message.editReply(`Changed their nickname to ${message.options.get('nickname').value}`);
-        }
-      } else {
-        let res = await change(message.options.get('user').member, message.options.get('user').member.user?.username);
-        if (res === 'bad') {
-          return message.editReply(`I couldn't change ${message.options.get('user').member}'s nickname.`);
-        } else {
-          return message.editReply(`Changed their nickname to ${message.options.get('user').member}`);
-        }
-      }
-    } else {
-      let res = await change(message.options.get('user').member, message.options.get('premade')?.choices[0].value);
-      if (res === 'bad') {
-        return message.editReply(`I couldn't change ${message.options.get('user').member}'s nickname.`);
-      } else {
-        return message.editReply(`Changed their nickname to ${message.options.get('premade')?.choices[0].value}`);
-      }
-    }
-
-    async function change(user, name) {
+    let nick = await message.options.get('nickname')?.value;
+    let premade = await message.options.get('premade')?.value;
+    let user = await message.options.get('user')?.member;
+    let change = async (user, name) => {
       let res;
       try {
         await user.setNickname(name);
@@ -108,6 +82,33 @@ module.exports = class NicknameCommand extends Command {
         res = 'bad';
       }
       return res;
-    }
+    };
+
+    if (nick) {
+      if (nick.length > 33) return message.editReply({ content: `Nickname's can't go longer than 32 characters.` });
+      let changed = await change(user, nick);
+
+      if (changed === 'good') return message.editReply({ content: `Changed ${user}'s nickname to \`${nick}\`` });
+      else
+        return message.editReply({
+          content: `There was an error! This could be because of your role is higher than mine.`,
+        });
+    } else if (premade) {
+      if (premade === 'reset') {
+        let changed = await change(user, user?.user.username);
+        if (changed === 'good') return message.editReply({ content: `Successfully reset ${user}'s nickname.` });
+        else
+          return message.editReply({
+            content: `There was an error! This could be because of your role is higher than mine.`,
+          });
+      } else {
+        let changed = await change(user, premade);
+        if (changed === 'good') return message.editReply({ content: `Changed ${user}'s nickname to ${premade}.` });
+        else
+          return message.editReply({
+            content: `There was an error! This could be because of your role is higher than mine.`,
+          });
+      }
+    } else return message.editReply({ content: `You have to provide one of the options!` });
   }
 };

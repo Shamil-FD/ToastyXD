@@ -30,7 +30,6 @@ module.exports = class PasteCodeCommand extends Command {
 
   async exec(message, { cont }) {
     let embed = this.client.tools.embed();
-    message.delete();
 
     if (cont == '<code>' || cont == 'code') {
       return message.channel.send({
@@ -65,13 +64,16 @@ module.exports = class PasteCodeCommand extends Command {
                   description: 'OwO',
                 },
               )
-              .then((json) => {
-                return message.reply({ embeds: [
-                  embed
-                    .setDescription(`Here's your link: ${json.url}`)
-                    .setAuthor(message.author.tag, message.author.displayAvatarURL({ dynamic: true }))
-                    .setFooter('Thanks for using Toasty'),
-                ]});
+              .then(async (json) => {
+                await message.reply({
+                  embeds: [
+                    embed
+                      .setDescription(`Here's your link: ${json.url}`)
+                      .setAuthor(message.author.tag, message.author.displayAvatarURL({ dynamic: true }))
+                      .setFooter('Thanks for using Toasty'),
+                  ],
+                });
+                return message.delete();
               })
               .catch((e) => {
                 console.log(e);
@@ -105,8 +107,8 @@ module.exports = class PasteCodeCommand extends Command {
             description: 'OwO',
           },
         )
-        .then((json) => {
-          return message.reply({
+        .then(async (json) => {
+          await message.reply({
             embeds: [
               embed
                 .setDescription(`Here's your link: ${json.url}`)
@@ -114,6 +116,7 @@ module.exports = class PasteCodeCommand extends Command {
                 .setFooter('Thanks for using Toasty'),
             ],
           });
+          return message.delete();
         })
         .catch((e) => {
           console.log(e);

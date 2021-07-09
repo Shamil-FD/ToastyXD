@@ -1,6 +1,6 @@
 const { AkairoClient, InhibitorHandler, ListenerHandler } = require('discord-akairo');
 const { embed, captcha, split, rannum, getRole, getMember, getChannel } = require('../Util/Functions');
-const { Intents, Collection } = require('discord.js');
+const { Collection } = require('discord.js');
 const CommandHandler = require('./CommandHandler');
 const models = require('../Util/Models');
 const Command = require('./Command');
@@ -21,7 +21,17 @@ module.exports = class ToastyClient extends AkairoClient {
           ],
         },
         partials: ['GUILD_MEMBER', 'REACTION', 'MESSAGE'],
-        intents: Intents.ALL,
+        intents: [
+          'GUILDS',
+          'GUILD_MEMBERS',
+          'GUILD_BANS',
+          'GUILD_INTEGRATIONS',
+          'GUILD_WEBHOOKS',
+          'GUILD_INVITES',
+          'GUILD_MESSAGES',
+          'GUILD_PRESENCES',
+          'GUILD_MESSAGE_REACTIONS',
+        ],
         allowedMentions: {
           parse: ['everyone', 'users', 'roles'],
           repliedUser: false,
@@ -37,7 +47,7 @@ module.exports = class ToastyClient extends AkairoClient {
       automateCategories: true,
       defaultCooldown: 5000,
       commandUtilLifetime: 300000,
-      ignoreCooldown: [],
+      ignoreCooldown: ['484031943021690883'],
       directory: `${path.dirname(require?.main?.filename)}${path.sep}Commands/`,
     });
 

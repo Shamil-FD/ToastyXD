@@ -27,9 +27,11 @@ module.exports = class StrikeCommand extends Command {
     await doc.save();
     await user.send("You've been given a strike. Strike reasoning: " + reason).catch(() => {});
     return message.reply({
-      embeds: [{
-        description: `Striked ${user} for ${reason}. They now have ${doc.strikes} strike(s).`,
-      }],
+      embeds: [
+        {
+          description: `Striked ${user} for ${reason}. They now have ${doc.strikes} strike(s).`,
+        },
+      ],
     });
   }
 };

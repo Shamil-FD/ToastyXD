@@ -20,70 +20,67 @@ module.exports = {
     return Util.splitMessage(str);
   },
   // Fetch Member
-  getMember: async function({ user, guild, message }) {
-        if (guild) { 
-           if (parseInt(guild)) {
-               guild = await message.client.guilds.fetch(guild)
-           } else {
-               guild = await message.client.guilds.cache.find(g => g.name.toLowerCase() == guild.toLowerCase())
-           }
-        } else guild = message.guild;
-        
-        if (message.mentions.members.first()) {
-            user = message.mentions.members.first()
-        } else if (parseInt(user)) {
-            user = await guild.members.fetch(user)
-        } else if (typeof user === 'string') {
-            user = await guild.members.cache.find((m) =>
-              m.user.tag.toLowerCase() == user.toLowerCase() ||
-              m.displayName.toLowerCase() == user.toLowerCase() ||
-              m.user.username.toLowerCase() == user.toLowerCase(),
-          )
-        }        
-        return user;
-    },
-    // Fetch Role
-   getRole: async function({ role, guild, message }) {
-        if (guild) { 
-           if (parseInt(guild)) {
-               guild = await message.client.guilds.fetch(guild)
-           } else {
-               guild = await message.client.guilds.cache.find(g => g.name.toLowerCase() == guild.toLowerCase())
-           }
-        } else guild = message.guild;
-        
-        if (message.mentions.roles.first()) {
-            role = message.mentions.roles.first()
-        } else if (parseInt(role)) {
-            role = await guild.roles.fetch(role)
-        } else if (typeof role === 'string') {
-            role = await guild.roles.cache.find((r) =>
-              r.name.toLowerCase() == r.toLowerCase(),
-          )
-        }        
-        return role;
-    },   
-    // Fetch channel
-    getChannel: async function({ channel, guild, message }) {
-        if (guild) { 
-           if (parseInt(guild)) {
-               guild = await message.client.guilds.fetch(guild)
-           } else {
-               guild = await message.client.guilds.cache.find(g => g.name.toLowerCase() == guild.toLowerCase())
-           }
-        } else guild = message.guild;
-        
-        if (message.mentions.channels.first()) {
-            channel = message.mentions.channels.first()
-        } else if (parseInt(channel)) {
-            channel = await guild.channels.fetch(channel)
-        } else if (typeof channel === 'string') {
-            channel = await guild.channels.cache.find((c) =>
-              c.name.toLowerCase() == c.toLowerCase(),
-          )
-        }        
-        return channel;
-    },
+  getMember: async function ({ user, guild, message }) {
+    if (guild) {
+      if (parseInt(guild)) {
+        guild = await message.client.guilds.fetch(guild);
+      } else {
+        guild = await message.client.guilds.cache.find((g) => g.name.toLowerCase() == guild.toLowerCase());
+      }
+    } else guild = message.guild;
+
+    if (message.mentions.members.first()) {
+      user = message.mentions.members.first();
+    } else if (parseInt(user)) {
+      user = await guild.members.fetch(user);
+    } else if (typeof user === 'string') {
+      user = await guild.members.cache.find(
+        (m) =>
+          m.user.tag.toLowerCase() == user.toLowerCase() ||
+          m.displayName.toLowerCase() == user.toLowerCase() ||
+          m.user.username.toLowerCase() == user.toLowerCase(),
+      );
+    }
+    return user;
+  },
+  // Fetch Role
+  getRole: async function ({ role, guild, message }) {
+    if (guild) {
+      if (parseInt(guild)) {
+        guild = await message.client.guilds.fetch(guild);
+      } else {
+        guild = await message.client.guilds.cache.find((g) => g.name.toLowerCase() == guild.toLowerCase());
+      }
+    } else guild = message.guild;
+
+    if (message.mentions.roles.first()) {
+      role = message.mentions.roles.first();
+    } else if (parseInt(role)) {
+      role = await guild.roles.fetch(role);
+    } else if (typeof role === 'string') {
+      role = await guild.roles.cache.find((r) => r.name.toLowerCase() == r.toLowerCase());
+    }
+    return role;
+  },
+  // Fetch channel
+  getChannel: async function ({ channel, guild, message }) {
+    if (guild) {
+      if (parseInt(guild)) {
+        guild = await message.client.guilds.fetch(guild);
+      } else {
+        guild = await message.client.guilds.cache.find((g) => g.name.toLowerCase() == guild.toLowerCase());
+      }
+    } else guild = message.guild;
+
+    if (message.mentions.channels.first()) {
+      channel = message.mentions.channels.first();
+    } else if (parseInt(channel)) {
+      channel = await guild.channels.fetch(channel);
+    } else if (typeof channel === 'string') {
+      channel = await guild.channels.cache.find((c) => c.name.toLowerCase() == c.toLowerCase());
+    }
+    return channel;
+  },
 
   // Captcha Function.
   captcha: async function () {

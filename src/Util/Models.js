@@ -103,10 +103,10 @@ schema = Schema({
 exports.firstTime = model('firsttime', schema);
 
 schema = Schema({
-    user: String,
-    link: String,
-    msg: String,
-    approvers: [String]
+  user: String,
+  link: String,
+  msg: String,
+  approvers: [String],
 });
 
 exports.customCmd = model('customCmd', schema);

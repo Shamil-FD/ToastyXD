@@ -29,9 +29,11 @@ module.exports = class LockDownCommand extends Command {
     if (!doc) {
       await new pos({ pos: true }).save();
 
-      let msg = await message.reply({ embeds: [
-        this.client.tools.embed().setDescription('Locking the server.. Please wait until this message gets edited..'),
-      ]});
+      let msg = await message.reply({
+        embeds: [
+          this.client.tools.embed().setDescription('Locking the server.. Please wait until this message gets edited..'),
+        ],
+      });
 
       await channels.cache.get('801877313855160340').createOverwrite(this.client.config.NotVerifiedRole, {
         SEND_MESSAGES: false,
@@ -148,11 +150,13 @@ module.exports = class LockDownCommand extends Command {
         });
     } else {
       if (doc.pos === true) {
-        let msg = await message.reply({ embeds: [
-          this.client.tools
-            .embed()
-            .setDescription('Unlocking the server.. Please wait until this message gets edited...'),
-        ]});
+        let msg = await message.reply({
+          embeds: [
+            this.client.tools
+              .embed()
+              .setDescription('Unlocking the server.. Please wait until this message gets edited...'),
+          ],
+        });
         await doc.delete();
         await channels.cache.get('801877313855160340').createOverwrite(this.client.config.NotVerifiedRole, {
           SEND_MESSAGES: true,
