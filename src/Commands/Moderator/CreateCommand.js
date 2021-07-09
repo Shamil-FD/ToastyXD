@@ -50,16 +50,14 @@ module.exports = class CreateCommandCommand extends Command {
       await message.defer(true);
       try {
         let code = await sourcebin.get(message.options.get('link')?.value);
-        let sentMsg = await message.guild.channels.cache
-          .get('861683396518739978')
-          .send({
-            embeds: [
-              this.client.tools
-                .embed()
-                .setDescription(`A new custom command suggestion. Link: ${code.url}`)
-                .setAuthor(message.member.user.username, message.member.user.displayAvatarURL()),
-            ],
-          });
+        let sentMsg = await message.guild.channels.cache.get('861683396518739978').send({
+          embeds: [
+            this.client.tools
+              .embed()
+              .setDescription(`A new custom command suggestion. Link: ${code.url}`)
+              .setAuthor(message.member.user.username, message.member.user.displayAvatarURL()),
+          ],
+        });
         await sentMsg.react('👍');
         await sentMsg.react('👎');
         await new this.client.tools.models.customCmd({

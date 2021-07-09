@@ -14,7 +14,7 @@ module.exports = class ButtonListener extends Listener {
       if (interaction.customId.toLowerCase() == 'purgeverify') {
         await interaction.defer(true);
         if (!interaction.member?.roles.cache.has(this.client.config.StaffRole)) {
-          await interaction.reply({
+          return interaction.reply({
             embeds: [
               this.client.tools
                 .embed()
@@ -63,7 +63,7 @@ module.exports = class ButtonListener extends Listener {
             embeds: [this.client.tools.embed().setDescription("I couldn't find the member in the server.")],
           });
 
-        await interaction.channel.createOverwrite(member.id, { VIEW_CHANNEL: false, SEND_MESSAGES: false });
+        await interaction.channel.permissionOverwrites.create(member.id, { VIEW_CHANNEL: false, SEND_MESSAGES: false });
         await interaction.reply({
           embeds: [this.client.tools.embed().setDescription(`${member} now isn\'t able to see this channel.`)],
         });
@@ -71,7 +71,7 @@ module.exports = class ButtonListener extends Listener {
         let openbtn = new MessageButton().setStyle('PRIMARY').setLabel('Open').setCustomId('appealopen');
         let deletebtn = new MessageButton().setStyle('DANGER').setLabel('Delete').setCustomId('appealdelete');
         let denybtn = new MessageButton().setStyle('DANGER').setLabel('Deny').setCustomId('appealdeny');
-        return interaction.update({
+        return interaction.message.edit({
           embeds: interaction.embeds,
           components: [[acceptbtn, denybtn, openbtn, deletebtn]],
         });
@@ -86,13 +86,13 @@ module.exports = class ButtonListener extends Listener {
             embeds: [this.client.tools.embed().setDescription("I couldn't find the member in the server.")],
           });
 
-        await interaction.channel.createOverwrite(member.id, { VIEW_CHANNEL: true, SEND_MESSAGES: true });
+        await interaction.channel.permissionOverwrites.create(member.id, { VIEW_CHANNEL: true, SEND_MESSAGES: true });
         await interaction.reply({
-          content: `Hey ${member.id}`,
+          content: `Hey <@${member.id}>`,
           embeds: [this.client.tools.embed().setDescription(`${member} can now see this channel.`)],
         });
         let closebtn = new MessageButton().setStyle('DANGER').setLabel('Close').setCustomId('appealclose');
-        return interaction.update({ embeds: interaction.embeds, components: [[closebtn]] });
+        return interaction.message.edit({ embeds: interaction.embeds, components: [[closebtn]] });
       } else if (interaction.customId.toLowerCase() === 'appealaccept') {
         let member = await GetMember(interaction);
         if (!member)
@@ -101,25 +101,25 @@ module.exports = class ButtonListener extends Listener {
           });
 
         let guild = await this.client.guilds.cache.get('655109296400367618');
-        let bannedInfo = await guild.bans.fetch(member.id);
+        let bannedInfo = await guild.bans.fetch(member.id).catch(() => {
+          return undefined;
+        });
         if (!bannedInfo)
           return interaction.reply({
             embeds: [this.client.tools.embed().setDescription(`I couldn't find ${member}'s ban in Salvage Squad.`)],
           });
 
         await guild.members.unban(member.id, { reason: `Unbanned by ${interaction.member.user.tag}` });
-        await guild.channels.cache
-          .get(this.client.config.StaffReportChnl)
-          .send({
-            embeds: [
-              this.client.tools
-                .embed()
-                .setTitle('Member Unban')
-                .setDescription(
-                  `User: ${member.user.tag} | ${member.user.id}\nUnbanned By: ${interaction.member.user.tag} | ${interaction.member.id}`,
-                ),
-            ],
-          });
+        await guild.channels.cache.get(this.client.config.StaffReportChnl).send({
+          embeds: [
+            this.client.tools
+              .embed()
+              .setTitle('Member Unban')
+              .setDescription(
+                `User: ${member.user.tag} | ${member.user.id}\nUnbanned By: ${interaction.member.user.tag} | ${interaction.member.id}`,
+              ),
+          ],
+        });
         await member
           .send({
             embeds: [
@@ -141,7 +141,7 @@ module.exports = class ButtonListener extends Listener {
         });
         await member.kick();
         let deletebtn = new MessageButton().setStyle('DANGER').setLabel('Delete').setCustomId('appealdelete');
-        return interaction.update({ embeds: interaction.embeds, components: [[deletebtn]] });
+        return interaction.message.edit({ embeds: interaction.embeds, components: [[deletebtn]] });
       } else if (interaction.customId.toLowerCase() === 'appealdeny') {
         let member = await GetMember(interaction);
         if (!interaction.member.roles.cache.has('823124026623918082'))
@@ -170,7 +170,7 @@ module.exports = class ButtonListener extends Listener {
         });
         await member.kick();
         let deletebtn = new MessageButton().setStyle('DANGER').setLabel('Delete').setCustomId('appealdelete');
-        return interaction.update({ embeds: interaction.embeds, components: [[deletebtn]] });
+        return interaction.message.edit({ embeds: interaction.embeds, components: [[deletebtn]] });
       } else if (interaction.customId.toLowerCase() === 'appealdelete') {
         if (!interaction.member.roles.cache.has('823124026623918082'))
           return interaction.reply({
