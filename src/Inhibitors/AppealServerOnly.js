@@ -10,8 +10,8 @@ module.exports = class AppealServerOnlyInhibitor extends Inhibitor {
 
   exec(message, command) {
     if (command.appealServerOnly === true) {
-      if (message.guild.id === '822925965855424542') return true;
-      else return false;
+      if (message.guild.id === '822925965855424542') return false;
+      else return true;
     }
   }
 };
