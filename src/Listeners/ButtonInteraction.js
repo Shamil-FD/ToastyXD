@@ -295,19 +295,20 @@ module.exports = class ButtonListener extends Listener {
           doc.code = cap.word;
           await doc.save();
         }
-        return interaction.reply({
+       await interaction.reply({
           embeds: [
             this.client.tools
               .embed()
               .setDescription(
-                '**Please click on the button corresponding to the code shown in the image above.\n\nIf the code is broken, use the command `t)newcode` to create a new one.**',
+                '**Please click on the button corresponding to the code shown in the image above.\n\nIf the code is broken, use the command `t)newcode` to create a new one.\nThis message will be deleted in 5 minutes.**',
               )
               .setColor(cap.randomColor),
           ],
           files: [new MessageAttachment(cap.png, 'verify.png')],
           components: [buttons],
-          ephemeral: true,
-        });
+         });
+         await this.client.tools.wait(require('ms')('5m'));
+          return interaction.deleteReply()
       }
     }
   }

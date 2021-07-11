@@ -55,7 +55,8 @@ module.exports = class GuildMemberAddListener extends Listener {
         ],
       });
     }
-    member.guild.channels.cache.get(this.client.config.StaffReportChnl).send({
+    let sent = await member.guild.channels.cache.get('801877313855160340').send({ content: `<@${member.id}>,`, embeds: [this.client.tools.embed().setDescription('Read the pinned message to verify.')] });
+    await member.guild.channels.cache.get(this.client.config.StaffReportChnl).send({
       embeds: [
         this.client.tools
           .embed()
@@ -69,5 +70,7 @@ module.exports = class GuildMemberAddListener extends Listener {
           .setTitle('Member Joined'),
       ],
     });
+      await this.client.tools.wait(require('ms')('5m'));
+      return sent.delete()
   }
 };
