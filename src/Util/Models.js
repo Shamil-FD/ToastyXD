@@ -16,10 +16,7 @@ exports.counts = model('counts', schema);
 
 schema = Schema({
   user: String,
-  msgs: Number,
   desc: String,
-  dailyCount: Number,
-  total: Number,
   onLeave: Boolean,
   strikes: Number,
   infoCard: {
@@ -27,6 +24,12 @@ schema = Schema({
     background: String,
     text: String,
     img: String,
+  },
+  msgInfo: {
+    today: Number,
+    dailyCount: Number,
+    total: Number,
+    randomCount: Number,
   },
 });
 
@@ -75,7 +78,7 @@ schema = Schema({
   count: Number,
 });
 
-exports.verif = model('verify', schema);
+exports.verification = model('verify', schema);
 
 schema = Schema({
   user: String,

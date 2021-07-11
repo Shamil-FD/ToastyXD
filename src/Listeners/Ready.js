@@ -34,20 +34,6 @@ module.exports = class ReadyListener extends Listener {
     // Check if testMode is turned on
     if (this.client.config.testMode === true) return;
 
-    // Auto Update System
-    cron.schedule('*/15 * * * *', async () => {
-      exec(`git pull ${this.client.config.Github}`, async (error, stdout) => {
-        let response = error || stdout;
-        if (!error) {
-          if (response.includes('Already up to date.')) {
-          } else {
-            exec('npm i', console.log);
-            console.log(black.bgGreen('[Github]') + greenBright(' Bot Updated.'));
-          }
-        }
-      });
-    });
-
     // Check For Useless Documents
     cron.schedule('*/59 * * * *', async () => {
       guild = await this.client.guilds.cache.get('655109296400367618');
@@ -160,17 +146,14 @@ module.exports = class ReadyListener extends Listener {
         // Check Every Staff's Document
         doc.forEach(async (d) => {
           // If The Staff Didn't Meet Their Daily Message Count And Is Not On Leave, Add Them To The 'Has To Strike' Array
-          if (d.msgs < d.dailyCount - 1) {
+          if (d.msgInfo?.today < d.msgInfo?.dailyCount - 1) {
             if (d.onLeave === false) {
               await no.push(d.user);
             }
           }
-          // Save The Message Count To An Array And Reset Their Message Count
           await mcount.push(
-            `<@${d.user}> - Messages Yesterday: ${d.msgs} - Checkin Count for Yesterday: ${d.dailyCount} `,
+            `<@${d.user}> - Messages Yesterday: ${d.msgInfo?.today} - Checkin Count for Yesterday: ${d.msgInfo?.dailyCount} `,
           );
-          d.msgs = 0;
-          d.save();
         });
 
         // Check If Anyone Need To Be Striked, If Yes, Strike Them And Notify Them
@@ -231,7 +214,13 @@ module.exports = class ReadyListener extends Listener {
         let staffRole = await sal.roles.cache.get(this.client.config.StaffRole);
         let staffMessageCount = await models.staff.find();
         await staffMessageCount.forEach(async (countDoc) => {
-          countDoc.dailyCount = rannum();
+          if (countDoc.msgInfo?.today > countDoc.msgInfo?.randomCount) {
+            countDoc.msgInfo.dailyCount = rannum() / 2;
+          } else {
+            countDoc.msgInfo.dailyCount = rannum();
+          }
+          countDoc.msgInfo.randomCount = rannum() + 100;
+          countDoc.msgInfo.today = 0;
           await countDoc.save();
         });
 

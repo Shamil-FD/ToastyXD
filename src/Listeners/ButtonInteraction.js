@@ -1,5 +1,6 @@
+const _ = require('lodash');
 const { Listener } = require('discord-akairo');
-const { MessageButton } = require('discord.js');
+const { MessageAttachment, MessageButton } = require('discord.js');
 
 module.exports = class ButtonListener extends Listener {
   constructor() {
@@ -12,7 +13,6 @@ module.exports = class ButtonListener extends Listener {
   async exec(interaction) {
     if (interaction.isButton()) {
       if (interaction.customId.toLowerCase() == 'purgeverify') {
-        await interaction.defer(true);
         if (!interaction.member?.roles.cache.has(this.client.config.StaffRole)) {
           return interaction.reply({
             embeds: [
@@ -21,7 +21,8 @@ module.exports = class ButtonListener extends Listener {
                 .setColor('RED')
                 .setDescription(`${interaction.member}, you can't use this button, dummy.`),
             ],
-            ephemeral: true,
+            ephemeral: false,
+            content: `<@${interaction.member.id}>`,
           });
         }
         let DeleteMessages = await FetchAndDelete(interaction);
@@ -181,6 +182,132 @@ module.exports = class ButtonListener extends Listener {
         });
         await this.client.tools.wait(5000);
         return interaction.channel.delete();
+      } else if (interaction.customId.toLowerCase().includes('verification')) {
+        let member = await interaction.guild.members.fetch(interaction.member.id);
+        let doc;
+        if (member) doc = await this.client.tools.models.verification.findOne({ user: member.id });
+        if (!member || interaction.member.id !== member.id || !doc)
+          return interaction.reply({
+            embeds: [
+              this.client.tools
+                .embed()
+                .setDescription(`Nice try, but you can't use another person's verification message.`),
+            ],
+            ephemeral: true,
+          });
+
+        doc?.count ? doc.count++ : (doc.count = 1);
+        await doc.save();
+        if (interaction.customId.replace('verification', ' ').trim() != doc.code) {
+          if (doc?.count == 5) {
+            await this.client.channels.cache
+              .get(this.client.config.StaffReportChnl)
+              .send({
+                embeds: [
+                  this.client.tools
+                    .embed()
+                    .setDescription(
+                      `Kicked ${member.user.tag} | ${member.id} for exceeding 5 incorrect verification attempts.`,
+                    )
+                    .setTitle('Member Kick'),
+                ],
+              });
+            await member
+              .send({
+                embeds: [
+                  this.client.tools
+                    .embed()
+                    .setDescription(
+                      `You've been kicked from Salvage Sqaud for exceeding 5 incorrect verification attempts. In simpler terms, you are too dumb to be in the server.`,
+                    ),
+                ],
+              })
+              .catch(() => {});
+            return member.kick({ reason: '5 incorrect verification attempts.' });
+          }
+          return interaction.reply({
+            embeds: [
+              this.client.tools
+                .embed()
+                .setDescription(
+                  `You clicked the wrong button, you have ${
+                    5 - doc.count
+                  } more attempts until you get kicked! Please check which button is the same as the code shown in the image.\n\nIf the code is broken, use the command \`t)newcode\` for a new code.`,
+                ),
+            ],
+            ephemeral: true,
+          });
+        }
+
+        await interaction.reply({
+          embeds: [
+            this.client.tools
+              .embed()
+              .setDescription(`Thanks for joining ${interaction.guild.name}! Have an amazing stay!`),
+          ],
+          ephemeral: true,
+        });
+        await member.roles.remove(this.client.config.NotVerifiedRole);
+        await this.client.channels.cache
+          .get(this.client.config.StaffReportChnl)
+          .send({
+            embeds: [
+              this.client.tools
+                .embed()
+                .setDescription(
+                  `${this.client.config.arrow} **User**: ${member.user.tag} | \`${member.id}\`\n${this.client.config.arrow} **Code**: \`${doc.code}\`\n${this.client.config.arrow} **Tries**: \`${doc.count}\``,
+                )
+                .setTitle('Member Verfied'),
+            ],
+          });
+        return doc.delete();
+      } else if (interaction.customId.toLowerCase() === 'verifynow') {
+        if (!interaction.member.roles.cache.get(this.client.config.NotVerifiedRole))
+          return interaction.reply({
+            embeds: [this.client.tools.embed().setDescription("You're already verified.")],
+            ephemeral: true,
+          });
+
+        let doc = await this.client.tools.models.verification.findOne({ user: interaction.member.id });
+        let cap = await this.client.tools.captcha();
+        let buttons = [];
+        let buttonColors = ['PRIMARY', 'DANGER', 'SUCCESS', 'PRIMARY', 'DANGER', 'SUCCESS'];
+        let buttonColor = await buttonColors[await Math.round(Math.random() * buttonColors.length)];
+        buttons.push(
+          new MessageButton().setLabel(cap.word).setCustomId(`verification${cap.word}`).setStyle(buttonColor),
+        );
+        for (let i = 0; i < cap.randomNumbers.length - 1; i++) {
+          buttons.push(
+            new MessageButton()
+              .setLabel(cap.randomNumbers[i])
+              .setCustomId(`verification${cap.randomNumbers[i]}`)
+              .setStyle(buttonColors[i]),
+          );
+        }
+        buttons = await _.shuffle(buttons);
+        if (!doc) {
+          await new verification({
+            user: interaction.member.id,
+            code: cap.word,
+            count: 0,
+          }).save();
+        } else {
+          doc.code = cap.word;
+          await doc.save();
+        }
+        return interaction.reply({
+          embeds: [
+            this.client.tools
+              .embed()
+              .setDescription(
+                '**Please click on the button corresponding to the code shown in the image above.\n\nIf the code is broken, use the command `t)newcode` to create a new one.**',
+              )
+              .setColor(cap.randomColor),
+          ],
+          files: [new MessageAttachment(cap.png, 'verify.png')],
+          components: [buttons],
+          ephemeral: true,
+        });
       }
     }
   }

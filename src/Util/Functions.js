@@ -89,8 +89,8 @@ module.exports = {
     }
     // Random Letter Function.
     let characters = 6;
-    const randomText = (length = characters) => {
-      let chars = '1234567890987654321';
+    const randomText = (chars, length = characters) => {
+      chars = chars ?? '1234567890987654321';
       let str = '';
       for (let i = 0; i < length; i++) {
         str += chars.charAt(Math.floor(Math.random() * chars.length));
@@ -100,6 +100,11 @@ module.exports = {
 
     // Initialize Canvas and Create the Background.
     let word = randomText();
+    let randomNumbers = [];
+    for (let i = 0; i < 5; i++) {
+      randomNumbers.push(randomText(word));
+    }
+    let randomColor = Util.resolveColor('RANDOM');
     let canva = canvas.createCanvas(600, 200);
     const ctx = canva.getContext('2d');
     ctx.fillStyle = '#ffffff';
@@ -114,7 +119,7 @@ module.exports = {
     ctx.beginPath();
     ctx.rect(0, 0, 600, 200);
     ctx.lineWidth = 10;
-    ctx.strokeStyle = '#d772e0';
+    ctx.strokeStyle = '#' + randomColor.toString(16);
     ctx.stroke();
 
     // Calculating the Letter Position Function.
@@ -128,9 +133,10 @@ module.exports = {
       coordinates.push(coordinate);
     }
 
+    let lineColor = '#' + Util.resolveColor('RANDOM').toString(16);
     // Draw the Strike Through Text Lines.
     coordinates = coordinates.sort((a, b) => a[0] - b[0]);
-    ctx.strokeStyle = '#6f64fc';
+    ctx.strokeStyle = lineColor;
     ctx.globalAlpha = 0.8;
     ctx.beginPath();
     ctx.moveTo(coordinates[0][0], coordinates[0][1]);
@@ -151,6 +157,6 @@ module.exports = {
     // Buffer the Image
     const png = canva.toBuffer();
     // Return the Result
-    return { word, png };
+    return { word, png, randomNumbers, randomColor };
   },
 };

@@ -1,6 +1,6 @@
-const { MessageAttachment } = require('discord.js');
+const { MessageAttachment, Formatters } = require('discord.js');
 const { Listener } = require('discord-akairo');
-const { firstTime, verif } = require('../Util/Models');
+const { firstTime } = require('../Util/Models');
 const moment = require('moment');
 
 module.exports = class GuildMemberAddListener extends Listener {
@@ -16,7 +16,7 @@ module.exports = class GuildMemberAddListener extends Listener {
     if (this.client.config.testMode === true) return;
     // Check If Member Is A Bot
     if (member.user.bot) return;
-
+    // Check if channel exists
     if (!member.guild.channels.cache.get('801877313855160340')) return;
 
     // First Time In Help Channel Thing
@@ -33,21 +33,23 @@ module.exports = class GuildMemberAddListener extends Listener {
     if (!member.user.username.match(/^[0-9a-zA-Z]/g)) {
       await member.setNickname('Moderated Nickname');
     }
-
-    let doc = await verif.findOne({ user: member.id });
-    let cap = await this.client.tools.captcha();
+    // Add not verified role
     await member.roles.add(this.client.config.NotVerifiedRole);
-    if (parseInt(num) < 2) {
+    if (parseInt(num) < 8) {
       await member.send('Your account is too new to join our server.').catch((e) => {});
-      await member.ban({ reason: 'Account age under 2 days.' });
+      await member.ban({ reason: 'Account age under 7 days.' });
       return member.guild.channels.cache.get(this.client.config.StaffReportChnl).send({
         embeds: [
           this.client.tools
             .embed()
             .setDescription(
-              `User: ${member.user.tag} | ${member.id}\nCreation Date: ${moment(
-                member.user.createdAt,
-              )}\nTotal Days Since Creation: ${num}\nBanned For: Account age under 2 days.`,
+              `${this.client.config.arrow} **User**: ${member.user.tag} | \`${member.id}\`\n${
+                this.client.config.arrow
+              } **Creation Date**: ${Formatters.time(member.user.createdAt, 'f')}\n${
+                this.client.config.arrow
+              } **Days Since Creation**: \`${num} Days\`\n${
+                this.client.config.arrow
+              } **Banned For**: Account age under 7 days.`,
             )
             .setTitle('Member Banned'),
         ],
@@ -58,45 +60,14 @@ module.exports = class GuildMemberAddListener extends Listener {
         this.client.tools
           .embed()
           .setDescription(
-            `User:   ${member.user.tag} | ${member.id}\nCreation Date: ${moment(
-              member.user.createdAt,
-            )}\nTotal Days Since Creation: ${num}`,
+            `${this.client.config.arrow} **User**: ${member.user.tag} | \`${member.id}\`\n${
+              this.client.config.arrow
+            } **Creation Date**: ${Formatters.time(member.user.createdAt, 'f')}\n${
+              this.client.config.arrow
+            } **Days Since Creation**: \`${num} Days\``,
           )
-          .setTitle('New Member'),
+          .setTitle('Member Joined'),
       ],
     });
-
-    if (!doc) {
-      await new verif({ user: member.id, code: cap.word, count: 0 }).save();
-
-      return await member.guild.channels.cache.get('801877313855160340').send({
-        embeds: [
-          this.client.tools
-            .embed()
-            .setDescription(
-              '**Please type the code shown in the image above using the command `t)verify Code`\nIf the code is too hard to read, use the command `t)newcode` to get a new one.**',
-            )
-            .setColor('#d772e0'),
-        ],
-        files: [new MessageAttachment(cap.png, 'verify.png')],
-        content: `<@${member.id}>`,
-      });
-    } else {
-      doc.code = cap.word;
-      await doc.save();
-
-      return await member.guild.channels.cache.get('801877313855160340').send({
-        embeds: [
-          this.client.tools
-            .embed()
-            .setDescription(
-              '**Please type the code shown in the image above using the command `t)verify Code`\nIf the code is too hard to read, use the command `t)newcode` to get a new one.**',
-            )
-            .setColor('#d772e0'),
-        ],
-        content: `<@${member.id}>`,
-        files: [new MessageAttachment(cap.png, 'verify.png')],
-      });
-    }
   }
 };

@@ -93,11 +93,11 @@ module.exports = class ChannelMuteCommand extends Command {
             `${this.client.arrow} Moderator: ${message.member?.user?.username}`,
             message.member?.user?.displayAvatarURL({ dynamic: true }),
           )
-          .addField(this.client.config.arrow + ' **Victim**:', `${member} || ${member?.id}`)
-          .addField(this.client.config.arrow + ' **Reason**:', reason)
-          .addField(this.client.config.arrow + ' **Duration**:', await pretty(time))
-          .addField(this.client.config.arrow + '**Channel**:', `<#${message.channel.id}>`)
-          .addField(this.client.config.arrow + '**Date**:', await moment().format('DD/MM/YY')),
+          .addField(this.client.config.arrow + ' **Victim**: ', `${member} || ${member?.id}`)
+          .addField(this.client.config.arrow + ' **Reason**: ', reason)
+          .addField(this.client.config.arrow + ' **Duration**: ', await pretty(time))
+          .addField(this.client.config.arrow + ' **Channel**:', ` <#${message.channel.id}>`)
+          .addField(this.client.config.arrow + ' **Date**: ', await moment().format('DD/MM/YY')),
       ],
     });
   }

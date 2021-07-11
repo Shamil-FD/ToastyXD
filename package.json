@@ -15,7 +15,7 @@
 		"chalk": "^4.1.0",
 		"dayjs": "^1.10.4",
 		"discord-akairo": "github:discord-akairo/discord-akairo",
-		"discord.js": "^13.0.0-dev.5b6be0c.1625789033",
+		"discord.js": "^13.0.0-dev.d433fe8.1626004976",
 		"imageapi.js": "^1.7.0",
 		"lodash": "^4.17.21",
 		"moment": "^2.29.1",

@@ -147,11 +147,11 @@ async function CanvasGen(client, person) {
     ctx.fillText(`${client.config.arrow} Bio:`, 250, 70);
     await fillTextWithTwemoji(ctx, ` ${bio}`, 340, 70);
 
-    ctx.fillText(`${client.config.arrow} Messages Today: ${doc.msgs}`, 250, 105);
+    ctx.fillText(`${client.config.arrow} Messages Today: ${doc.msgInfo?.today}`, 250, 105);
 
-    ctx.fillText(`${client.config.arrow} Check-in for Today: ${doc.dailyCount}`, 250, 145);
+    ctx.fillText(`${client.config.arrow} Check-in for Today: ${doc.msgInfo?.dailyCount}`, 250, 145);
 
-    ctx.fillText(`${client.config.arrow} Total Messages: ${doc.total}`, 250, 185);
+    ctx.fillText(`${client.config.arrow} Total Messages: ${doc.msgInfo?.total}`, 250, 185);
 
     ctx.fillText(`${client.config.arrow} Strikes: ${doc.strikes ?? '0'}`, 250, 225);
 
@@ -176,11 +176,11 @@ async function CanvasGen(client, person) {
     splittedBio = bio.substr(24).trim();
     await fillTextWithTwemoji(ctx, ' ' + bio.slice(0, 24) + '\n' + splittedBio, 340, 70);
 
-    ctx.fillText(`${client.config.arrow} Messages Today: ${doc.msgs}`, 250, 145);
+    ctx.fillText(`${client.config.arrow} Messages Today: ${doc.msgInfo?.today}`, 250, 145);
 
-    ctx.fillText(`${client.config.arrow} Check-in for Today: ${doc.dailyCount}`, 250, 190);
+    ctx.fillText(`${client.config.arrow} Check-in for Today: ${doc.msgInfo?.dailyCount}`, 250, 190);
 
-    ctx.fillText(`${client.config.arrow} Total Messages: ${doc.total}`, 250, 235);
+    ctx.fillText(`${client.config.arrow} Total Messages: ${doc.msgInfo?.total}`, 250, 235);
 
     ctx.fillText(`${client.config.arrow} Strikes: ${doc.strikes ?? '0'}`, 250, 275);
 

@@ -26,10 +26,9 @@ module.exports = class ResetCheckinCommand extends Command {
 
     // Check Every Staff's Document
     doc.forEach(async (d) => {
-      // Save The Message Count To An Array And Reset Their Message Count
-      await mcount.push(`Messages: ${d.msgs} - <@${d.user}>`);
-      d.msgs = 0;
-      d.save();
+      await mcount.push(
+        `Messages Yesterday: ${d.msgInfo?.today} - Daily Count: ${d.msgInfo?.dailyCount} - <@${d.user}>`,
+      );
     });
 
     await clockin.send({
@@ -51,7 +50,13 @@ module.exports = class ResetCheckinCommand extends Command {
     let staffRole = await sal.roles.cache.get(this.client.config.StaffRole);
     let staffMessageCount = await models.staff.find();
     await staffMessageCount.forEach(async (countDoc) => {
-      countDoc.dailyCount = rannum();
+      if (countDoc.msgInfo?.today > countDoc.msgInfo?.randomCount) {
+        countDoc.msgInfo.dailyCount = rannum() / 2;
+      } else {
+        countDoc.msgInfo.dailyCount = rannum();
+      }
+      countDoc.msgInfo.randomCount = rannum() + 100;
+      countDoc.msgInfo.today = 0;
       await countDoc.save();
     });
 

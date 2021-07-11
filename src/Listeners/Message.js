@@ -22,7 +22,7 @@ module.exports = class MessageListener extends Listener {
       });
       if (FirstTimeDoc) {
         await FirstTimeDoc.delete();
-        await message.send(
+        await message.reply(
           `<@${message.author.id}>, Welcome to the help channel. Please make sure to follow these basic rules when asking for help:\n\n1. Do not ask/beg for source code. We don't give out source codes.\n\n2. Don't ping anyone for help.\n\n3. Do not ask for help in DMs.\n\n4. When posting code/errors post them in a source code bin. Links can be found by running the command \`s!bins\`\n\n5. Be patient, people have a life outside of the internet.\n\n6. Don't ask to get help, if you have a question, post your question with code and errors.\n\n7. If you want priority support, make a ticket in <#809431342680375326>`,
         );
       }
@@ -30,7 +30,7 @@ module.exports = class MessageListener extends Listener {
 
     // Promoting The PasteCode Command :)
     if (message.content.startsWith('s!bins') || message.content.startsWith('s!bin')) {
-      message.send({
+      message.reply({
         embeds: [
           this.client.tools
             .embed()
@@ -68,11 +68,13 @@ module.exports = class MessageListener extends Listener {
         helparr.map((r) => {
           if (dontaskagain === false) {
             if (message.content.toLowerCase().includes(r.toLowerCase())) {
-              message.send({
-                embeds: {
-                  description:
-                    "Uh oh, someone wants help..\n\nIf you do want help; you need to get to Level 1 on Arcane bot.\n> How do I get to Level 1?\n It's easy, just chat with people.\n> Can I spam?\n No, if you do, you are most likely not to get help.\n> I don't like this..\n Oh you don't? We don't care.",
-                },
+              message.reply({
+                embeds: [
+                  {
+                    description:
+                      "Uh oh, someone wants help..\n\nIf you do want help; you need to get to Level 1 on Arcane bot.\n> How do I get to Level 1?\n It's easy, just chat with people.\n> Can I spam?\n No, if you do, you are most likely not to get help.\n> I don't like this..\n Oh you don't? We don't care.",
+                  },
+                ],
               });
               dontaskagain = true;
             }

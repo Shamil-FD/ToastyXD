@@ -19,28 +19,32 @@ module.exports = class StaffMessageListener extends Listener {
       // Staff Check-In Stuff
       if (message.member.roles.cache.has('752632482943205546') === true) {
         if (message.content.toLowerCase().startsWith(this.client.config.prefix)) return;
+        if (message.content.length === 1) return;
         let doc = await models.staff.findOne({ user: message.author.id });
 
         if (!doc) {
           await new models.staff({
             user: message.author.id,
-            msgs: 0,
-            dailyCount: rannum(),
-            total: 1,
             onLeave: false,
             strikes: 0,
+            msgInfo: {
+              today: 0,
+              total: 0,
+              dailyCount: rannum(),
+              randomCount: rannum() + 100,
+            },
           }).save();
         } else {
           if (!['709043831995105360', '781221115271970826', '853552430515093534'].includes(message.channel.id)) {
-            doc.msgs++;
+            doc.msgInfo.today++;
           }
-          doc.total ? doc.total++ : (doc.total = 1);
+          doc.msgInfo?.total ? doc.msgInfo.total++ : (doc.msgInfo.total = 1);
           await doc.save();
         }
         if (['709043831995105360', '781221115271970826', '853552430515093534'].includes(message.channel.id)) return;
         doc = await models.staff.findOne({ user: message.author.id });
         // If A Staff's Total Message Count Is Equal To Or Greater Than Their Daily Message Count Then Execute These
-        if (doc.msgs > doc.dailyCount) {
+        if (doc.msgInfo?.today > doc.msgInfo?.dailyCount) {
           let clockchnl = await message.guild.channels.cache.get('733307358070964226');
 
           // Fetching The Clocked In Message
@@ -53,7 +57,7 @@ module.exports = class StaffMessageListener extends Listener {
                     .embed()
                     .setDescription(
                       msgs.embeds[0].description +
-                        `\n${this.client.config.tick} ${message.author.tag} - ${doc.dailyCount} messages today`,
+                        `\n${this.client.config.tick} ${message.author.tag} - ${doc.msgInfo?.dailyCount} messages today`,
                     )
                     .setColor('GREEN')
                     .setFooter(msgs.embeds[0].footer ? msgs.embeds[0].footer.text : ''),
