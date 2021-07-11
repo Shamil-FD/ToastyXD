@@ -286,7 +286,7 @@ module.exports = class ButtonListener extends Listener {
         }
         buttons = await _.shuffle(buttons);
         if (!doc) {
-          await new verification({
+          await new this.client.tools.models.verification({
             user: interaction.member.id,
             code: cap.word,
             count: 0,
