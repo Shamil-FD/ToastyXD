@@ -23,7 +23,7 @@ module.exports = class MessageListener extends Listener {
       if (FirstTimeDoc) {
         await FirstTimeDoc.delete();
         await message.reply(
-          `<@${message.author.id}>, Welcome to the help channel. Please make sure to follow these basic rules when asking for help:\n\n1. Do not ask/beg for source code. We don't give out source codes.\n\n2. Don't ping anyone for help.\n\n3. Do not ask for help in DMs.\n\n4. When posting code/errors post them in a source code bin. Links can be found by running the command \`s!bins\`\n\n5. Be patient, people have a life outside of the internet.\n\n6. Don't ask to get help, if you have a question, post your question with code and errors.\n\n7. If you want priority support, make a ticket in <#809431342680375326>`,
+          `<@${message.author.id}>, Welcome to the help channel. Please make sure to follow these basic rules when asking for help:\n\n1. Do not ask/beg for source code. We don't give out source codes.\n\n2. Don't ping anyone for help.\n\n3. Do not ask for help in DMs.\n\n4. When posting code/errors post them in a source code bin. Links can be found by running the command \`s!bins\`\n\n5. Be patient, people have a life outside of the internet.\n\n6. Don't ask to get help, if you have a question, post your question with code and errors.\n\n7. If you want priority support, make a ticket in <#809431342680375326>\n\n**I SERIOUSLY RECOMMEND LISTENING TO NUMBER 7 AND MAKING A TICKET. IT MEANS YOU WILL GET HELP FASTER.**`,
         );
       }
     }
