@@ -1,7 +1,7 @@
 const Command = require('../../Struct/Command.js');
-const { MessageAttachment } = require('discord.js');
+const { MessageAttachment, Util } = require('discord.js');
 const canvas = require('canvas');
-const { fillTextWithTwemoji } = require('node-canvas-with-twemoji-and-discord-emoji');
+const { fillWithEmoji } = require('discord-emoji-canvas');
 canvas.registerFont('src/Util/Fonts/JetBrains Mono Bold Nerd Font Complete.ttf', {
   family: 'jetbrains',
 });
@@ -35,12 +35,10 @@ module.exports = class StaffinfoCommand extends Command {
   }
 
   async exec(message, { person }) {
-    try {
-      person = await this.client.tools.getMember({ user: person, message: message });
-    } catch {}
-    if (!person.id)
+    person = await this.client.tools.getMember({ user: person, message: message }).catch(() => { return undefined; });
+    if (!person?.id)
       return message.reply({
-        embeds: [{ description: `Couldn't find \`${person}\` 😔`, color: 'RED' }],
+        embeds: [{ description: `Couldn't find ${person == undefined ? 'whatever you typed' : `\`${person}\``} 😔`, color: 'RED' }],
       });
     if (!person.roles.cache.has(this.client.config.StaffRole))
       return message.reply({
@@ -51,7 +49,7 @@ module.exports = class StaffinfoCommand extends Command {
         ],
       });
 
-    return message.channel.send({
+    return message.reply({
       files: [new MessageAttachment(await CanvasGen(this.client, person), 'staffinfo.png')],
     });
   }
@@ -144,8 +142,8 @@ async function CanvasGen(client, person) {
 
   // Check if the bio is longer than 22 chars. If yes, add in a new line for the bio. If no, add in the bio
   if (bio.length < 21) {
-    ctx.fillText(`${client.config.arrow} Bio:`, 250, 70);
-    await fillTextWithTwemoji(ctx, ` ${bio}`, 340, 70);
+    ctx.fillText(`${client.config.arrow} Bio: `, 250, 70);
+    await fillWithEmoji(ctx, bio, 340, 70);
 
     ctx.fillText(`${client.config.arrow} Messages Today: ${doc.msgInfo?.today}`, 250, 105);
 
@@ -157,25 +155,26 @@ async function CanvasGen(client, person) {
 
     ctx.fillText(
       `${client.config.arrow} Pronouns: ${
-        person.roles.cache.has('853560859677425674')
-          ? 'he/him'
-          : person.roles.cache.has('853560886605119528')
-          ? 'she/her'
-          : person.roles.cache.has('853560908630720573')
-          ? 'they/them'
-          : person.roles.cache.has('853560940922404895')
-          ? 'other'
+        person.roles.cache.has('863362112109805578')
+          ? person.roles.cache.get('863362112109805578')?.name
+          : person.roles.cache.has('863362112608534547')
+          ? person.roles.cache.get('863362112608534547')?.name
+          : person.roles.cache.has('863362113091272704')
+          ? person.roles.cache.get('863362113091272704')?.name
+          : person.roles.cache.has('863362113588953109')
+          ? person.roles.cache.get('863362113588953109')?.name
+          : person.roles.cache.has('863362114243395614')
+          ? person.roles.cache.get('863362114243395614')?.name
           : 'n/a'
       }`,
       250,
       265,
     );
   } else {
-    ctx.fillText(client.config.arrow + ' Bio:', 250, 70);
-    let splittedBio = bio.lastIndexOf(' ');
+    ctx.fillText(client.config.arrow + ' Bio: ', 250, 70);
+    let splittedBio = bio.lastIndexOf(' '); 
     splittedBio = bio.substr(24).trim();
-    await fillTextWithTwemoji(ctx, ' ' + bio.slice(0, 24) + '\n' + splittedBio, 340, 70);
-
+    await fillWithEmoji(ctx, bio.slice(0, 24) + '\n' + splittedBio, 340, 70);
     ctx.fillText(`${client.config.arrow} Messages Today: ${doc.msgInfo?.today}`, 250, 145);
 
     ctx.fillText(`${client.config.arrow} Check-in for Today: ${doc.msgInfo?.dailyCount}`, 250, 190);
@@ -185,15 +184,17 @@ async function CanvasGen(client, person) {
     ctx.fillText(`${client.config.arrow} Strikes: ${doc.strikes ?? '0'}`, 250, 275);
 
     ctx.fillText(
-      `${client.config.arrow} Pronouns: ${
-        person.roles.cache.has('853560859677425674')
-          ? 'he/him'
-          : person.roles.cache.has('853560886605119528')
-          ? 'she/her'
-          : person.roles.cache.has('853560908630720573')
-          ? 'they/them'
-          : person.roles.cache.has('853560940922404895')
-          ? 'other'
+      `${client.config.arrow} Pronouns: ${     
+        person.roles.cache.has('863362112109805578')
+          ? person.roles.cache.get('863362112109805578')?.name
+          : person.roles.cache.has('863362112608534547')
+          ? person.roles.cache.get('863362112608534547')?.name
+          : person.roles.cache.has('863362113091272704')
+          ? person.roles.cache.get('863362113091272704')?.name
+          : person.roles.cache.has('863362113588953109')
+          ? person.roles.cache.get('863362113588953109')?.name
+          : person.roles.cache.has('863362114243395614')
+          ? person.roles.cache.get('863362114243395614')?.name
           : 'n/a'
       }`,
       250,

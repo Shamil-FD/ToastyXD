@@ -56,14 +56,26 @@ module.exports = class ReadyListener extends Listener {
       });
     });
 
-    if (guild) {
-      // Check For Staff Leave and Channel Mutes and Auto Unban
+    if (guild) {        
+      // Check For Staff Leave and Channel Mutes and Auto Purge Verify Channel
       cron.schedule(`* * * * *`, async () => {
-        let unbans = await models.unban.find();
         let docs = await models.chnlmute.find();
         let sal = await this.client.guilds.fetch('655109296400367618');
         let lev = await models.leave.find();
 
+        let verifychannel = await sal.channels.fetch('801877313855160340');
+        if (verifychannel) {
+        let msg = await verifychannel.messages.fetch().then(m => m.first());
+        if (!msg.pinned) {
+        if (msg.createdAt < (Date.now() - 600000)) {
+           let msgs = await verifychannel.messages.fetch();
+           if (msgs.size > 0) {
+           msgs = msgs.filter(m => m.pinned === false);
+           await verifychannel.bulkDelete(msgs).catch((e) => { console.log(e) });
+           }
+        }
+        }
+        }          
         // If There Is Someone On Leave, It Checks If Their Leave Is Over
         if (lev.length) {
           lev.forEach(async (l) => {
@@ -90,7 +102,7 @@ module.exports = class ReadyListener extends Listener {
             }
           });
         }
-
+  
         // If Someone's Been Muted In A Channel, It Checks If Their Time Is Up And Unmutes Them.
         if (docs.length) {
           docs.forEach(async (d) => {
@@ -219,7 +231,7 @@ module.exports = class ReadyListener extends Listener {
           } else {
             countDoc.msgInfo.dailyCount = rannum();
           }
-          countDoc.msgInfo.randomCount = rannum() + 100;
+          countDoc.msgInfo.randomCount = rannum() + 175;
           countDoc.msgInfo.today = 0;
           await countDoc.save();
         });

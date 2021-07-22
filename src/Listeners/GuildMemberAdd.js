@@ -71,6 +71,6 @@ module.exports = class GuildMemberAddListener extends Listener {
       ],
     });
       await this.client.tools.wait(require('ms')('5m'));
-      return sent.delete()
+      return sent.delete().catch(() => {})
   }
 };

@@ -18,6 +18,7 @@ module.exports = class CommandBlockedListener extends Listener {
       result = 'This command is only for beta testers for now. Please wait until the full release.';
     else if (reason === 'adminOnly') result = "You aren't special yet";
     else if (reason === 'appealServerOnly') result = "This can't be used in this guild.";
+      else if (reason === 'blacklistedchnl') return;
     let embed = this.client.tools.embed().setColor('RED').setDescription(result);
     return message.reply({ embeds: [embed] });
   }

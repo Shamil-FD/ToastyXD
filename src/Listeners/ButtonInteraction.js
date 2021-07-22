@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const { Listener } = require('discord-akairo');
-const { MessageAttachment, MessageButton } = require('discord.js');
+const { MessageActionRow, MessageAttachment, MessageButton } = require('discord.js');
 
 module.exports = class ButtonListener extends Listener {
   constructor() {
@@ -71,10 +71,10 @@ module.exports = class ButtonListener extends Listener {
         let acceptbtn = new MessageButton().setStyle('SUCCESS').setLabel('Accept').setCustomId('appealaccept');
         let openbtn = new MessageButton().setStyle('PRIMARY').setLabel('Open').setCustomId('appealopen');
         let deletebtn = new MessageButton().setStyle('DANGER').setLabel('Delete').setCustomId('appealdelete');
-        let denybtn = new MessageButton().setStyle('DANGER').setLabel('Deny').setCustomId('appealdeny');
+        let denybtn = new MessageButton().setStyle('DANGER').setLabel('Deny').setCustomId('appealdeny');          
         return interaction.message.edit({
           embeds: interaction.embeds,
-          components: [[acceptbtn, denybtn, openbtn, deletebtn]],
+          components: [new MessageActionRow().addComponents([acceptbtn, denybtn, openbtn, deletebtn])],
         });
       } else if (interaction.customId.toLowerCase() === 'appealopen') {
         let member = await GetMember(interaction);
@@ -93,7 +93,7 @@ module.exports = class ButtonListener extends Listener {
           embeds: [this.client.tools.embed().setDescription(`${member} can now see this channel.`)],
         });
         let closebtn = new MessageButton().setStyle('DANGER').setLabel('Close').setCustomId('appealclose');
-        return interaction.message.edit({ embeds: interaction.embeds, components: [[closebtn]] });
+        return interaction.message.edit({ embeds: interaction.embeds, components: [new MessageActionRow().addComponents([closebtn])] });
       } else if (interaction.customId.toLowerCase() === 'appealaccept') {
         let member = await GetMember(interaction);
         if (!member)
@@ -142,7 +142,7 @@ module.exports = class ButtonListener extends Listener {
         });
         await member.kick();
         let deletebtn = new MessageButton().setStyle('DANGER').setLabel('Delete').setCustomId('appealdelete');
-        return interaction.message.edit({ embeds: interaction.embeds, components: [[deletebtn]] });
+        return interaction.message.edit({ embeds: interaction.embeds, components: [new MessageActionRow().addComponents([deletebtn])] });
       } else if (interaction.customId.toLowerCase() === 'appealdeny') {
         let member = await GetMember(interaction);
         if (!interaction.member.roles.cache.has('823124026623918082'))
@@ -171,7 +171,7 @@ module.exports = class ButtonListener extends Listener {
         });
         await member.kick();
         let deletebtn = new MessageButton().setStyle('DANGER').setLabel('Delete').setCustomId('appealdelete');
-        return interaction.message.edit({ embeds: interaction.embeds, components: [[deletebtn]] });
+        return interaction.message.edit({ embeds: interaction.embeds, components: [new MessageActionRow().addComponents([deletebtn])] });
       } else if (interaction.customId.toLowerCase() === 'appealdelete') {
         if (!interaction.member.roles.cache.has('823124026623918082'))
           return interaction.reply({
@@ -232,7 +232,7 @@ module.exports = class ButtonListener extends Listener {
                 .setDescription(
                   `You clicked the wrong button, you have ${
                     5 - doc.count
-                  } more attempts until you get kicked! Please check which button is the same as the code shown in the image.\n\nIf the code is broken, use the command \`t)newcode\` for a new code.`,
+                  } more attempts until you get kicked! Please check which button is the same as the code shown in the image.\n\nIf the code is broken, use the button again for a new code.`,
                 ),
             ],
             ephemeral: true,
@@ -300,12 +300,12 @@ module.exports = class ButtonListener extends Listener {
             this.client.tools
               .embed()
               .setDescription(
-                '**Please click on the button corresponding to the code shown in the image above.\n\nIf the code is broken, use the command `t)newcode` to create a new one.\nThis message will be deleted in 5 minutes.**',
+                '**Please click on the button corresponding to the code shown in the image above.\n\nIf the code is broken, use the button again to create a new one.\nThis message will be deleted in 5 minutes.**',
               )
               .setColor(cap.randomColor),
           ],
           files: [new MessageAttachment(cap.png, 'verify.png')],
-          components: [buttons],
+          components: [new MessageActionRow().addComponents([buttons])],
          });
          await this.client.tools.wait(require('ms')('5m'));
           return interaction.deleteReply()

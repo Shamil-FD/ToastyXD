@@ -61,6 +61,8 @@ module.exports = class ToastyClient extends AkairoClient {
 
     // Global Variables
     this.config = config;
+    this.config.lockdownMode = false;
+    this.config.lockingMode = false;
     this.tools = {
       embed: embed,
       captcha: captcha,

@@ -45,12 +45,11 @@ module.exports = class ToastyHandler extends CommandHandler {
 
       // Check Command use permissions
       let RejectReply = () => {
-        return interaction.reply("You can't use this command.");
+        return interaction.reply({ content: "You can't use this command.", ephemeral: true });
       };
+      if (!this.client.ownerID.includes(interaction.member.id)) {
       if (slashCmd?.ownerOnly === true && !this.client.ownerID.includes(interaction.member.id)) return RejectReply();
-      if (
-        !this.client.ownerID.includes(interaction.member.id) ||
-        !interaction.member.roles.cache.has(this.client.config.StaffManagerRole)
+      if (!interaction.member.roles.cache.has(this.client.config.StaffManagerRole)
       ) {
         if (slashCmd?.betaOnly === true) return RejectReply();
         if (slashCmd?.managerOnly === true && !interaction.member.roles.cache.has(this.client.config.StaffManagerRole))
@@ -65,7 +64,7 @@ module.exports = class ToastyHandler extends CommandHandler {
         )
           return RejectReply();
       }
-
+        }
       try {
         if ((await this.runCooldowns(interaction, slashCmd)) === false) {
           return slashCmd.execSlash(interaction);

@@ -19,7 +19,6 @@ module.exports = class StaffMessageListener extends Listener {
       // Staff Check-In Stuff
       if (message.member.roles.cache.has('752632482943205546') === true) {
         if (message.content.toLowerCase().startsWith(this.client.config.prefix)) return;
-        if (message.content.length === 1) return;
         let doc = await models.staff.findOne({ user: message.author.id });
 
         if (!doc) {
@@ -31,7 +30,7 @@ module.exports = class StaffMessageListener extends Listener {
               today: 0,
               total: 0,
               dailyCount: rannum(),
-              randomCount: rannum() + 100,
+              randomCount: rannum() + 175,
             },
           }).save();
         } else {
@@ -41,7 +40,7 @@ module.exports = class StaffMessageListener extends Listener {
           doc.msgInfo?.total ? doc.msgInfo.total++ : (doc.msgInfo.total = 1);
           await doc.save();
         }
-        if (['709043831995105360', '781221115271970826', '853552430515093534'].includes(message.channel.id)) return;
+        if (['709043831995105360', '781221115271970826', '853552430515093534'].includes(message.channel.id) || message.content.length === 1) return;
         doc = await models.staff.findOne({ user: message.author.id });
         // If A Staff's Total Message Count Is Equal To Or Greater Than Their Daily Message Count Then Execute These
         if (doc.msgInfo?.today > doc.msgInfo?.dailyCount) {
