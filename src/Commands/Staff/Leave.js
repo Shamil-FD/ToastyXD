@@ -62,7 +62,7 @@ module.exports = class LeaveCommand extends Command {
   }
   async execSlash(message) {
     await message.defer();
-    if (message.options.get('end')) {
+   if (message.options.getSubCommand() === 'end') {
       let doc = await leave.findOne({ user: message.member?.id });
       if (!doc)
         return message.editReply({ embeds: [this.client.tools.embed().setDescription("You aren't on leave, dummy.")] });
@@ -72,9 +72,9 @@ module.exports = class LeaveCommand extends Command {
         embeds: [this.client.tools.embed().setTitle('Hey!').setDescription('Welcome back! :D')],
       });
     } else {
-      let start = message.options.get('begin').options.get('start').value;
-      let end = message.options.get('begin').options.get('end').value;
-      let reason = message.options.get('begin').options.get('reason').value;
+      let start = message.options.get('start').value;
+      let end = message.options.get('end').value;
+      let reason = message.options.get('reason').value;
 
       let cumStart = start.slice(6);
       let cumEnd = end.slice(6);
