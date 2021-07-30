@@ -1,6 +1,8 @@
 const fetch = require('node-fetch');
+const normalDic = require('owlbot-js');
 const urbanDic = require('urban-dictionary');
 const Command = require('../../Struct/Command.js');
+const { MessageButton, MessageActionRow } = require('discord.js');
 
 module.exports = class DictionaryCommand extends Command {
   constructor() {
@@ -58,190 +60,107 @@ module.exports = class DictionaryCommand extends Command {
   }
 
   async exec(message, { urban, word }) {
+    // Variables  
     let search;
     let fetched;
     let result = [];
 
+    if (!urban && !word) return message.reply({ embeds: [this.client.tools.embed().setDescription('You have to provide a word to define!\n\n**Examples**:\n• t)dictionary Hello\n• t)dictionary urban: sheesh')] });
     if (urban) search = urban;
     else search = word;
-
-    if (urban) {
-      fetched = await urbanDic.define(search);
-      if (!fetched)
-        return message.reply({
-          embeds: [
-            {
-              description: `No definitions found for ${search}`,
-              color: 'RED',
-            },
-          ],
-        });
-      fetched = fetched.slice(0, 3);
-
-      fetched.forEach((fet) => {
-        Object.entries(fet).forEach(([key, prop]) => {
-          if (key === 'example') prop += '\n';
-
-          if (
-            ![
-              'thumbs_up',
-              'permalink',
-              'thumbs_down',
-              'defid',
-              'written_on',
-              'author',
-              'word',
-              'sound_urls',
-              'current_vote',
-            ].includes(key)
-          ) {
-            result.push(
-              `${this.client.config.arrow} **${key.replace(/(\b\w)/gi, (str) => str.toUpperCase())}**: ${prop}`,
-            );
-          }
-        });
-      });
-      return message.reply({ embeds: [{ description: result.join('\n') }] });
-    } else {
-      await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en_GB/${search}`)
-        .then((res) => res.json())
-        .then((res) => (fetched = res));
-
-      if (fetched?.title === 'No Definitions Found')
-        return message.reply({
-          embeds: [
-            {
-              description: `No definitions found for ${search}`,
-              color: 'RED',
-            },
-          ],
-        });
-
-      fetched.forEach((f) => {
-        result.push(
-          f.meanings
-            .map(
-              (m) =>
-                `${this.client.config.arrow} **Part Of Speech**: ${m.partOfSpeech}\n${m.definitions
-                  .map(
-                    (d) =>
-                      `${this.client.config.arrow} **Definition**: ${d.definition}${
-                        d.example ? `\n${this.client.config.arrow} **Example**: ${d.example}` : ''
-                      }${d.synonyms ? `\n${this.client.config.arrow} **Synonyms**: ${d.synonyms.join('\n')}` : ''} `,
-                  )
-                  .join('\n')}`,
-            )
-            .join('\n\n'),
-        );
-      });
-      return message.reply({
-        embeds: [{ title: search, description: result.join('\n') }],
-      });
-    }
-  }
+    return this.handleSearching(fetched, urban, search, message);
+   }
   async execSlash(message) {
+    // Variables
     let word;
     let urban;
-    if (message.options.get('normal')) word = message.options.get('normal').options.get('word').value;
-    else if (message.options.get('urban')) urban = message.options.get('urban').options.get('word').value;
+    if (message.options.getSubcommand() === 'normal') word = message.options.get('word').value;
+    else if (message.options.getSubcommand() === 'urban') urban = message.options.get('word').value;
 
     let search;
     let fetched;
     let result = [];
 
     if (!urban && !word)
-      return message.reply({
-        embeds: [
-          {
-            description: 'You have to provide me a word to define.',
-            color: 'RED',
-          },
-        ],
-        ephemeral: true,
+      return message.reply({ 
+          embeds: [this.client.tools.embed().setDescription('You have to provide me a word to define.').setColor('RED')], 
+          ephemeral: true,
       });
     if (urban) search = urban;
     else search = word;
-
+    return this.handleSearching(fetched, urban, search, message);
+  }
+   async handleSearching(fetched, urban, search, message) {  
     if (urban) {
       try {
         fetched = await urbanDic.define(search);
       } catch (e) {
         return message.reply({
           ephemeral: true,
-          embeds: [{ description: `No definitions found for ${search}`, color: 'RED' }],
+          embeds: [this.client.tools.embed().setDescription(`No definitions found for ${search}`).setColor('RED')],
         });
       }
-      fetched = fetched.slice(0, 3);
-
-      fetched.forEach((fet) => {
-        Object.entries(fet).forEach(([key, prop]) => {
-          if (key === 'example') prop += '\n';
-
-          if (
-            ![
-              'thumbs_up',
-              'permalink',
-              'thumbs_down',
-              'defid',
-              'written_on',
-              'author',
-              'word',
-              'sound_urls',
-              'current_vote',
-            ].includes(key)
-          ) {
-            result.push(
-              `${this.client.config.arrow} **${key.replace(/(\b\w)/gi, (str) => str.toUpperCase())}**: ${prop}`,
-            );
-          }
-        });
-      });
-      return message.reply({
-        embeds: [
-          {
-            title: `Word: ${search}`,
-            description: result.join('\n'),
-            color: 'RANDOM',
-          },
-        ],
-      });
-    } else {
-      await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en_GB/${search}`)
-        .then((res) => res.json())
-        .then((res) => (fetched = res));
-
-      if (fetched?.title === 'No Definitions Found')
-        return message.reply({
-          ephemeral: true,
-          embeds: [{ description: `No definitions found for ${search}`, color: 'RED' }],
-        });
-
-      fetched.forEach((f) => {
-        result.push(
-          f.meanings
-            .map(
-              (m) =>
-                `${this.client.config.arrow} **Part Of Speech**: ${m.partOfSpeech}\n${m.definitions
-                  .map(
-                    (d) =>
-                      `${this.client.config.arrow} **Definition**: ${d.definition}${
-                        d.example ? `\n${this.client.config.arrow} **Example**: ${d.example}` : ''
-                      }${d.synonyms ? `\n${this.client.config.arrow} **Synonyms**: ${d.synonyms.join('\n')}` : ''} `,
-                  )
-                  .join('\n')}`,
-            )
-            .join('\n\n'),
-        );
-      });
-      return message.reply({
-        embeds: [
-          {
-            title: `Word: ${search}`,
-            description: result.join('\n'),
-            color: 'RANDOM',
-          },
-        ],
-      });
+           
+    if (fetched.length > 1) {
+        return this.handlePages(message, fetched, search, urban);
+    } else {        
+        return message.reply({ embeds: [this.client.tools.embed().setTitle(`Word: ${search}`).setDescription(`${this.client.config.arrow} **Definition**: ${fetched[0].definition}\n${this.client.config.arrow} **Example**: ${fetched[0].example}`).setFooter('Page 1/1')] })        
     }
-  }
+    } else {
+      fetched = await normalDic(this.client.config.Dictionary).define(search).catch(() => { return undefined });
+      if (!fetched)
+        return message.reply({
+          embeds: [this.client.tools.embed().setDescription(`No definitions found for ${search}`).setColor('RED')]
+        });
+     if (fetched.length > 1) {
+         return this.handlePages(message, fetched, search, urban)
+     } else {
+         return message.reply({ embeds: [this.client.tools.embed().setTitle(`Word: ${search}`).setDescription(`${this.client.config.arrow} **Part Of Speech**: ${fetched.definitions[0].type}\n${this.client.config.arrow} **Definition**: ${fetched.definitions[0].definition}\n${this.client.config.arrow} **Example**: ${fetched.definitions[0].example}`).setFooter('Page 1/1')] })
+     }
+    }
+   }
+   async handlePages(message, fetched, search, urban) {
+    // Variables
+    let format;  
+    let index = 0;       
+    let isUrban = !!urban;
+    let result = []
+    let totalPages = fetched?.definitions ? fetched.definitions.length : fetched.length;
+    if(!message?.commandId) {
+        message.editReply = message.edit;
+    }
+    if (isUrban === true) {
+        format = (indexNum) => { 
+        return `${this.client.config.arrow} **Definition**: ${fetched[indexNum].definition}\n${this.client.config.arrow} **Example**: ${fetched[index].example}`
+        }
+    } else {
+        format = (indexNum) => {
+        return `${this.client.config.arrow} **Part Of Speech**: ${fetched.definitions[indexNum].type}\n${this.client.config.arrow} **Definition**: ${fetched.definitions[indexNum].definition}${fetched.definitions[indexNum]?.example ? `\n${this.client.config.arrow} **Example**: ${fetched.definitions[indexNum].example}` : ''}`
+        }
+    }   
+
+    await message.reply({ embeds: [this.client.tools.embed().setTitle(`Word: ${search}`).setDescription(await format(index)).setFooter(`Page ${index + 1}/${totalPages}`)], components: [new MessageActionRow().addComponents([new MessageButton().setEmoji('870638670212915291').setCustomId(`back${message.id}`).setStyle('PRIMARY'), new MessageButton().setEmoji('870638701158465566').setCustomId(`next${message.id}`).setStyle('PRIMARY')])] });
+       
+    let filter = i => i.user.id === message.author.id;    
+    let collector = message.channel.createMessageComponentCollector({ filter, time: 30000 });    
+    
+    collector.on('collect', async i => {
+    if (i.customId === `next${message.id}`) {
+        
+        index++;        
+        if(index == totalPages) index = 0;        
+        collector.resetTimer({ time: 30000 });
+     
+        await message.editReply({ embeds: [this.client.tools.embed().setTitle(`Word: ${search}`).setDescription(await format(index)).setFooter(`Page ${index + 1}/${totalPages}`)] });
+    } else if (i.customId === `back${message.id}`) {
+        if(index <= 0) index = totalPages;                
+        index--;   
+        collector.resetTimer({ time: 30000 });        
+        
+        await message.editReply({ embeds: [this.client.tools.embed().setTitle(`Word: ${search}`).setDescription(await format(index)).setFooter(`Page ${index + 1}/${totalPages}`)] });        
+    }
+    });
+       
+    collector.on('end', collected => message.editReply({ components: [] }))    
+   }
 };

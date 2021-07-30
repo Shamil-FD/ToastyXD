@@ -29,7 +29,7 @@ module.exports = class AFKCommand extends Command {
         {
           id: 'reason',
           match: 'rest',
-          default: 'be back soon xoxo',
+          default: 'AFK',
         },
       ],
     });
@@ -45,18 +45,25 @@ module.exports = class AFKCommand extends Command {
         date: moment().format(),
         reason: reason,
       }).save();
-
-      let bed = this.client.tools.embed().setDescription(`${message.author} is now AFK: ${reason}`);
-      message.reply({ embeds: [bed] }).then((msg) => {
-        setTimeout(() => {
-          message.delete();
-        }, 15000);
-      });
+    } else {
+      await doc.delete();
+      await new afk({
+        user: message.author.id,
+        count: 0,
+        date: moment().format(),
+        reason: reason,
+      }).save();
     }
+    let bed = this.client.tools.embed().setDescription(`${message.author} is now AFK: ${reason}`);
+    message.reply({ embeds: [bed] }).then((msg) => {
+      setTimeout(() => {
+        message.delete();
+      }, 15000);
+    });
   }
   async execSlash(message) {
     const doc = await afk.findOne({ user: message.member.id });
-    let reason = message.options.get('reason').value || 'be back soon xo';
+    let reason = message.options.get('reason')?.value ?? 'AFK';
     await message.defer();
 
     if (!doc) {
@@ -66,9 +73,16 @@ module.exports = class AFKCommand extends Command {
         date: moment().format(),
         reason: reason,
       }).save();
-
-      let bed = this.client.tools.embed().setDescription(`<@${message.member.id}> is now AFK: ${reason}`);
-      return message.editReply({ embeds: [bed] });
+    } else {
+      await doc.delete();
+      await new afk({
+        user: message.author.id,
+        count: 0,
+        date: moment().format(),
+        reason: reason,
+      }).save();
     }
+    let bed = this.client.tools.embed().setDescription(`<@${message.member.id}> is now AFK: ${reason}`);
+    return message.editReply({ embeds: [bed] });
   }
 };

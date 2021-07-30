@@ -28,21 +28,7 @@ module.exports = class MessageListener extends Listener {
       }
     }
 
-    // Promoting The PasteCode Command :)
-    if (message.content.startsWith('s!bins') || message.content.startsWith('s!bin')) {
-      message.reply({
-        embeds: [
-          this.client.tools
-            .embed()
-            .setDescription(
-              'Try our `t)pc` command or `/pc` slash command to paste your code in a source bin from here!',
-            )
-            .setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true })),
-        ],
-      });
-    }
-
-    if (message.channel.type === 'text') {
+    if (!['DM', 'GUILD_VOICE', 'GUILD_CATEGORY', 'GUILD_STAGE_VOICE'].includes(message.channel.type)) {
       // Help Me Message
       const helparr = [
         'why cant i type in the help channel',

@@ -76,6 +76,7 @@ schema = Schema({
   user: String,
   code: String,
   count: Number,
+  startedAt: String,
 });
 
 exports.verification = model('verify', schema);

@@ -47,7 +47,7 @@ module.exports = class GuildMemberAddListener extends Listener {
                 this.client.config.arrow
               } **Creation Date**: ${Formatters.time(member.user.createdAt, 'f')}\n${
                 this.client.config.arrow
-              } **Days Since Creation**: \`${num} Days\`\n${
+              } **Days Since Creation**: \`${Formatters.time(member.user.createdAt, 'R')} Days\`\n${
                 this.client.config.arrow
               } **Banned For**: Account age under 7 days.`,
             )
@@ -55,7 +55,12 @@ module.exports = class GuildMemberAddListener extends Listener {
         ],
       });
     }
-    let sent = await member.guild.channels.cache.get('801877313855160340').send({ content: `<@${member.id}>,`, embeds: [this.client.tools.embed().setDescription('Read the pinned message to verify.')] });
+    let sent = await member.guild.channels.cache
+      .get('801877313855160340')
+      .send({
+        content: `<@${member.id}>,`,
+        embeds: [this.client.tools.embed().setDescription('Read the pinned message to verify.')],
+      });
     await member.guild.channels.cache.get(this.client.config.StaffReportChnl).send({
       embeds: [
         this.client.tools
@@ -65,12 +70,12 @@ module.exports = class GuildMemberAddListener extends Listener {
               this.client.config.arrow
             } **Creation Date**: ${Formatters.time(member.user.createdAt, 'f')}\n${
               this.client.config.arrow
-            } **Days Since Creation**: \`${num} Days\``,
+            } **Days Since Creation**: \`${Formatters.time(member.user.createdAt, 'R')} Days\``,
           )
           .setTitle('Member Joined'),
       ],
     });
-      await this.client.tools.wait(require('ms')('5m'));
-      return sent.delete().catch(() => {})
+    await this.client.tools.wait(require('ms')('5m'));
+    return sent.delete().catch(() => {});
   }
 };

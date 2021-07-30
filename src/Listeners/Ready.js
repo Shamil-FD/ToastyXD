@@ -5,6 +5,7 @@ const cron = require('node-cron');
 const fetch = require('node-fetch');
 const mongoose = require('mongoose');
 const { exec } = require('child_process');
+const { Formatters } = require('discord.js');
 const { Listener } = require('discord-akairo');
 const { black, greenBright } = require('chalk');
 
@@ -56,7 +57,7 @@ module.exports = class ReadyListener extends Listener {
       });
     });
 
-    if (guild) {        
+    if (guild) {
       // Check For Staff Leave and Channel Mutes and Auto Purge Verify Channel
       cron.schedule(`* * * * *`, async () => {
         let docs = await models.chnlmute.find();
@@ -65,17 +66,19 @@ module.exports = class ReadyListener extends Listener {
 
         let verifychannel = await sal.channels.fetch('801877313855160340');
         if (verifychannel) {
-        let msg = await verifychannel.messages.fetch().then(m => m.first());
-        if (!msg.pinned) {
-        if (msg.createdAt < (Date.now() - 600000)) {
-           let msgs = await verifychannel.messages.fetch();
-           if (msgs.size > 0) {
-           msgs = msgs.filter(m => m.pinned === false);
-           await verifychannel.bulkDelete(msgs).catch((e) => { console.log(e) });
-           }
+          let msg = await verifychannel.messages.fetch().then((m) => m.first());
+          if (!msg.pinned) {
+            if (msg.createdAt < Date.now() - 600000) {
+              let msgs = await verifychannel.messages.fetch();
+              if (msgs.size > 0) {
+                msgs = msgs.filter((m) => m.pinned === false);
+                await verifychannel.bulkDelete(msgs).catch((e) => {
+                  console.log(e);
+                });
+              }
+            }
+          }
         }
-        }
-        }          
         // If There Is Someone On Leave, It Checks If Their Leave Is Over
         if (lev.length) {
           lev.forEach(async (l) => {
@@ -89,8 +92,8 @@ module.exports = class ReadyListener extends Listener {
                     .setAuthor('Welcome back!!')
                     .setThumbnail('https://cf.ltkcdn.net/kids/images/std/198106-425x283-Very-Excited-Toddler.jpg')
                     .addField('Reason:', l.reason)
-                    .addField('Started On:', l.start, true)
-                    .addField('Ended On:', l.end, true),
+                    .addField('Started On:', Formatters.time(l.start, 'f'), true)
+                    .addField('Ended On:', Formatters.time(l.end, 'f'), true),
                 ],
               });
               await models.leave.findOneAndDelete({ user: l.user });
@@ -102,7 +105,7 @@ module.exports = class ReadyListener extends Listener {
             }
           });
         }
-  
+
         // If Someone's Been Muted In A Channel, It Checks If Their Time Is Up And Unmutes Them.
         if (docs.length) {
           docs.forEach(async (d) => {
@@ -142,6 +145,51 @@ module.exports = class ReadyListener extends Listener {
         }
       });
 
+      // Check-in Message Update
+      cron.schedule('*/10 * * * *', async () => {
+        guild = await guild.fetch();
+        let clockInChnl = await guild.channels.cache.get('733307358070964226');
+        let staffDocs = await models.staff.find();
+        let notCheckedInMsg = await clockInChnl.messages.fetch('804073813163376650');
+        let checkedInMsg = await clockInChnl.messages.fetch('777522764525338634');
+
+        let checkedInUsers = [];
+        let notCheckedInUsers = [];
+        for (let i = 0; staffDocs.length > i; i++) {
+          if (staffDocs[i]?.dailyCount <= staffDocs[i]?.today) {
+            checkedInUsers.push({ user: staffDocs[i]?.user, count: staffDocs[i]?.today });
+          } else {
+            notCheckedInUsers.push({ user: staffDocs[i]?.user, count: staffDocs[i]?.today });
+          }
+        }
+        await checkedInMsg.edit({
+          embeds: [
+            this.client.tools
+              .embed()
+              .setColor('GREEN')
+              .setFooter(checkedInMsg.embeds[0].footer.text ?? 'No Text?')
+              .setDescription(
+                checkedInUsers
+                  .map((item) => `${this.client.config.tick} <@${item.user}> - ${item.count} messages today`)
+                  .join('\n'),
+              ),
+          ],
+        });
+        await notCheckedInMsg.edit({
+          embeds: [
+            this.client.tools
+              .embed()
+              .setColor('RED')
+              .setFooter(checkedInMsg.embeds[0].footer.text ?? 'No Text?')
+              .setDescription(
+                notCheckedInUsers
+                  .map((item) => `${this.client.config.cross} <@${item.user}> - ${item.count} messages today`)
+                  .join('\n'),
+              ),
+          ],
+        });
+      });
+
       // Daily Staff Reset At 6 AM
       cron.schedule(`0 0 6 * * *`, async () => {
         let sal = this.client.guilds.cache.get('655109296400367618');
@@ -151,6 +199,7 @@ module.exports = class ReadyListener extends Listener {
         let anmsg = await channel.messages.fetch('804073813163376650');
         let mcount = [];
 
+        this.client.config.CheckinUpdate = true;
         console.log(black.bgGreen('[Staff]') + greenBright(' Check-In Reset.'));
         let lev = await models.leave.find();
         let doc = await models.staff.find();
@@ -180,7 +229,7 @@ module.exports = class ReadyListener extends Listener {
               await StrikeDoc.save();
             }
             if (StrikeDoc && StrikeDoc.strikes % 3 == 0) {
-              if (sal.members.cache.get(n)) {
+              if (await sal.members.fetch(n)) {
                 await sal.channels.cache
                   .get('805154766455701524')
                   .send(`<@${n}> has ${StrikeDoc.strikes} strikes now.`);
@@ -216,12 +265,7 @@ module.exports = class ReadyListener extends Listener {
           ],
         });
         msg.edit({
-          embeds: [
-            this.client.tools
-              .embed()
-              .setDescription(`Staff who are active today`)
-              .setFooter(`Date: ${moment().format('MMM Do YY')}`),
-          ],
+          embeds: [this.client.tools.embed().setFooter(`Checked-In Staff | Date: ${moment().format('MMM Do YY')}`)],
         });
         let staffRole = await sal.roles.cache.get(this.client.config.StaffRole);
         let staffMessageCount = await models.staff.find();
@@ -240,11 +284,11 @@ module.exports = class ReadyListener extends Listener {
           embeds: [
             this.client.tools
               .embed()
-              .setDescription(
-                `Staff who aren't active today\n${staffRole.members.map((m) => `:x: ${m.user.tag}`).join('\n')}`,
-              ),
+              .setDescription(`${staffRole.members.map((m) => `:x: <@${m.user.id}>`).join('\n')}`)
+              .setFooter('Inactive Staff'),
           ],
         });
+        this.client.config.CheckinUpdate = false;
       });
     }
   }

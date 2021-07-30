@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const moment = require('moment');
 const { Listener } = require('discord-akairo');
 const { MessageActionRow, MessageAttachment, MessageButton } = require('discord.js');
 
@@ -71,7 +72,7 @@ module.exports = class ButtonListener extends Listener {
         let acceptbtn = new MessageButton().setStyle('SUCCESS').setLabel('Accept').setCustomId('appealaccept');
         let openbtn = new MessageButton().setStyle('PRIMARY').setLabel('Open').setCustomId('appealopen');
         let deletebtn = new MessageButton().setStyle('DANGER').setLabel('Delete').setCustomId('appealdelete');
-        let denybtn = new MessageButton().setStyle('DANGER').setLabel('Deny').setCustomId('appealdeny');          
+        let denybtn = new MessageButton().setStyle('DANGER').setLabel('Deny').setCustomId('appealdeny');
         return interaction.message.edit({
           embeds: interaction.embeds,
           components: [new MessageActionRow().addComponents([acceptbtn, denybtn, openbtn, deletebtn])],
@@ -93,7 +94,10 @@ module.exports = class ButtonListener extends Listener {
           embeds: [this.client.tools.embed().setDescription(`${member} can now see this channel.`)],
         });
         let closebtn = new MessageButton().setStyle('DANGER').setLabel('Close').setCustomId('appealclose');
-        return interaction.message.edit({ embeds: interaction.embeds, components: [new MessageActionRow().addComponents([closebtn])] });
+        return interaction.message.edit({
+          embeds: interaction.embeds,
+          components: [new MessageActionRow().addComponents([closebtn])],
+        });
       } else if (interaction.customId.toLowerCase() === 'appealaccept') {
         let member = await GetMember(interaction);
         if (!member)
@@ -142,7 +146,10 @@ module.exports = class ButtonListener extends Listener {
         });
         await member.kick();
         let deletebtn = new MessageButton().setStyle('DANGER').setLabel('Delete').setCustomId('appealdelete');
-        return interaction.message.edit({ embeds: interaction.embeds, components: [new MessageActionRow().addComponents([deletebtn])] });
+        return interaction.message.edit({
+          embeds: interaction.embeds,
+          components: [new MessageActionRow().addComponents([deletebtn])],
+        });
       } else if (interaction.customId.toLowerCase() === 'appealdeny') {
         let member = await GetMember(interaction);
         if (!interaction.member.roles.cache.has('823124026623918082'))
@@ -169,9 +176,12 @@ module.exports = class ButtonListener extends Listener {
         await interaction.reply({
           embeds: [this.client.tools.embed().setDescription(`${member.user.tag} | ${member.id} has been denied`)],
         });
-        await member.kick();
+        await member.ban();
         let deletebtn = new MessageButton().setStyle('DANGER').setLabel('Delete').setCustomId('appealdelete');
-        return interaction.message.edit({ embeds: interaction.embeds, components: [new MessageActionRow().addComponents([deletebtn])] });
+        return interaction.message.edit({
+          embeds: interaction.embeds,
+          components: [new MessageActionRow().addComponents([deletebtn])],
+        });
       } else if (interaction.customId.toLowerCase() === 'appealdelete') {
         if (!interaction.member.roles.cache.has('823124026623918082'))
           return interaction.reply({
@@ -200,18 +210,16 @@ module.exports = class ButtonListener extends Listener {
         await doc.save();
         if (interaction.customId.replace('verification', ' ').trim() != doc.code) {
           if (doc?.count == 5) {
-            await this.client.channels.cache
-              .get(this.client.config.StaffReportChnl)
-              .send({
-                embeds: [
-                  this.client.tools
-                    .embed()
-                    .setDescription(
-                      `Kicked ${member.user.tag} | ${member.id} for exceeding 5 incorrect verification attempts.`,
-                    )
-                    .setTitle('Member Kick'),
-                ],
-              });
+            await this.client.channels.cache.get(this.client.config.StaffReportChnl).send({
+              embeds: [
+                this.client.tools
+                  .embed()
+                  .setDescription(
+                    `Kicked ${member.user.tag} | ${member.id} for exceeding 5 incorrect verification attempts.`,
+                  )
+                  .setTitle('Member Kick'),
+              ],
+            });
             await member
               .send({
                 embeds: [
@@ -248,18 +256,20 @@ module.exports = class ButtonListener extends Listener {
           ephemeral: true,
         });
         await member.roles.remove(this.client.config.NotVerifiedRole);
-        await this.client.channels.cache
-          .get(this.client.config.StaffReportChnl)
-          .send({
-            embeds: [
-              this.client.tools
-                .embed()
-                .setDescription(
-                  `${this.client.config.arrow} **User**: ${member.user.tag} | \`${member.id}\`\n${this.client.config.arrow} **Code**: \`${doc.code}\`\n${this.client.config.arrow} **Tries**: \`${doc.count}\``,
-                )
-                .setTitle('Member Verfied'),
-            ],
-          });
+        await this.client.channels.cache.get(this.client.config.StaffReportChnl).send({
+          embeds: [
+            this.client.tools
+              .embed()
+              .setDescription(
+                `${this.client.config.arrow} **User**: ${member.user.tag} | \`${member.id}\`\n${
+                  this.client.config.arrow
+                } **Code**: \`${doc.code}\`\n${this.client.config.arrow} **Tries**: \`${doc.count}\`\n${
+                  this.client.config.arrow
+                } **Time Took To Verify**: ${moment(doc.startedAt).from(moment(), true)}`,
+              )
+              .setTitle('Member Verfied'),
+          ],
+        });
         return doc.delete();
       } else if (interaction.customId.toLowerCase() === 'verifynow') {
         if (!interaction.member.roles.cache.get(this.client.config.NotVerifiedRole))
@@ -290,12 +300,14 @@ module.exports = class ButtonListener extends Listener {
             user: interaction.member.id,
             code: cap.word,
             count: 0,
+            startedAt: moment(),
           }).save();
         } else {
           doc.code = cap.word;
+          doc.startedAt = moment();
           await doc.save();
         }
-       await interaction.reply({
+        await interaction.reply({
           embeds: [
             this.client.tools
               .embed()
@@ -304,11 +316,12 @@ module.exports = class ButtonListener extends Listener {
               )
               .setColor(cap.randomColor),
           ],
+          content: `<@${interaction.member.id}>,`,
           files: [new MessageAttachment(cap.png, 'verify.png')],
           components: [new MessageActionRow().addComponents([buttons])],
-         });
-         await this.client.tools.wait(require('ms')('5m'));
-          return interaction.deleteReply()
+        });
+        await this.client.tools.wait(require('ms')('5m'));
+        return interaction.deleteReply();
       }
     }
   }

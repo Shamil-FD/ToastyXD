@@ -22,7 +22,7 @@ module.exports = class MessageUpdateListener extends Listener {
     });
     if (!New) return;
     if (New.deleted === true) return;
-    if (New.channel.type !== 'GUILD_TEXT') return;
+    if (['DM', 'GUILD_VOICE', 'GUILD_CATEGORY', 'GUILD_STAGE_VOICE'].includes(Old.channel.type)) return;
     if (New.author.bot === true) return;
     let { member, author, guild, content } = New;
     content = await Util.escapeMarkdown(content);

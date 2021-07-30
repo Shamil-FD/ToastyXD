@@ -1,5 +1,5 @@
 const Client = require('./Struct/Client');
-const { Token, Mongo } = require('./Util/Config.js');
+const { Token, Mongo, Dictionary } = require('./Util/Config.js');
 
 let client = new Client({
   StaffReportChnl: '730101090267431012',
@@ -10,6 +10,7 @@ let client = new Client({
   MutedRole: '709401091799908433',
   ModeratorRole: '657615861372420097',
   Mongo: Mongo,
+  Dictionary: Dictionary,
   Github: 'https://github.com/Shamil-FD/ToastyXD.git',
   tick: '✅',
   cross: '❌',

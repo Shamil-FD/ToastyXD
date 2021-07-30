@@ -15,8 +15,8 @@ module.exports = class ToastyClient extends AkairoClient {
           status: 'online',
           activities: [
             {
-              name: 'being more beautiful than you',
-              type: 'COMPETING',
+              name: 'https://milo-is-a-lawyer-for-the.discord.agency/🎣🎆🧲🍮',
+              type: 'WATCHING',
             },
           ],
         },
@@ -63,6 +63,7 @@ module.exports = class ToastyClient extends AkairoClient {
     this.config = config;
     this.config.lockdownMode = false;
     this.config.lockingMode = false;
+    this.config.CheckinUpdate = false;
     this.tools = {
       embed: embed,
       captcha: captcha,

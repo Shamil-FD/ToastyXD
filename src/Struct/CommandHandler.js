@@ -48,23 +48,25 @@ module.exports = class ToastyHandler extends CommandHandler {
         return interaction.reply({ content: "You can't use this command.", ephemeral: true });
       };
       if (!this.client.ownerID.includes(interaction.member.id)) {
-      if (slashCmd?.ownerOnly === true && !this.client.ownerID.includes(interaction.member.id)) return RejectReply();
-      if (!interaction.member.roles.cache.has(this.client.config.StaffManagerRole)
-      ) {
-        if (slashCmd?.betaOnly === true) return RejectReply();
-        if (slashCmd?.managerOnly === true && !interaction.member.roles.cache.has(this.client.config.StaffManagerRole))
-          return RejectReply();
-        else if (slashCmd?.adminOnly === true && !interaction.member.roles.cache.has(this.client.config.AdminRole))
-          return RejectReply();
-        else if (slashCmd?.staffOnly === true && !interaction.member.roles.cache.has(this.client.config.StaffRole))
-          return RejectReply();
-        else if (
-          slashCmd?.moderatorOnly === true &&
-          !interaction.member.roles.cache.has(this.client.config.ModeratorRole)
-        )
-          return RejectReply();
-      }
+        if (slashCmd?.ownerOnly === true && !this.client.ownerID.includes(interaction.member.id)) return RejectReply();
+        if (!interaction.member.roles.cache.has(this.client.config.StaffManagerRole)) {
+          if (slashCmd?.betaOnly === true) return RejectReply();
+          if (
+            slashCmd?.managerOnly === true &&
+            !interaction.member.roles.cache.has(this.client.config.StaffManagerRole)
+          )
+            return RejectReply();
+          else if (slashCmd?.adminOnly === true && !interaction.member.roles.cache.has(this.client.config.AdminRole))
+            return RejectReply();
+          else if (slashCmd?.staffOnly === true && !interaction.member.roles.cache.has(this.client.config.StaffRole))
+            return RejectReply();
+          else if (
+            slashCmd?.moderatorOnly === true &&
+            !interaction.member.roles.cache.has(this.client.config.ModeratorRole)
+          )
+            return RejectReply();
         }
+      }
       try {
         if ((await this.runCooldowns(interaction, slashCmd)) === false) {
           return slashCmd.execSlash(interaction);

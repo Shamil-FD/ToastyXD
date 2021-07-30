@@ -35,10 +35,17 @@ module.exports = class StaffinfoCommand extends Command {
   }
 
   async exec(message, { person }) {
-    person = await this.client.tools.getMember({ user: person, message: message }).catch(() => { return undefined; });
+    person = await this.client.tools.getMember({ user: person, message: message }).catch(() => {
+      return undefined;
+    });
     if (!person?.id)
       return message.reply({
-        embeds: [{ description: `Couldn't find ${person == undefined ? 'whatever you typed' : `\`${person}\``} 😔`, color: 'RED' }],
+        embeds: [
+          {
+            description: `Couldn't find ${person == undefined ? 'whatever you typed' : `\`${person}\``} 😔`,
+            color: 'RED',
+          },
+        ],
       });
     if (!person.roles.cache.has(this.client.config.StaffRole))
       return message.reply({
@@ -142,8 +149,8 @@ async function CanvasGen(client, person) {
 
   // Check if the bio is longer than 22 chars. If yes, add in a new line for the bio. If no, add in the bio
   if (bio.length < 21) {
-    ctx.fillText(`${client.config.arrow} Bio: `, 250, 70);
-    await fillWithEmoji(ctx, bio, 340, 70);
+    ctx.fillText(`${client.config.arrow} Bio:`, 250, 70);
+    await fillWithEmoji(' ' + ctx, bio, 340, 70);
 
     ctx.fillText(`${client.config.arrow} Messages Today: ${doc.msgInfo?.today}`, 250, 105);
 
@@ -172,9 +179,9 @@ async function CanvasGen(client, person) {
     );
   } else {
     ctx.fillText(client.config.arrow + ' Bio: ', 250, 70);
-    let splittedBio = bio.lastIndexOf(' '); 
+    let splittedBio = bio.lastIndexOf(' ');
     splittedBio = bio.substr(24).trim();
-    await fillWithEmoji(ctx, bio.slice(0, 24) + '\n' + splittedBio, 340, 70);
+    await fillWithEmoji(' ' + ctx, bio.slice(0, 24) + '\n' + splittedBio, 340, 70);
     ctx.fillText(`${client.config.arrow} Messages Today: ${doc.msgInfo?.today}`, 250, 145);
 
     ctx.fillText(`${client.config.arrow} Check-in for Today: ${doc.msgInfo?.dailyCount}`, 250, 190);
@@ -184,7 +191,7 @@ async function CanvasGen(client, person) {
     ctx.fillText(`${client.config.arrow} Strikes: ${doc.strikes ?? '0'}`, 250, 275);
 
     ctx.fillText(
-      `${client.config.arrow} Pronouns: ${     
+      `${client.config.arrow} Pronouns: ${
         person.roles.cache.has('863362112109805578')
           ? person.roles.cache.get('863362112109805578')?.name
           : person.roles.cache.has('863362112608534547')

@@ -1,5 +1,5 @@
 const Command = require('../../Struct/Command.js');
-const { MessageButton } = require('discord.js');
+const { MessageButton, MessageActionRow } = require('discord.js');
 
 module.exports = class AppealCommand extends Command {
   constructor() {
@@ -43,7 +43,9 @@ module.exports = class AppealCommand extends Command {
         { id: '823124026623918082', allow: ['VIEW_CHANNEL', 'SEND_MESSAGES'] },
       ],
     });
-    let button = new MessageButton().setCustomId('appealclose').setLabel('Close').setStyle('PRIMARY');
+    let button = new MessageActionRow().addComponents([
+      new MessageButton().setCustomId('appealclose').setLabel('Close').setStyle('PRIMARY'),
+    ]);
 
     let m = await channel.send({
       embeds: [
@@ -57,7 +59,7 @@ module.exports = class AppealCommand extends Command {
             }`,
           ),
       ],
-      components: [[button]],
+      components: [button],
     });
     await m.pin();
     return msg.edit({ embeds: [this.client.tools.embed().setDescription(`Please appeal at <#${channel.id}>`)] });

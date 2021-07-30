@@ -17,7 +17,7 @@ module.exports = class BlackListListener extends Listener {
     if (this.client.config.testMode === true) return;
     if (message.guild.id !== '655109296400367618') return;
     if (message.author.bot === true) return;
-    if (message.channel.type !== 'GUILD_TEXT') return;
+    if (['DM', 'GUILD_VOICE', 'GUILD_CATEGORY', 'GUILD_STAGE_VOICE'].includes(message.channel.type)) return;
     let { content } = message;
     content = Util.escapeMarkdown(content);
     content = content.replace(/`/g, '');
