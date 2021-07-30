@@ -156,10 +156,10 @@ module.exports = class ReadyListener extends Listener {
         let checkedInUsers = [];
         let notCheckedInUsers = [];
         for (let i = 0; staffDocs.length > i; i++) {
-          if (staffDocs[i]?.dailyCount <= staffDocs[i]?.today) {
-            checkedInUsers.push({ user: staffDocs[i]?.user, count: staffDocs[i]?.today });
+          if (staffDocs[i]?.msgInfo?.dailyCount <= staffDocs[i]?.msgInfo?.today) {
+            checkedInUsers.push({ user: staffDocs[i]?.user, count: staffDocs[i]?.msgInfo?.today });
           } else {
-            notCheckedInUsers.push({ user: staffDocs[i]?.user, count: staffDocs[i]?.today });
+            notCheckedInUsers.push({ user: staffDocs[i]?.user, count: staffDocs[i]?.msgInfo?.today });
           }
         }
         await checkedInMsg.edit({
