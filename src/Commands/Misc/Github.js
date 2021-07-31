@@ -65,7 +65,7 @@ class GithubCommand extends Command {
 
     const embed = new MessageEmbed()
       .setTitle(`Info on ${repo[1]}`)
-      .setDescription(json.description)
+      .setDescription(json.description ?? '*No description*')
       .addFields([
         {
           name: 'Stars',
