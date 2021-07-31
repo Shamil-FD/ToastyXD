@@ -28,7 +28,8 @@ module.exports = class ThreadCreateListener extends Listener {
             return thread.guild.members.cache.get(thread.ownerId).send({ embeds: [this.client.tools.embed().setDescription(`You already have a thread opened at <#${allThreads.filter(aThread => aThread.id !== thread.id).first().id}>!`).setTitle(`From: ${thread.guild.name}`)] }).catch(() => { return thread.guild.channels.cache.get('709043365727043588').send({ content: `<@${thread.ownerId}>,`, embeds: [this.client.tools.embed().setDescription(`You already have a thread opened at <#${allThreads.filter(aThread => aThread.id !== thread.id).first().id}>!`)] }) })
         }
         // Send the message to the thread
-        return thread.send({ content: `<@${thread.ownerId}> wants help, <@&${this.client.config.DevHelperRole}>,`, embeds: [embed], components: [button] })
+        let threadMsg = await thread.send({ content: `<@${thread.ownerId}> wants help, <@&${this.client.config.DevHelperRole}>,`, embeds: [embed], components: [button] });
+        return threadMsg.pin()
     }
   }
 };
