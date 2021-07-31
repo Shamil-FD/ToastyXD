@@ -147,8 +147,10 @@ async function CanvasGen(client, person) {
   ctx.textAlign = 'start';
   ctx.font = `25px jetbrains`;
 
+  let arr = bio.split(' ');
+  arr = await arr.filter(item => !item.match(/<?(a:|:)\w*:(\d{17}|\d{18})>/)).join(' ')
   // Check if the bio is longer than 22 chars. If yes, add in a new line for the bio. If no, add in the bio
-  if (bio.length < 21) {
+  if (arr.length < 24) {
     ctx.fillText(`${client.config.arrow} Bio:`, 250, 70);
     await fillWithEmoji(ctx, ` ${bio}`, 340, 70);
 
@@ -178,10 +180,9 @@ async function CanvasGen(client, person) {
       265,
     );
   } else {
-    ctx.fillText(client.config.arrow + ' Bio: ', 250, 70);
-    let splittedBio = bio.lastIndexOf(' ');
-    splittedBio = bio.substr(24).trim();
-    await fillWithEmoji(ctx, ' ' + bio.slice(0, 24) + '\n' + splittedBio, 340, 70);
+    ctx.fillText(client.config.arrow + ' Bio:', 250, 70);
+    await fillWithEmoji(ctx, ' ' + bio.slice(0, 25), 340, 70);
+    await fillWithEmoji(ctx, ' ' + bio.replace(bio.slice(0, 25), ''), 340, 110);
     ctx.fillText(`${client.config.arrow} Messages Today: ${doc.msgInfo?.today}`, 250, 145);
 
     ctx.fillText(`${client.config.arrow} Check-in for Today: ${doc.msgInfo?.dailyCount}`, 250, 190);

@@ -9,6 +9,7 @@ let client = new Client({
   NotVerifiedRole: '801864058785628180',
   MutedRole: '709401091799908433',
   ModeratorRole: '657615861372420097',
+  DevHelperRole: '809429613552861234',
   Mongo: Mongo,
   Dictionary: Dictionary,
   Github: 'https://github.com/Shamil-FD/ToastyXD.git',

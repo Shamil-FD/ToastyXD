@@ -159,7 +159,7 @@ module.exports = class ReadyListener extends Listener {
           if (staffDocs[i]?.msgInfo?.dailyCount <= staffDocs[i]?.msgInfo?.today) {
             checkedInUsers.push({ user: staffDocs[i]?.user, count: staffDocs[i]?.msgInfo?.today });
           } else {
-            notCheckedInUsers.push({ user: staffDocs[i]?.user, count: staffDocs[i]?.msgInfo?.today });
+            notCheckedInUsers.push({ user: staffDocs[i]?.user, count: staffDocs[i]?.msgInfo?.today, dailyCount: staffDocs[i]?.msgInfo?.dailyCount });
           }
         }
         await checkedInMsg.edit({
@@ -180,10 +180,10 @@ module.exports = class ReadyListener extends Listener {
             this.client.tools
               .embed()
               .setColor('RED')
-              .setFooter(checkedInMsg.embeds[0].footer.text ?? 'No Text?')
+              .setFooter(`Inactive Staff | Last Edited At ${Formatters.time(moment(), 't')}`)
               .setDescription(
                 notCheckedInUsers
-                  .map((item) => `${this.client.config.cross} <@${item.user}> - ${item.count} messages today`)
+                  .map((item) => `${this.client.config.cross} <@${item?.user}> - ${item?.count}/${item?.dailyCount} messages today`)
                   .join('\n'),
               ),
           ],
@@ -285,7 +285,7 @@ module.exports = class ReadyListener extends Listener {
             this.client.tools
               .embed()
               .setDescription(`${staffRole.members.map((m) => `:x: <@${m.user.id}>`).join('\n')}`)
-              .setFooter('Inactive Staff'),
+              .setFooter(`Inactive Staff | Last Edited At ${Formatters.time(moment(), 't')}`),
           ],
         });
         this.client.config.CheckinUpdate = false;

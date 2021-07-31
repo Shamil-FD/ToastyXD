@@ -1,3 +1,4 @@
+// prettier-ignore
 const fetch = require('node-fetch');
 const normalDic = require('owlbot-js');
 const urbanDic = require('urban-dictionary');

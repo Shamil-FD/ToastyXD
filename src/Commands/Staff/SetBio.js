@@ -42,7 +42,9 @@ module.exports = class SetbioCommand extends Command {
           },
         ],
       });
-    if (bio.length > 48)
+    let arr = bio.split(' ');
+    arr = await arr.filter(item => !item.match(/<?(a:|:)\w*:(\d{17}|\d{18})>/)).join(' ')   
+    if (arr.length > 48)
       return message.reply({
         embeds: [
           {
@@ -64,7 +66,9 @@ module.exports = class SetbioCommand extends Command {
       return message.reply({ content: "You can't use this command.", ephemeral: true });
     await message.defer();
 
-    if (!message.options.get('bio').value || message.options.get('bio').value.length > 49)
+    let arr = message.options.get('bio').value.split(' ');
+    arr = await arr.filter(item => !item.match(/<?(a:|:)\w*:(\d{17}|\d{18})>/)).join(' ')    
+    if (!message.options.get('bio').value || arr.length > 49)
       return message.editReply({
         content: "You have to provide me a string that's no longer than 48 characters.",
         ephemeral: true,

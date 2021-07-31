@@ -13,47 +13,7 @@ module.exports = class ButtonListener extends Listener {
 
   async exec(interaction) {
     if (interaction.isButton()) {
-      if (interaction.customId.toLowerCase() == 'purgeverify') {
-        if (!interaction.member?.roles.cache.has(this.client.config.StaffRole)) {
-          return interaction.reply({
-            embeds: [
-              this.client.tools
-                .embed()
-                .setColor('RED')
-                .setDescription(`${interaction.member}, you can't use this button, dummy.`),
-            ],
-            ephemeral: false,
-            content: `<@${interaction.member.id}>`,
-          });
-        }
-        let DeleteMessages = await FetchAndDelete(interaction);
-        if (DeleteMessages.status === false) {
-          await interaction.reply({
-            embeds: [
-              this.client.tools
-                .embed()
-                .setColor('RED')
-                .setDescription(`There was an error, try again later.\nError: \`\`\`${DeleteMessages.error}\`\`\``),
-            ],
-            ephemeral: true,
-          });
-        } else if (DeleteMessages.deleted > 0) {
-          await interaction.reply({
-            embeds: [
-              this.client.tools
-                .embed()
-                .setColor('GREEN')
-                .setDescription(`Successfully deleted ${DeleteMessages.deleted} messages.`),
-            ],
-            ephemeral: true,
-          });
-        } else {
-          await interaction.reply({
-            embeds: [this.client.tools.embed().setColor('RED').setDescription(`There are 0 unpinned messages, dummy.`)],
-            ephemeral: true,
-          });
-        }
-      } else if (interaction.customId.toLowerCase() == 'appealclose') {
+      if (interaction.customId.toLowerCase() == 'appealclose') {
         if (!interaction.member.roles.cache.has('823124026623918082'))
           return interaction.reply({
             embeds: [this.client.tools.embed().setDescription('Only staff can use this button.')],
@@ -322,6 +282,17 @@ module.exports = class ButtonListener extends Listener {
         });
         await this.client.tools.wait(require('ms')('5m'));
         return interaction.deleteReply();
+      } else if (interaction.customId.toLowerCase().includes('archivethread')) {
+          // Variables: 
+          let chnlId = interaction.customId.replace('archivethread', '').trim();
+          let { embed } = this.client.tools;
+          // Check if author is allowed to use the button
+          if ((!interaction.member.roles.cache.has(this.client.config.StaffRole) && !interaction.member.roles.cache.has(this.client.config.DevHelperRole))) return interaction.reply({ content: `<@${interaction.member.id}>,`, embeds: [embed().setDescription(`Only people with <@&${this.client.config.DevHelperRole}> role or <@&${this.client.config.StaffRole}> can use this button.`).setColor('RED')] });
+          // Check if the current channel is the right thread
+          if (interaction.channel.id === chnlId) {
+              await interaction.channel.send({ embeds: [embed().setDescription(`This thread has been archived by <@${interaction.member.id}>.`).setColor('RED').setTitle('Thread Archived')] });
+              return interaction.channel.setArchived(true, `by ${interaction.member.user.tag}`);
+         }
       }
     }
   }
