@@ -226,7 +226,7 @@ module.exports = class ButtonListener extends Listener {
                   this.client.config.arrow
                 } **Code**: \`${doc.code}\`\n${this.client.config.arrow} **Tries**: \`${doc.count}\`\n${
                   this.client.config.arrow
-                } **Time Took To Verify**: ${moment(doc.startedAt).from(moment(), true)}`,
+                } **Time Took To Verify**: ${moment(new Date(doc.startedAt)).from(moment(), true)}`,
               )
               .setTitle('Member Verfied'),
           ],

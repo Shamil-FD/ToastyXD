@@ -92,8 +92,8 @@ module.exports = class ReadyListener extends Listener {
                     .setAuthor('Welcome back!!')
                     .setThumbnail('https://cf.ltkcdn.net/kids/images/std/198106-425x283-Very-Excited-Toddler.jpg')
                     .addField('Reason:', l.reason)
-                    .addField('Started On:', Formatters.time(l.start, 'f'), true)
-                    .addField('Ended On:', Formatters.time(l.end, 'f'), true),
+                    .addField('Started On:', l.start, true)
+                    .addField('Ended On:', l.end, true),
                 ],
               });
               await models.leave.findOneAndDelete({ user: l.user });
@@ -155,7 +155,6 @@ module.exports = class ReadyListener extends Listener {
 
         let checkedInUsers = [];
         let notCheckedInUsers = [];
-        let time = Formatters.time(Date.now(), 't');
         for (let i = 0; staffDocs.length > i; i++) {
           if (staffDocs[i]?.msgInfo?.dailyCount <= staffDocs[i]?.msgInfo?.today) {
             checkedInUsers.push({ user: staffDocs[i]?.user, count: staffDocs[i]?.msgInfo?.today });
@@ -181,7 +180,8 @@ module.exports = class ReadyListener extends Listener {
             this.client.tools
               .embed()
               .setColor('RED')
-              .setFooter(`Inactive Staff | Last Edited At ${time}`)
+              .setFooter(`Inactive Staff | Last Edited`)
+              .setTimestamp()
               .setDescription(
                 notCheckedInUsers
                   .map((item) => `${this.client.config.cross} <@${item.user}> - ${item.count}/${item.dailyCount} messages today`)
@@ -286,7 +286,8 @@ module.exports = class ReadyListener extends Listener {
             this.client.tools
               .embed()
               .setDescription(`${staffRole.members.map((m) => `:x: <@${m.user.id}>`).join('\n')}`)
-              .setFooter(`Inactive Staff | Last Edited At ${Formatters.time(Date.now(), 't')}`),
+              .setFooter(`Inactive Staff | Last Edited`)
+              .setTimestamp(),
           ],
         });
         this.client.config.CheckinUpdate = false;
