@@ -53,8 +53,8 @@ module.exports = class ReadyListener extends Listener {
       doc.forEach(async (document) => {
         document.strikes = 0;
         await document.save();
-        console.log(black.bgGreen('[Staff]') + greenBright(' Reset Strikes.'));
       });
+        console.log(black.bgGreen('[Staff]') + greenBright(' Reset Strikes.'));
     });
 
     if (guild) {
@@ -155,6 +155,7 @@ module.exports = class ReadyListener extends Listener {
 
         let checkedInUsers = [];
         let notCheckedInUsers = [];
+        let time = Formatters.time(Date.now(), 't');
         for (let i = 0; staffDocs.length > i; i++) {
           if (staffDocs[i]?.msgInfo?.dailyCount <= staffDocs[i]?.msgInfo?.today) {
             checkedInUsers.push({ user: staffDocs[i]?.user, count: staffDocs[i]?.msgInfo?.today });
@@ -180,10 +181,10 @@ module.exports = class ReadyListener extends Listener {
             this.client.tools
               .embed()
               .setColor('RED')
-              .setFooter(`Inactive Staff | Last Edited At ${Formatters.time(moment(), 't')}`)
+              .setFooter(`Inactive Staff | Last Edited At ${time}`)
               .setDescription(
                 notCheckedInUsers
-                  .map((item) => `${this.client.config.cross} <@${item?.user}> - ${item?.count}/${item?.dailyCount} messages today`)
+                  .map((item) => `${this.client.config.cross} <@${item.user}> - ${item.count}/${item.dailyCount} messages today`)
                   .join('\n'),
               ),
           ],
@@ -285,7 +286,7 @@ module.exports = class ReadyListener extends Listener {
             this.client.tools
               .embed()
               .setDescription(`${staffRole.members.map((m) => `:x: <@${m.user.id}>`).join('\n')}`)
-              .setFooter(`Inactive Staff | Last Edited At ${Formatters.time(moment(), 't')}`),
+              .setFooter(`Inactive Staff | Last Edited At ${Formatters.time(Date.now(), 't')}`),
           ],
         });
         this.client.config.CheckinUpdate = false;

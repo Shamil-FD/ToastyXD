@@ -59,16 +59,16 @@ module.exports = class SetColorCommand extends Command {
     if (!message.member.roles.cache.has(this.client.config.StaffRole))
       return message.reply({ content: "You can't use this command.", ephemeral: true });
 
-    await message.defer();
+    await message.defer(true);
     let doc = await this.client.tools.models.staff.findOne({ user: message.member.id });
     if (!doc) return message.editReply({ content: 'There was an error, please try again.', ephemeral: true });
     if (message.options.size < 0)
       return message.editReply({ ephemeral: true, content: 'You have to choose at least one option.' });
 
-    doc.infoCard.borders = message.options.get('borders')?.value || doc.infoCard?.borders;
-    doc.infoCard.background = message.options.get('background')?.value || doc.infoCard?.background;
-    doc.infoCard.img = message.options.get('image')?.value || 'none';
-    doc.infoCard.text = message.options.get('text')?.value || doc.infoCard?.text;
+    doc.infoCard.borders = message.options.get('borders')?.value ?? doc.infoCard?.borders;
+    doc.infoCard.background = message.options.get('background')?.value ?? doc.infoCard?.background;
+    doc.infoCard.img = message.options.get('image')?.value ?? 'none';
+    doc.infoCard.text = message.options.get('text')?.value ?? doc.infoCard?.text;
     await doc.save();
     return message.editReply({ content: 'Successfully saved changes.', ephemeral: true });
   }

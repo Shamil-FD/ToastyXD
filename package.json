@@ -16,7 +16,7 @@
 		"dayjs": "^1.10.4",
 		"discord-akairo": "github:discord-akairo/discord-akairo",
 		"discord-emoji-canvas": "^1.4.0",
-		"discord.js": "^13.0.0-dev.t1627732975.331a9d3",
+		"discord.js": "^13.0.0-dev.t1627778678.74fc23b",
 		"imageapi.js": "^1.7.0",
 		"lodash": "^4.17.21",
 		"moment": "^2.29.1",

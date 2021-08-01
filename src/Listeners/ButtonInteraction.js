@@ -12,6 +12,7 @@ module.exports = class ButtonListener extends Listener {
   }
 
   async exec(interaction) {
+    if (this.client.config.testMode === true) return;      
     if (interaction.isButton()) {
       if (interaction.customId.toLowerCase() == 'appealclose') {
         if (!interaction.member.roles.cache.has('823124026623918082'))
