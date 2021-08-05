@@ -122,14 +122,14 @@ module.exports = class DictionaryCommand extends Command {
    }
    async handlePages(message, fetched, search, urban) {
     // Variables
+    const isUrban = !!urban;
+    const author = message.author.id;
+    const msgId = message.id;
     let format;  
     let index = 0;       
-    let isUrban = !!urban;
     let result = []
     let totalPages = fetched?.definitions ? fetched.definitions.length : fetched.length;
-    if(!message?.commandId) {
-        message.editReply = message.edit;
-    }
+       
     if (isUrban === true) {
         format = (indexNum) => { 
         return `${this.client.config.arrow} **Definition**: ${fetched[indexNum].definition}\n${this.client.config.arrow} **Example**: ${fetched[index].example}`
@@ -140,20 +140,25 @@ module.exports = class DictionaryCommand extends Command {
         }
     }   
 
-    await message.reply({ embeds: [this.client.tools.embed().setTitle(`Word: ${search}`).setDescription(await format(index)).setFooter(`Page ${index + 1}/${totalPages}`)], components: [new MessageActionRow().addComponents([new MessageButton().setEmoji('870638670212915291').setCustomId(`back${message.id}`).setStyle('PRIMARY'), new MessageButton().setEmoji('870638701158465566').setCustomId(`next${message.id}`).setStyle('PRIMARY')])] });
-       
-    let filter = i => i.user.id === message.author.id;    
+    let msg = await message.reply({ embeds: [this.client.tools.embed().setTitle(`Word: ${search}`).setDescription(await format(index)).setFooter(`Page ${index + 1}/${totalPages}`)], components: [new MessageActionRow().addComponents([new MessageButton().setEmoji('870638670212915291').setCustomId(`back${msgId}`).setStyle('PRIMARY'), new MessageButton().setEmoji('870638701158465566').setCustomId(`next${msgId}`).setStyle('PRIMARY')])] });
+        
+    let filter = i => i.user.id === author;    
     let collector = message.channel.createMessageComponentCollector({ filter, time: 30000 });    
     
+    if (!message.commandId) {
+        message = msg
+        message.editReply = msg.edit;
+    }
+       
     collector.on('collect', async i => {
-    if (i.customId === `next${message.id}`) {
+    if (i.customId === `next${msgId}`) {
         
         index++;        
         if(index == totalPages) index = 0;        
         collector.resetTimer({ time: 30000 });
      
         await message.editReply({ embeds: [this.client.tools.embed().setTitle(`Word: ${search}`).setDescription(await format(index)).setFooter(`Page ${index + 1}/${totalPages}`)] });
-    } else if (i.customId === `back${message.id}`) {
+    } else if (i.customId === `back${msgId}`) {
         if(index <= 0) index = totalPages;                
         index--;   
         collector.resetTimer({ time: 30000 });        
