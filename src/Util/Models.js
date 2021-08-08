@@ -92,16 +92,6 @@ exports.leave = model('leave', schema);
 
 schema = Schema({
   id: String,
-  bal: Number,
-  level: Number,
-  bank: Number,
-  items: [String],
-});
-
-exports.profile = model('profile', schema);
-
-schema = Schema({
-  id: String,
 });
 
 exports.firstTime = model('firsttime', schema);
@@ -114,3 +104,10 @@ schema = Schema({
 });
 
 exports.customCmd = model('customCmd', schema);
+
+schema = Schema({
+    user: String,
+    timesLeft: Number
+})
+
+exports.userProfile = model('userProfile', schema);

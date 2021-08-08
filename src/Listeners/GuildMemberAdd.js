@@ -1,6 +1,6 @@
 const { MessageAttachment, Formatters } = require('discord.js');
 const { Listener } = require('discord-akairo');
-const { firstTime } = require('../Util/Models');
+const { firstTime, userProfile } = require('../Util/Models');
 const moment = require('moment');
 
 module.exports = class GuildMemberAddListener extends Listener {
@@ -24,6 +24,9 @@ module.exports = class GuildMemberAddListener extends Listener {
     if (!FirstTimeDoc) {
       await new firstTime({ id: member.id }).save();
     }
+    
+    let userProfileDoc = await userProfile.findOne({ user: member.id });
+      
     // Verification Stuff
     let memberDate = moment(member.user.createdAt);
     let today = moment(Date.now());
@@ -70,7 +73,7 @@ module.exports = class GuildMemberAddListener extends Listener {
               this.client.config.arrow
             } **Creation Date**: ${Formatters.time(member.user.createdAt, 'f')}\n${
               this.client.config.arrow
-            } **Days Since Creation**: \`${num} Days\``,
+            } **Days Since Creation**: \`${num} Days\`\n${this.client.config.arrow} **Times Left The Server**: ${userProfileDoc?.timesLeft ?? '0'}`,
           )
           .setTitle('Member Joined'),
       ],

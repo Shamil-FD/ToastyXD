@@ -192,7 +192,7 @@ module.exports = class ButtonListener extends Listener {
                 ],
               })
               .catch(() => {});
-            return member.kick({ reason: '5 incorrect verification attempts.' });
+            return member.kick('5 incorrect verification attempts.');
           }
           return interaction.reply({
             embeds: [
