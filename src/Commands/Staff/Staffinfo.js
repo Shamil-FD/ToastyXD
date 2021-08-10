@@ -36,7 +36,7 @@ module.exports = class StaffinfoCommand extends Command {
 
   async exec(message, { person }) {
     person = await this.client.tools.getMember({ user: person, message: message }).catch(() => {
-      return undefined;
+      return message.member;
     });
     if (!person?.id)
       return message.reply({
