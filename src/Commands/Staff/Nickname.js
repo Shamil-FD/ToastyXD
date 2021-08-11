@@ -61,7 +61,7 @@ module.exports = class NicknameCommand extends Command {
     });
   }
   async execSlash(message) {
-    await message.defer(true);
+    await message.deferReply({ ephemeral: true });
 
     if (!message.options.get('nickname')?.value && !message.options.get('premade')?.value)
       return message.editReply({

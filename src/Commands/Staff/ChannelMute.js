@@ -56,7 +56,7 @@ module.exports = class ChannelMuteCommand extends Command {
         content: 'You provided an invalid time.',
         ephemeral: true,
       });
-    await message.defer();
+    await message.deferReply();
 
     let doc = await chnlmute.findOne({
       user: member?.id,

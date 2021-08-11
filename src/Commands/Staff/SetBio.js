@@ -64,7 +64,7 @@ module.exports = class SetbioCommand extends Command {
     let { staff } = this.client.tools.models;
     if (!message.member.roles.cache.has(this.client.config.StaffRole))
       return message.reply({ content: "You can't use this command.", ephemeral: true });
-    await message.defer();
+    await message.deferReply({ ephemeral: true });
 
     let arr = message.options.get('bio').value.split(' ');
     arr = await arr.filter(item => !item.match(/<?(a:|:)\w*:(\d{17}|\d{18})>/)).join(' ')    

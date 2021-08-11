@@ -64,7 +64,7 @@ module.exports = class StaffinfoCommand extends Command {
     let person = message.options.get('user')?.member || message?.member;
 
     if (!person.roles.cache.has(this.client.config.StaffRole)) return message.reply("They aren't a staff..");
-    await message.defer();
+    await message.deferReply();
 
     message.editReply({
       files: [new MessageAttachment(await CanvasGen(this.client, person), 'staffinfo.png')],

@@ -61,11 +61,11 @@ module.exports = class LeaveCommand extends Command {
     });
   }
   async execSlash(message) {
-    await message.defer();
+    await message.deferReply({ ephemeral: true });
     if (message.options.getSubcommand() === 'end') {
       let doc = await leave.findOne({ user: message.member?.id });
       if (!doc)
-        return message.editReply({ embeds: [this.client.tools.embed().setDescription("You aren't on leave, dummy.")] });
+        return message.editReply({ embeds: [this.client.tools.embed().setDescription("You aren't on leave, dummy.")], ephemeral: true });
 
       await doc.delete();
       return message.editReply({
@@ -118,7 +118,7 @@ module.exports = class LeaveCommand extends Command {
         await doc.save();
       }
 
-      message.editReply(this.client.config.tick);
+      message.editReply({ content: this.client.config.tick, ephemeral: true });
       return message.guild.channels.cache.get('757169784747065364').send({
         embeds: [
           this.client.tools

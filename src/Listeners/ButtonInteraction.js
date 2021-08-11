@@ -216,7 +216,7 @@ module.exports = class ButtonListener extends Listener {
           ],
           ephemeral: true,
         });
-        await member.roles.remove(this.client.config.NotVerifiedRole);
+        await member.roles.remove(this.client.config.NotVerifiedRole).catch((e) => console.log('Issue on removing verified role:', e));
         await this.client.channels.cache.get(this.client.config.StaffReportChnl).send({
           embeds: [
             this.client.tools

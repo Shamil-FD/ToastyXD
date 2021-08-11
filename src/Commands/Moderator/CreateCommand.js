@@ -47,7 +47,7 @@ module.exports = class CreateCommandCommand extends Command {
         ephemeral: true,
       });
     } else if (message.options.get('link')) {
-      await message.defer(true);
+      await message.deferReply({ ephemeral: true });
       try {
         let code = await sourcebin.get(message.options.get('link')?.value);
         let sentMsg = await message.guild.channels.cache.get('861683396518739978').send({

@@ -9,6 +9,6 @@ module.exports = class DebugListener extends Listener {
   }
 
   exec(info) {
-    //console.log(info);
+    console.log(info);
   }
 };

@@ -37,7 +37,7 @@ module.exports = class StonksCommand extends Command {
   async execSlash(message) {
     let user = message.options.get('user')?.member ?? message.member;
     let buffer = await meme(user.user.displayAvatarURL());
-    await message.defer();
+    await message.deferReply();
     return message.editReply({
       files: [new MessageAttachment(await buffer, 'stonks.png')],
     });

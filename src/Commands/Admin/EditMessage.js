@@ -62,7 +62,7 @@ module.exports = class EditMessageCommand extends Command {
     let msgcolor = message.options.get('message-color')?.value || undefined;
     let embed;
 
-    await message.defer(true);
+    await message.deferReply({ ephemeral: true });
     if (['GUILD_CATEGORY', 'GUILD_VOICE'].includes(channel.type))
       return message.reply("Don't try to break me because I will.");
     let gotmsg = await channel.messages.fetch(msgid);
