@@ -34,7 +34,7 @@ module.exports = class DocsCommand extends Command {
         ],
       });
     if (!src) {
-      const data = await fetch(`https://djsdocs.sorta.moe/v2/embed?src=stable&q=${encodeURIComponent(query)}`);
+      const data = await fetch(`https://djsdocs.sorta.moe/v2/embed?src=master&q=${encodeURIComponent(query)}`);
       const json = await data.json();
 
       if (json == null || !json.description)

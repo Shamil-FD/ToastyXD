@@ -21,17 +21,7 @@ module.exports = class ToastyClient extends AkairoClient {
           ],
         },
         partials: ['GUILD_MEMBER', 'REACTION', 'MESSAGE'],
-        intents: [
-          'GUILDS',
-          'GUILD_MEMBERS',
-          'GUILD_BANS',
-          'GUILD_INTEGRATIONS',
-          'GUILD_WEBHOOKS',
-          'GUILD_INVITES',
-          'GUILD_MESSAGES',
-          'GUILD_PRESENCES',
-          'GUILD_MESSAGE_REACTIONS',
-        ],
+        intents: 32767,
         allowedMentions: {
           parse: ['everyone', 'users', 'roles'],
           repliedUser: false,
