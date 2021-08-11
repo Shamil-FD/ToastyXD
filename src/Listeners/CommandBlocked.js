@@ -14,10 +14,10 @@ module.exports = class CommandBlockedListener extends Listener {
     else if (reason === 'guild') result = 'This command can only be used inside a guild';
     else if (reason === 'staffOnly') result = "You can't use this command. Very sadge";
     else if (reason === 'managerOnly') result = "Maybe some day you'll be able to use this";
-    else if (reason === 'beta')
-      result = 'This command is only for beta testers for now. Please wait until the full release.';
+    else if (reason === 'beta') result = 'This command is only for beta testers for now. Please wait until the full release.';
     else if (reason === 'adminOnly') result = "You aren't special yet";
     else if (reason === 'appealServerOnly') result = "This can't be used in this guild.";
+    else if (reason === 'moderatorOnly') result = "You can't use this command, sweety! <3 ^^";
     else if (reason === 'blacklistedchnl') return;
     let embed = this.client.tools.embed().setColor('RED').setDescription(result);
     return message.reply({ embeds: [embed] });
