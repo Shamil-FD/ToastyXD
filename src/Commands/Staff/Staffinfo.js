@@ -82,9 +82,9 @@ async function CanvasGen(client, person) {
   let bio = doc.desc ?? 'Mysterious Person';
 
   let statusColor;
-  if (person.presence.status == 'online') statusColor = '#3ec185';
-  else if (person.presence.status == 'dnd') statusColor = '#da4f4b';
-  else if (person.presence.status == 'idle') statusColor = '#efa330';
+  if (person?.presence?.status == 'online') statusColor = '#3ec185';
+  else if (person?.presence?.status == 'dnd') statusColor = '#da4f4b';
+  else if (person?.presence?.status == 'idle') statusColor = '#efa330';
   else statusColor = '#7c8288';
   if (doc.infoCard.text?.toLowerCase() === 'auto') textColor = statusColor;
   if (doc.infoCard.borders?.toLowerCase() === 'auto') borderColor = statusColor;
