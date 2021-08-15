@@ -13,7 +13,7 @@ module.exports = {
     return new MessageEmbed().setColor('BLURPLE');
   },
   rannum: function () {
-    return Math.floor(Math.random() * 30 + 11) + 25;
+    return Math.floor(Math.random() * 30 + 11) + 15;
   },
   // Split Message Function
   split: function (str) {
