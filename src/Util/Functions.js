@@ -15,6 +15,14 @@ module.exports = {
   rannum: function () {
     return Math.floor((Math.random() * 30) + 11);
   },
+  randomId: function (length) {
+      let chars = '123456789987654321';
+      let str = '';
+      for (let i = 0; i < length; i++) {
+        str += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return str;    
+  },
   // Split Message Function
   split: function (str) {
     return Util.splitMessage(str);

@@ -1,7 +1,7 @@
+const { randomId, embed, captcha, split, rannum, getRole, getMember, getChannel } = require('../Util/Functions');
 const { AkairoClient, InhibitorHandler, ListenerHandler } = require('discord-akairo');
-const { embed, captcha, split, rannum, getRole, getMember, getChannel } = require('../Util/Functions');
-const { Collection } = require('discord.js');
 const CommandHandler = require('./CommandHandler');
+const { Collection } = require('discord.js');
 const models = require('../Util/Models');
 const Command = require('./Command');
 const path = require('path');
@@ -15,7 +15,7 @@ module.exports = class ToastyClient extends AkairoClient {
           status: 'online',
           activities: [
             {
-              name: 'https://milo-is-a-lawyer-for-the.discord.agency/🎣🎆🧲🍮',
+              name: 'You look extra cute today, keep it up!! <3',
               type: 'WATCHING',
             },
           ],
@@ -64,6 +64,7 @@ module.exports = class ToastyClient extends AkairoClient {
       getRole: getRole,
       getMember: getMember,
       getChannel: getChannel,
+      randomId: randomId
     };
 
     this.commandHandler.useListenerHandler(this.listenerHandler);

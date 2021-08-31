@@ -2,6 +2,7 @@ const Client = require('./Struct/Client');
 const { Token, Mongo, Dictionary } = require('./Util/Config.js');
 
 let client = new Client({
+  // Configs
   StaffReportChnl: '730101090267431012',
   AdminRole: '655109748030439433',
   StaffRole: '752632482943205546',

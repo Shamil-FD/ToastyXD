@@ -4,7 +4,7 @@ module.exports = class ResetStrikesCommand extends Command {
   constructor() {
     super('resetstrikes', {
       aliases: ['resetstrikes', 'resetstrike'],
-      category: 'Staff Manager',
+      category: 'Staff',
       channel: 'guild',
       managerOnly: true,
       args: [{ id: 'user', match: 'rest' }],

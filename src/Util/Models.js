@@ -2,20 +2,6 @@ const { model, Schema } = require('mongoose');
 
 let schema = Schema({
   user: String,
-  reason: String,
-  mod: String,
-});
-
-exports.unban = model('unban', schema);
-
-schema = Schema({
-  Count: Number,
-});
-
-exports.counts = model('counts', schema);
-
-schema = Schema({
-  user: String,
   desc: String,
   onLeave: Boolean,
   strikes: Number,
@@ -40,18 +26,10 @@ schema = Schema({
   reason: String,
   date: String,
   count: Number,
-  muteTime: String,
-  muteDate: String,
   pings: [{ type: String }],
 });
 
 exports.afk = model('afk', schema);
-
-schema = Schema({
-  pos: Boolean,
-});
-
-exports.pos = model('pos', schema);
 
 schema = Schema({
   word: String,
@@ -91,23 +69,26 @@ schema = Schema({
 exports.leave = model('leave', schema);
 
 schema = Schema({
-  id: String,
-});
-
-exports.firstTime = model('firsttime', schema);
-
-schema = Schema({
-  user: String,
-  link: String,
-  msg: String,
-  approvers: [String],
-});
-
-exports.customCmd = model('customCmd', schema);
-
-schema = Schema({
-    user: String,
-    timesLeft: Number
+    user: { 
+        type: String,
+        required: true
+    },
+    firstTime: { 
+        type: Boolean,
+        default: false,
+    },
+    timesLeft: {
+        type: Number,
+        default: 0
+    },
+    notes: [{ id: Number, date: String, content: String }]
 })
 
 exports.userProfile = model('userProfile', schema);
+
+schema = Schema({
+    name: String,
+    content: String
+});
+
+exports.tag = model('tag', schema)

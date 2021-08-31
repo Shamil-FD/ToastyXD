@@ -1,6 +1,5 @@
 const { MessageAttachment, Formatters } = require('discord.js');
 const { Listener } = require('discord-akairo');
-const { firstTime, userProfile } = require('../Util/Models');
 const moment = require('moment');
 
 module.exports = class GuildMemberAddListener extends Listener {
@@ -12,20 +11,14 @@ module.exports = class GuildMemberAddListener extends Listener {
   }
 
   async exec(member) {
-    // Check if testMode is turned on
     if (this.client.config.testMode === true) return;
-    // Check If Member Is A Bot
     if (member.user.bot) return;
-    // Check if channel exists
     if (!member.guild.channels.cache.get('801877313855160340')) return;
-
-    // First Time In Help Channel Thing
-    let FirstTimeDoc = await firstTime.findOne({ id: member.id });
-    if (!FirstTimeDoc) {
-      await new firstTime({ id: member.id }).save();
-    }
     
-    let userProfileDoc = await userProfile.findOne({ user: member.id });
+    let userProfileDoc = await this.client.tools.models.userProfile.findOne({ user: member.id });
+    if (!userProfileDoc) {
+        await new this.client.tools.models.userProfile({ user: member.id, firstTime: true }).save()
+    }
       
     // Verification Stuff
     let memberDate = moment(member.user.createdAt);
@@ -36,9 +29,10 @@ module.exports = class GuildMemberAddListener extends Listener {
     if (!member.user.username.match(/^[0-9a-zA-Z]/g)) {
       await member.setNickname('Moderated Nickname');
     }
+      
     // Add not verified role
     await member.roles.add(this.client.config.NotVerifiedRole);
-    if (parseInt(num) < 8) {
+    if (parseInt(num) < 7) {
       await member.send('Your account is too new to join our server.').catch((e) => {});
       await member.ban({ reason: 'Account age under 7 days.' });
       return member.guild.channels.cache.get(this.client.config.StaffReportChnl).send({

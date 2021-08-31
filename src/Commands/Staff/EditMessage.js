@@ -4,7 +4,7 @@ module.exports = class EditMessageCommand extends Command {
   constructor() {
     super('editmessage', {
       aliases: ['editmessage'],
-      category: 'Admin',
+      category: 'Staff',
       channel: 'guild',
       adminOnly: true,
       useSlashCommand: true,

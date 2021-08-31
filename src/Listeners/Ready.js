@@ -276,7 +276,7 @@ module.exports = class ReadyListener extends Listener {
           } else {
             countDoc.msgInfo.dailyCount = rannum();
           }
-          countDoc.msgInfo.randomCount = rannum() + 175;
+          countDoc.msgInfo.randomCount = rannum() + 150;
           countDoc.msgInfo.today = 0;
           await countDoc.save();
         });

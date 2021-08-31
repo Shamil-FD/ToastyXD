@@ -143,7 +143,7 @@ module.exports = class DictionaryCommand extends Command {
     let msg = await message.reply({ embeds: [this.client.tools.embed().setTitle(`Word: ${search}`).setDescription(await format(index)).setFooter(`Page ${index + 1}/${totalPages}`)], components: [new MessageActionRow().addComponents([new MessageButton().setEmoji('870638670212915291').setCustomId(`back${msgId}`).setStyle('PRIMARY'), new MessageButton().setEmoji('870638701158465566').setCustomId(`next${msgId}`).setStyle('PRIMARY')])] });
         
     let filter = i => i.user.id === author;    
-    let collector = message.channel.createMessageComponentCollector({ filter, time: 30000 });    
+    let collector = message.channel.createMessageComponentCollector({ filter, componentType: 'BUTTON', time: 30000 });    
     
     if (!message.commandId) {
         message = msg

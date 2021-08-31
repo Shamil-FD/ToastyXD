@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const moment = require('moment');
+const prettyMs = require('pretty-ms');
 const { Listener } = require('discord-akairo');
 const { MessageActionRow, MessageAttachment, MessageButton } = require('discord.js');
 
@@ -226,7 +227,7 @@ module.exports = class ButtonListener extends Listener {
                   this.client.config.arrow
                 } **Code**: \`${doc.code}\`\n${this.client.config.arrow} **Tries**: \`${doc.count}\`\n${
                   this.client.config.arrow
-                } **Time Took To Verify**: ${moment(new Date(doc.startedAt)).from(moment(), true)}`,
+                } **Time Took To Verify**: ${prettyMs(Date.now() - doc.startedAt)}`,
               )
               .setTitle('Member Verfied'),
           ],
@@ -261,11 +262,11 @@ module.exports = class ButtonListener extends Listener {
             user: interaction.member.id,
             code: cap.word,
             count: 0,
-            startedAt: moment(),
+            startedAt: Date.now(),
           }).save();
         } else {
           doc.code = cap.word;
-          doc.startedAt = moment();
+          doc.startedAt = Date.now();
           await doc.save();
         }
         await interaction.reply({
@@ -288,7 +289,7 @@ module.exports = class ButtonListener extends Listener {
           let chnlId = interaction.customId.replace('archivethread', '').trim();
           let { embed } = this.client.tools;
           // Check if author is allowed to use the button
-          if ((!interaction.member.roles.cache.has(this.client.config.StaffRole) && !interaction.member.roles.cache.has(this.client.config.DevHelperRole))) return interaction.reply({ content: `<@${interaction.member.id}>,`, embeds: [embed().setDescription(`Only people with <@&${this.client.config.DevHelperRole}> role or <@&${this.client.config.StaffRole}> can use this button.`).setColor('RED')] });
+          if ((!interaction.member.roles.cache.has(this.client.config.StaffRole) && !interaction.member.roles.cache.has(this.client.config.DevHelperRole) && interaction.member.id !== interaction.channel.ownerId)) return interaction.reply({ content: `<@${interaction.member.id}>,`, embeds: [embed().setDescription(`Only people with <@&${this.client.config.DevHelperRole}> role or <@&${this.client.config.StaffRole}> or the creator of this thread can use this button.`).setColor('RED')] });
           // Check if the current channel is the right thread
           if (interaction.channel.id === chnlId) {
               await interaction.channel.send({ embeds: [embed().setDescription(`This thread has been archived by <@${interaction.member.id}>.`).setColor('RED').setTitle('Thread Archived')] });

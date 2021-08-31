@@ -25,7 +25,7 @@ module.exports = class LeaveCommand extends Command {
             options: [
               {
                 name: 'start',
-                description: 'The start date. Format DD/MM/YYYY OR DD/MM/YY',
+                description: 'The start date. Use \'today\' for today\'s date. Format DD/MM/YYYY OR DD/MM/YY',
                 required: true,
                 type: 'STRING',
               },
@@ -37,7 +37,7 @@ module.exports = class LeaveCommand extends Command {
               },
               {
                 name: 'reason',
-                description: "Why you leaving us? I'm sad.",
+                description: "Why you leaving us?",
                 type: 'STRING',
                 required: true,
               },
@@ -45,7 +45,7 @@ module.exports = class LeaveCommand extends Command {
           },
           {
             name: 'end',
-            description: 'End your leave, yay!',
+            description: 'End your leave',
             type: 'SUB_COMMAND',
           },
         ],
@@ -79,11 +79,16 @@ module.exports = class LeaveCommand extends Command {
       let cumStart = start.slice(6).trim();
       let cumEnd = end.slice(6).trim();
 
-      if (cumStart.length == 4) {
-        start = dayjs(start, 'DD/MM/YYYY');
+      if (start.toLowerCase() !== 'today') {
+          if (cumStart.length == 4) {
+            start = dayjs(start, 'DD/MM/YYYY');
+          } else {
+            start = dayjs(start, 'DD/MM/YY');
+          }
       } else {
-        start = dayjs(start, 'DD/MM/YY');
+          start = dayjs()
       }
+        
       if (end.toLowerCase() !== 'indefinite') {
         if (cumEnd.length == 4) {
           end = dayjs(end + ' 07:00', 'DD/MM/YYYY HH:mm');

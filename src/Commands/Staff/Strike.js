@@ -4,7 +4,7 @@ module.exports = class StrikeCommand extends Command {
   constructor() {
     super('strike', {
       aliases: ['strike'],
-      category: 'Staff Manager',
+      category: 'Staff',
       managerOnly: true,
       channel: 'guild',
       args: [

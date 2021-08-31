@@ -4,7 +4,7 @@ module.exports = class LockDownCommand extends Command {
   constructor() {
     super('lockdown', {
       aliases: ['lockdown'],
-      category: 'Moderator',
+      category: 'Staff',
       channel: 'guild',
       cooldown: 15000,
       description: {

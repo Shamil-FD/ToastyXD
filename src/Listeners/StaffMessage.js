@@ -30,7 +30,7 @@ module.exports = class StaffMessageListener extends Listener {
               today: 0,
               total: 0,
               dailyCount: rannum(),
-              randomCount: rannum() + 175,
+              randomCount: rannum() + 150,
             },
           }).save();
         } else {
