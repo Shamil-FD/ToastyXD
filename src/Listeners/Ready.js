@@ -112,7 +112,7 @@ module.exports = class ReadyListener extends Listener {
           if (tags.length) {
               tags.forEach((tag) => {
                   if (!this.client.tags.has(tag.name)) {
-                      this.client.tags.set(tag.name, {})
+                      this.client.tags.set(tag.name, { name: tag.name })
                   }
               })
           }
