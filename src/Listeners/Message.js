@@ -17,8 +17,8 @@ module.exports = class MessageListener extends Listener {
     if (message.content.toLowerCase().startsWith(this.client.config.prefix) || message.content.toLowerCase().startsWith('s!')) {
         let cmd = message.content.split(/ +/).shift().slice(2).toLowerCase();
         let tag = await this.client.tools.models.tag.findOne({ name: cmd });
-        if (tag) {
-            return message.channel.send({ embeds: [this.client.tools.embed().setDescription(tag.content)] })
+        if (tag) {            
+            return message.channel.send({ embeds: [this.client.tools.embed().setDescription(tag.content)], files: tag?.files.length > 0 ? tag.files : null })
         }
     }  
     if (this.client.config.testMode === true) return;

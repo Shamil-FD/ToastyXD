@@ -60,7 +60,6 @@ module.exports = class ReadyListener extends Listener {
     if (guild) {
       // Check For Staff Leave and Channel Mutes and Auto Purge Verify Channel
       cron.schedule(`* * * * *`, async () => {
-        let docs = await models.chnlmute.find();
         let sal = await this.client.guilds.fetch('655109296400367618');
         let lev = await models.leave.find();
 
@@ -105,48 +104,20 @@ module.exports = class ReadyListener extends Listener {
             }
           });
         }
-
-        // If Someone's Been Muted In A Channel, It Checks If Their Time Is Up And Unmutes Them.
-        if (docs.length) {
-          docs.forEach(async (d) => {
-            let time = d.time;
-            let date = d.date;
-            let hasError = false;
-            if (time - (Date.now() - date) < 0) {
-              // Using A Try Catch Here To Prevent The Bot From Going Into a Loop If The Victim Left The Server
-              try {
-                await sal.channels.cache.get(d.chnl).permissionOverwrites.get(d.user).delete();
-              } catch (e) {
-                await models.chnlmute.findOneAndDelete({
-                  user: d.user,
-                  chnl: d.chnl,
-                });
-                hasError = true;
-              }
-              if (hasError === false) {
-                await sal.channels.cache.get(this.client.config.StaffReportChnl).send({
-                  embeds: [
-                    this.client.tools
-                      .embed()
-                      .setTitle('Auto Unmute')
-                      .setAuthor(`Mod: ${d.mod}`)
-                      .addField('**Victim**:', `<@${d.user}> || ${d.user}`, true)
-                      .addField('**Reason**:', d.reason, true)
-                      .addField('**Channel**:', `<#${d.chnl}>`),
-                  ],
-                });
-                await models.chnlmute.findOneAndDelete({
-                  user: d.user,
-                  chnl: d.chnl,
-                });
-              }
-            }
-          });
-        }
       });
 
-      // Check-in Message Update
       cron.schedule('*/10 * * * *', async () => {
+        // Tags Cache Refresh
+        let tags = await models.tag.find();
+          if (tags.length) {
+              tags.forEach((tag) => {
+                  if (!this.client.tags.has(tag.name)) {
+                      this.client.tags.set(tag.name, {})
+                  }
+              })
+          }
+          
+        // Check-In Message Update         
         guild = await guild.fetch();
         let clockInChnl = await guild.channels.cache.get('733307358070964226');
         let staffDocs = await models.staff.find();

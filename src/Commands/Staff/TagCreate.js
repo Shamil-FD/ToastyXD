@@ -44,10 +44,17 @@ module.exports = class TagsCommand extends Command {
   }
   async handleTag(message, name, content) {
       name = name.toLowerCase();      
+      let files = []
       let doc = await this.client.tools.models.tag.findOne({ name: name });
       if (doc) return message.reply({ embeds: [this.client.tools.embed().setDescription(`**${name}** already exists!`).setColor('RED')] })
       
-      await new this.client.tools.models.tag({ name: name, content: content }).save();
+      if (message?.attachments.size > 0) {
+          await message.attachments.forEach(file => files.push(file))
+      }
+      
+      await new this.client.tools.models.tag({ name: name, content: content, files: files }).save();
+      if (!this.client.tags.has(name)) this.client.tags.set(name, {});
+      
       return message.reply({ embeds: [this.client.tools.embed().setDescription(`A tag with the name of **${name}** has been created.`).setFooter('Use t)tagname or s!tagname to use the tag').setColor('GREEN')] });
   }
 };

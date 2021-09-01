@@ -66,7 +66,8 @@ module.exports = class ToastyClient extends AkairoClient {
       getChannel: getChannel,
       randomId: randomId
     };
-
+    this.tags = new Collection();
+      
     this.commandHandler.useListenerHandler(this.listenerHandler);
     this.listenerHandler.setEmitters({
       commandHandler: this.commandHandler,

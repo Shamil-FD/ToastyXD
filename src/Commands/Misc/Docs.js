@@ -1,6 +1,7 @@
 const Command = require('../../Struct/Command');
 const { MessageEmbed } = require('discord.js');
 const fetch = require('node-fetch');
+const _ = require('lodash');
 
 module.exports = class DocsCommand extends Command {
   constructor() {
@@ -49,7 +50,15 @@ module.exports = class DocsCommand extends Command {
         return message.reply({
           embeds: [{ description: 'Nothing found for that!', color: 'RED' }],
         });
-      return message.reply({ embeds: [new MessageEmbed(json)] });
+      
+        json.fields.forEach(str => {
+            if (str.value.length > 1048) {
+                str.value = _.truncate(str.value, { 'length': 1046 });
+                return;
+            }
+            	return;
+        })
+        return message.reply({ embeds: [new MessageEmbed(json)] });
     }
   }
 };

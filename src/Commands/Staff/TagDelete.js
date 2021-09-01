@@ -41,6 +41,8 @@ module.exports = class TagDeleteCommand extends Command {
       if (!doc) return message.reply({ embeds: [this.client.tools.embed().setDescription(`**${name}** does not exist.`).setColor('RED')] })
       
       await doc.delete()
+      if (this.client.tags.has(name)) this.client.tags.delete(name);
+      
       return message.reply({ embeds: [this.client.tools.embed().setDescription(`A tag with the name of **${name}** has been deleted.`).setColor('GREEN')] });
   }
 };

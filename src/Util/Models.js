@@ -88,7 +88,8 @@ exports.userProfile = model('userProfile', schema);
 
 schema = Schema({
     name: String,
-    content: String
+    content: String,
+    files: [String]
 });
 
 exports.tag = model('tag', schema)

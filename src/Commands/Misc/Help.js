@@ -93,8 +93,12 @@ function helpCmd(handler, client, message) {
           .filter((cmd) => (cmd.aliases ? cmd.aliases.length > 0 : false))
           .map((cmd) => `\`${cmd.aliases[0]}\``)
           .join(', ') || 'Bug!',
-    });
+    }); 
   }
+  if (client.tags.size > 0) {
+      await fields.push({ name: 'Tags', value: client.tags.map(tag => `\`${tag}\``).join(', ')})
+  }
+    
   return message.reply({
     embeds: [
       client.tools
