@@ -96,7 +96,7 @@ function helpCmd(handler, client, message) {
     }); 
   }
   if (client.tags.size > 0) {
-      await fields.push({ name: 'Tags', value: client.tags.map(tag => `\`${tag}\``).join(', ')})
+     fields.push({ name: 'Tags', value: client.tags.map(tag => `\`${tag}\``).join(', ')})
   }
     
   return message.reply({
