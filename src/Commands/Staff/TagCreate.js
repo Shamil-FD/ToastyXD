@@ -49,7 +49,7 @@ module.exports = class TagsCommand extends Command {
       if (doc) return message.reply({ embeds: [this.client.tools.embed().setDescription(`**${name}** already exists!`).setColor('RED')] })
       
       if (message?.attachments.size > 0) {
-          await message.attachments.forEach(file => files.push(file))
+          await message.attachments.forEach(file => files.push(file.url))
       }
       
       await new this.client.tools.models.tag({ name: name, content: content, files: files }).save();

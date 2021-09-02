@@ -27,6 +27,6 @@ module.exports = class NoteCreateCommand extends Command {
           userProfile.notes.push({ id: id, content: content, date: new Date() });
           await userProfile.save()
       }
-      return message.reply({ embeds: [this.client.tools.embed().setDescription(`New note created!\n>>> ID: ${id}\nContent: ${content}`).setColor('GREEN').setFooter('Use t)notes command to view your notes.')] });
+      return message.reply({ embeds: [this.client.tools.embed().setDescription(`New note created!\n>>> ID: ${id}\nContent: ${content}`).setColor('GREEN').setFooter('Use t)notes command to view your notes.')], ephemeral: true });
   }
 };

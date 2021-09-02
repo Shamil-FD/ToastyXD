@@ -52,8 +52,8 @@ module.exports = class DocsCommand extends Command {
         });
       
         json.fields.forEach(str => {
-            if (str.value.length > 1048) {
-                str.value = _.truncate(str.value, { 'length': 1046 });
+            if (str.value.length > 1022) {
+                str.value = _.truncate(str.value, { 'length': 1022 });
                 return;
             }
             	return;

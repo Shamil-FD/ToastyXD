@@ -44,7 +44,7 @@ module.exports = class GuildMemberAddListener extends Listener {
                 this.client.config.arrow
               } **Creation Date**: ${Formatters.time(member.user.createdAt, 'f')}\n${
                 this.client.config.arrow
-              } **Days Since Creation**: \`${num} Days\`\n${
+              } **Days Since Creation**: ${Formatters.time(new Date(member.user.createdAt), 'R')}\n${
                 this.client.config.arrow
               } **Banned For**: Account age under 7 days.`,
             )
@@ -67,7 +67,7 @@ module.exports = class GuildMemberAddListener extends Listener {
               this.client.config.arrow
             } **Creation Date**: ${Formatters.time(member.user.createdAt, 'f')}\n${
               this.client.config.arrow
-            } **Days Since Creation**: \`${num} Days\`\n${this.client.config.arrow} **Times Left The Server**: ${userProfileDoc?.timesLeft ?? '0'}`,
+            } **Days Since Creation**: ${Formatters.time(new Date(member.user.createdAt), 'R')}\n${this.client.config.arrow} **Times Left The Server**: ${userProfileDoc?.timesLeft ?? '0'}`,
           )
           .setTitle('Member Joined'),
       ],

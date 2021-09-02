@@ -96,7 +96,7 @@ function helpCmd(handler, client, message) {
     }); 
   }
   if (client.tags.size > 0) {
-     fields.push({ name: 'Tags', value: client.tags.map(tag => `\`${tag.name}\``).join(', ')})
+     fields.push({ name: `${client.config.arrow} Tags`, value: client.tags.map(tag => `\`${tag.name}\``).join(', ')})
   }
     
   return message.reply({
