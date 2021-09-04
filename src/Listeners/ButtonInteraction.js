@@ -289,7 +289,7 @@ module.exports = class ButtonListener extends Listener {
           let chnlId = interaction.customId.replace('archivethread', '').trim();
           let { embed } = this.client.tools;
           // Check if author is allowed to use the button
-          if ((!interaction.member.roles.cache.has(this.client.config.StaffRole) && !interaction.member.roles.cache.has(this.client.config.DevHelperRole) && interaction.member.id !== interaction.channel.ownerId)) return interaction.reply({ content: `<@${interaction.member.id}>,`, embeds: [embed().setDescription(`Only people with <@&${this.client.config.DevHelperRole}> role or <@&${this.client.config.StaffRole}> or the creator of this thread can use this button.`).setColor('RED')] });
+          if ((!interaction.member.roles.cache.has(this.client.config.StaffRole) && !interaction.member.roles.cache.has(this.client.config.DevHelperRole))) return interaction.reply({ content: `<@${interaction.member.id}>,`, embeds: [embed().setDescription(`Only people with <@&${this.client.config.DevHelperRole}> role or <@&${this.client.config.StaffRole}> can use this button.`).setColor('RED')] });
           // Check if the current channel is the right thread
           if (interaction.channel.id === chnlId) {
               await interaction.channel.send({ embeds: [embed().setDescription(`This thread has been archived by <@${interaction.member.id}>.`).setColor('RED').setTitle('Thread Archived')] });

@@ -26,7 +26,7 @@ module.exports = class TagsCommand extends Command {
             required: true,
           },
           {
-			name: 'content',
+      name: 'content',
             type: 'STRING',
             description: 'Content of the tag',
             required: true
@@ -53,7 +53,7 @@ module.exports = class TagsCommand extends Command {
       }
       
       await new this.client.tools.models.tag({ name: name, content: content, files: files }).save();
-      if (!this.client.tags.has(name)) this.client.tags.set(name, {});
+      if (!this.client.tags.has(name)) this.client.tags.set(name, { name: name });
       
       return message.reply({ embeds: [this.client.tools.embed().setDescription(`A tag with the name of **${name}** has been created.`).setFooter('Use t)tagname or s!tagname to use the tag').setColor('GREEN')] });
   }

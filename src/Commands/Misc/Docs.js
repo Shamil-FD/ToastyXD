@@ -51,13 +51,12 @@ module.exports = class DocsCommand extends Command {
           embeds: [{ description: 'Nothing found for that!', color: 'RED' }],
         });
       
-        json.fields.forEach(str => {
-            if (str.value.length > 1022) {
+        json.fields.map(str => {
+          if (str.value.length > 1022) {
                 str.value = _.truncate(str.value, { 'length': 1022 });
-                return;
+                return str;
             }
-            	return;
-        })
+        });
         return message.reply({ embeds: [new MessageEmbed(json)] });
     }
   }
