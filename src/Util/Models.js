@@ -16,6 +16,7 @@ let schema = Schema({
     dailyCount: Number,
     total: Number,
     randomCount: Number,
+    dailyMsgs: [Number],
   },
 });
 
