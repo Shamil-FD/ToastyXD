@@ -43,7 +43,6 @@ class ToastyXDClient extends SapphireClient {
         await mongoose.connect(mongoURi, {
             useUnifiedTopology: true,
             useNewUrlParser: true,
-            useCreateIndex: true,
         });
         return super.login(token)
     }
