@@ -23,7 +23,7 @@ module.exports = class ReadyListener extends Listener {
         console.log('Tags Loaded.')
         cron.schedule('*/30 * * * *', async() => {
             await this.cacheStuff(client);
-            return this.checkStaffExists(client);
+            await this.checkStaffExists(client);
         });
         
         // Check if testMode is turned on
