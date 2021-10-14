@@ -1,22 +1,38 @@
-# ToastyXD
+<p align="center">
+  <h3 align="center">ToastyXD</h3>
+  
+  <p align="center">
+    An advanced Discord bot for your server moderation needs.
+    <br/>
+    <br/>
+    <a href="https://github.com/Shamil-FD/ToastyXD/issues">Report Bug</a>        
+  •
+    <a href="https://github.com/Shamil-FD/ToastyXD/issues">Request Feature</a>
+  </p>
+</p>
 
-<img src="https://img.shields.io/github/stars/Shamil-FD/ToastyXD"> <img src="https://tokei.rs/b1/github/Shamil-FD/ToastyXD?category=lines">
+![JavaScript](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E) ![Contributors](https://img.shields.io/github/contributors/Shamil-FD/ToastyXD?color=dark-green&style=for-the-badge) ![Forks](https://img.shields.io/github/forks/Shamil-FD/ToastyXD?style=for-the-badge) ![Stargazers](https://img.shields.io/github/stars/Shamil-FD/ToastyXD?style=for-the-badge) ![License](https://img.shields.io/github/license/Shamil-FD/ToastyXD?style=for-the-badge) 
 
-## What's Toasty XD?
+## About The Project
 
-Toasty is a Discord Bot used to help manage the Salvage Squad Discord server. It has many features, including but not limited to, slash commands, staff inactive notices, staff activity checks and a word blacklist system.
+Toasty is a Discord Bot built with Discord.JS and Sapphire-Framework and it's used to help manage the Salvage Squad Discord server.
 
-## Contributing
+ToastyXD has many features like word blacklist system, server captcha verification system, staff inactive notices, server activity module and more!
 
-> When making new files, please make sure to capitalize the first letter.
+## License
 
-> If you are going to make a command, please use the template provided in src/Util/CommandTemplate.js
-
-> You should also read how our command works on src/Util/CommandTemplate.md
-
+Distributed under the MIT License. See [LICENSE](https://github.com/Shamil-FD/ToastyXD/blob/main/LICENSE.md) for more information.
 ## Useful Links
 
-- To view the limitations on slash commands click [here](https://discord.com/developers/docs/interactions/slash-commands#a-quick-note-on-limits)
-- View Discord.JS Master documentation [here](https://discord.js.org/#/docs/main/master/general/welcome)
-- View Discord-Akairo's documentation [here](https://discord-akairo.github.io/#/docs/)
-- View Discord.JS v13 changes [here](https://deploy-preview-551--discordjs-guide.netlify.app/additional-info/changes-in-v13.html)
+- [Discord.JS documentation](https://discord.js.org/#/docs/main/main/general/welcome)
+- [Discord.JS Guide](https://discordjs.guide)
+- [Sapphire-Framework documentation](https://sapphiredev.github.io/framework/)
+- [Sapphire-Framework main website](https://sapphirejs.dev/)
+
+
+## Thanks To
+
+* [Shamil](https://github.com/Shamil-FD) - Contributor
+* [Salvage_Dev](https://github.com/Milo123459) - Contributor
+* [FC5570](https://github.com/FC5570) - Contributor
+* [Shashank3736](https://github.com/Shashank3736) - For letting me use a snippet of code from their [captcha-canvas](https://github.com/Shashank3736/captcha-canvas) project.
