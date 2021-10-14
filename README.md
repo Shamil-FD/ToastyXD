@@ -21,7 +21,7 @@ ToastyXD has many features like word blacklist system, server captcha verificati
 
 ## License
 
-Distributed under the MIT License. See [LICENSE](https://github.com/Shamil-FD/ToastyXD/blob/main/LICENSE.md) for more information.
+Distributed under the GPL-3.0 License. See [LICENSE](https://github.com/Shamil-FD/ToastyXD/blob/main/LICENSE.md) for more information.
 ## Useful Links
 
 - [Discord.JS documentation](https://discord.js.org/#/docs/main/main/general/welcome)
