@@ -11,7 +11,9 @@ module.exports = class MessageCreateListener extends Listener {
     }
     async run(message) {
         if (['DM', 'GUILD_VOICE', 'GUILD_CATEGORY', 'GUILD_STAGE_VOICE'].includes(message.channel.type)) return;
-        if (message.author.bot) return;                
+        if (message.author.bot) return;   
+        if (message.author.system) return;
+                     
          // Check if testMode is turned on
         if (this.container.client.config.testMode) return;
         await this.serverActivity(message);
