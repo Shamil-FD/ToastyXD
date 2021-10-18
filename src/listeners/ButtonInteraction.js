@@ -3,7 +3,7 @@ const { Listener } = require('@sapphire/framework');
 const prettyMs = require('pretty-ms');
 const moment = require('moment');
 const _ = require('lodash');
-
+ 
 module.exports = class ButtonInteractionListener extends Listener {
     constructor(context) {
         super(context, { 
@@ -41,7 +41,7 @@ module.exports = class ButtonInteractionListener extends Listener {
                 embeds: [interaction.client.tools.embed().setDescription("You're already verified.")],
                 ephemeral: true,
             });
-
+ 
         let doc = await interaction.client.tools.models.verification.findOne({ user: interaction.member.id });
         let cap = await interaction.client.tools.captcha();
         let buttons = [];
@@ -49,7 +49,7 @@ module.exports = class ButtonInteractionListener extends Listener {
         let buttonColor = await buttonColors[await Math.round(Math.random() * buttonColors.length)];
         buttons.push(new MessageButton().setLabel(cap.word).setCustomId(`verification${cap.word}`).setStyle(buttonColor));
         for (let i = 0; i < cap.randomNumbers.length - 1; i++) {            
-            buttons.push(new MessageButton().setLabel(cap.randomNumbers[i]).setCustomId(`verification${cap.randomNumbers[i]}`).setStyle(buttonColors[i]));
+            buttons.push(new MessageButton().setLabel(cap.randomNumbers[i]).setCustomId(`verification${cap.randomNumbers[i]}`).setStyle(buttonColors[(i-1)]));
         }
         buttons = await _.shuffle(buttons);
         if (!doc) {            
@@ -81,7 +81,7 @@ module.exports = class ButtonInteractionListener extends Listener {
                 embeds: [interaction.client.tools.embed().setDescription(`Nice try, but you can't use another person's verification message.`),],
                 ephemeral: true,
             });
-
+ 
         doc?.count ? doc.count++ : (doc.count = 1);
         await doc.save();
         if (interaction.customId.replace('verification', ' ').trim() != doc.code) {            
@@ -137,13 +137,13 @@ module.exports = class ButtonInteractionListener extends Listener {
         if (!member) return interaction.reply({            
             embeds: [interaction.client.tools.embed().setDescription("I couldn't find the member in the server.")],
         });
-
+ 
         let guild = await interaction.client.guilds.cache.get('655109296400367618');
         let bannedInfo = await guild.bans.fetch(member.id);
         if (!bannedInfo) return interaction.reply({ 
             embeds: [interaction.client.tools.embed().setDescription(`I couldn't find ${member}'s ban in Salvage Squad.`)],
         });
-
+ 
         await member.send({
             embeds: [interaction.client.tools.embed().setTitle('Unbanned').setDescription(`Your unban form was denied`)],
         }).catch(() => {});
@@ -162,7 +162,7 @@ module.exports = class ButtonInteractionListener extends Listener {
         if (!member) return interaction.reply({            
             embeds: [interaction.client.tools.embed().setDescription("I couldn't find the member in the server.")],
         });
-
+ 
         let guild = await interaction.client.guilds.cache.get('655109296400367618');
         let bannedInfo = await guild.bans.fetch(member.id).catch(() => {            
             return undefined;
@@ -170,7 +170,7 @@ module.exports = class ButtonInteractionListener extends Listener {
         if (!bannedInfo) return interaction.reply({            
             embeds: [interaction.client.tools.embed().setDescription(`I couldn't find ${member}'s ban in Salvage Squad.`)],
         });
-
+ 
         await guild.members.unban(member.id, { reason: `Unbanned by ${interaction.member.user.tag}` });
         await guild.channels.cache.get(interaction.client.config.staffReportChnl).send({
           embeds: [interaction.client.tools.embed().setTitle('Member Unban').setDescription(`User: ${member.user.tag} | ${member.user.id}\nUnbanned By: ${interaction.member.user.tag} | ${interaction.member.id}`)]
@@ -218,12 +218,12 @@ module.exports = class ButtonInteractionListener extends Listener {
             return interaction.reply({                
                 embeds: [interaction.client.tools.embed().setDescription('Only staff can use this button.')],
             });
-
+ 
         let member = await this.getMember(interaction);        
         if (!member) return interaction.reply({ 
             embeds: [interaction.client.tools.embed().setDescription("I couldn't find the member in the server.")],
         });
-
+ 
         await interaction.channel.permissionOverwrites.create(member.id, { VIEW_CHANNEL: false, SEND_MESSAGES: false });
         await interaction.reply({
             embeds: [interaction.client.tools.embed().setDescription(`${member} now isn\'t able to see this channel.`)],

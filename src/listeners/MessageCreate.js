@@ -13,7 +13,8 @@ module.exports = class MessageCreateListener extends Listener {
         if (['DM', 'GUILD_VOICE', 'GUILD_CATEGORY', 'GUILD_STAGE_VOICE'].includes(message.channel.type)) return;
         if (message.author.bot) return;   
         if (message.author.system) return;
-                     
+        if (!(await message.fetch(true))) return;
+        
          // Check if testMode is turned on
         if (this.container.client.config.testMode) return;
         await this.serverActivity(message);
@@ -266,7 +267,7 @@ module.exports = class MessageCreateListener extends Listener {
             
             const action = found.action.toLowerCase();
             const word = found.word;
-            const reportChnl = await message.guild.channels.cache.get(client.config.staffReportChnl);
+            const reportChnl = await client.channels.cache.get(client.config.staffReportChnl);
             const { embed } = client.tools;
             await message.delete();
             

@@ -15,7 +15,7 @@ module.exports = class HelpCommand extends Command {
     }
 
     async run(message, options) {
-        if (!options.get('command').value) {
+        if (!options.get('command')?.value) {
             return this.giveHelp(message);
         }
         let cmd = this.store.get(options.get('command')?.value);        

@@ -96,7 +96,7 @@ module.exports = class TagsCommand extends Command {
         /*if (message?.attachments.size > 0) {            
             await message.attachments.forEach(file => files.push(file.url))
         }*/
-        if (image.length) files.push(image);
+        if (image) files.push(image);
         
         await new message.client.tools.models.tag({ name: name, content: content, files: files }).save();
         if (!message.client.tags.has(name)) message.client.tags.set(name, { name: name });
