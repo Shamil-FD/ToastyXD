@@ -49,7 +49,7 @@ module.exports = class ButtonInteractionListener extends Listener {
         let buttonColor = await buttonColors[await Math.round(Math.random() * buttonColors.length)];
         buttons.push(new MessageButton().setLabel(cap.word).setCustomId(`verification${cap.word}`).setStyle(buttonColor));
         for (let i = 0; i < cap.randomNumbers.length - 1; i++) {            
-            buttons.push(new MessageButton().setLabel(cap.randomNumbers[i]).setCustomId(`verification${cap.randomNumbers[i]}`).setStyle(buttonColors[(i-1)]));
+            buttons.push(new MessageButton().setLabel(cap.randomNumbers[i]).setCustomId(`verification${cap.randomNumbers[i]}`).setStyle(buttonColors[i]));
         }
         buttons = await _.shuffle(buttons);
         if (!doc) {            
@@ -69,7 +69,7 @@ module.exports = class ButtonInteractionListener extends Listener {
             content: `<@${interaction.member.id}>,`,
             files: [new MessageAttachment(cap.png, 'verify.png')],
             ephemeral: true,
-            components: [new MessageActionRow().addComponents(buttons)],
+            components: [new MessageActionRow().addComponents([buttons])],
         });
     }
     async verificationBtn(interaction) {        
