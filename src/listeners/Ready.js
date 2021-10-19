@@ -90,8 +90,8 @@ module.exports = class ReadyListener extends Listener {
         });
 
         if (beStriked.length) {
-          beStriked.forEach(async (user) => {
-            const staffDoc = await models.staff.findOne({ user: user });
+          for (let i = 0; i < beStriked.length; i++) {
+            const staffDoc = await models.staff.findOne({ user: beStriked[i] });
             if (!staffDoc.strikes) {
               staffDoc.strikes = 1;
               await staffDoc.save();
@@ -101,20 +101,20 @@ module.exports = class ReadyListener extends Listener {
             }
             
             if (staffDoc && staffDoc.strikes % 3 == 0) {
-              if (await guild.members.fetch(user)) {
+              if (await guild.members.fetch(beStriked[i])) {
                 await guild.channels.cache
                   .get('805154766455701524')
-                  .send(`<@${user}> has ${staffDoc.strikes} strikes now.`);
+                  .send(`<@${beStriked[i]}> has ${staffDoc.strikes} strikes now.`);
                 setTimeout(async () => {
                   await guild.channels.cache.get('805154766455701524').send(`@everyone ^`);
                 }, 3000);
               } else {
                 beStriked = _.remove(beStriked, function (f) {
-                  return f !== user;
+                  return f !== beStriked[i];
                 });
               }
             }
-          });
+          };
           
           if (beStriked.length) {
             const striked = [];
@@ -240,34 +240,34 @@ module.exports = class ReadyListener extends Listener {
         const guild = await client.guilds.fetch('655109296400367618');
         const noticeChnl = await guild.channels.fetch('757169784747065364');
         let leaveDoc = await leave.find();
-        
-        leaveDoc.forEach(async (l) => {
-          let staffDoc = await staff.findOne({ user: l.user });
+
+				for (let i = 0; i < leaveDoc.length; i++) {
+          let staffDoc = await staff.findOne({ user: leaveDoc[i].user });
             if (staffDoc) {          
-              if (moment().isAfter(moment(new Date(l.end)))) {             
+              if (moment().isAfter(moment(new Date(leaveDoc[i].end)))) {             
                 await noticeChnl.send({
-                  content: `<@${l.user}>,`,
-                  embeds: [embed().setDescription(`Hey! Your leave notice from <t:${moment(new Date(l.start)).unix()}:R> just ended! Hope you had great time on your time off!!\n\n***__${l.reason}__***`)]
+                  content: `<@${leaveDoc[i].user}>,`,
+                  embeds: [embed().setDescription(`Hey! Your leave notice from <t:${moment(new Date(leaveDoc[i].start)).unix()}:R> just ended! Hope you had great time on your time off!!\n\n***__${leaveDoc[i].reason}__***`)]
                 });  
               
-                if (await (leaveDoc.filter(docs => docs._id !== l._id && docs.user == l.user).size < 0)) {                
+                if (await (leaveDoc.filter(docs => docs._id !== leaveDoc[i]._id && docs.user == leaveDoc[i].user).size < 0)) {                
                   staffDoc.onLeave = false;
                   await staffDoc.save();
                 } 
-                await l.delete();
+                await leaveDoc[i].delete();
               }
               
-              if (moment().isBefore(moment(new Date(l.start))) && staffDoc.onLeave === true) {
+              if (moment().isBefore(moment(new Date(leaveDoc[i].start))) && staffDoc.onLeave === true) {
                 staffDoc.onLeave = false;
                 await staffDoc.save()
-              } else if (moment().isSameOrAfter(moment(new Date(l.start))) && staffDoc.onLeave === false) {
+              } else if (moment().isSameOrAfter(moment(new Date(leaveDoc[i].start))) && staffDoc.onLeave === false) {
                 staffDoc.onLeave = true;
                 await staffDoc.save()
               }
             } else {
-              await l.delete()
+              await leaveDoc[i].delete()
             }
-          });
+				};
           return;
     }
     async cacheStuff(client) {
