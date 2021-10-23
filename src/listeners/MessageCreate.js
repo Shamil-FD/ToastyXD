@@ -11,8 +11,8 @@ module.exports = class MessageCreateListener extends Listener {
     }
     async run(message) {
         if (['DM', 'GUILD_VOICE', 'GUILD_CATEGORY', 'GUILD_STAGE_VOICE'].includes(message.channel.type)) return;
-        if (message.author.bot) return;   
-        if (message.author.system) return;
+        if (message.author?.bot) return;   
+        if (message.author?.system) return;
         if (!(await message.fetch(true))) return;
         
          // Check if testMode is turned on
@@ -21,7 +21,6 @@ module.exports = class MessageCreateListener extends Listener {
         if(await this.checkBlacklist(message)) return;
         await this.checkBotPrefixes(message);
         await this.checkTags(message);
-        await this.checkFirstMessageInHelp(message);
         await this.helpMe(message);
         await this.checkStaff(message);
         return this.checkAfk(message);
@@ -181,21 +180,6 @@ module.exports = class MessageCreateListener extends Listener {
                     }
                 }
             });
-        }
-    }
-    async checkFirstMessageInHelp(message) {
-        if (message.channel.id === '709043365727043588' || message.channel.id === '709043414053814303') {            
-            let userProfileDoc = await message.client.tools.models.userProfile.findOne({                
-                user: message.member.id,
-            });
-            
-            if (userProfileDoc?.firstTime === true) {                
-                userProfileDoc.firstTime = false;
-                await userProfileDoc.save()
-                await message.reply(
-                  `<@${message.author.id}>, Welcome to the help channel. Please make sure to follow these basic rules when asking for help:\n\n1. Do not ask/beg for source code. We don't give out source codes.\n\n2. Don't ping anyone for help.\n\n3. Do not ask for help in DMs.\n\n4. When posting code/errors post them in a source code bin. Links can be found by running the command \`s!bins\`\n\n5. Be patient, people have a life outside of the internet.\n\n6. Don't ask to get help, if you have a question, post your question with code and errors.\n\n7. Make a thread. That is how you get help, you make a thread in this channel. It's really easy, like, just make a thread.\n\n8. We will not help with issues with snipe command for privacy reasons.\n\n9. **Please DO NOT ask any help if you don't have basic knowledge / not willing to learn the language. Might it be any language.**`,
-                );
-            }
         }
     }
     async checkTags(message) {        
