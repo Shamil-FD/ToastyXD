@@ -111,6 +111,7 @@ module.exports = class LeaveCommand extends Command {
                 button1[(item.index - 1)].setDisabled(true)
             }
             
+            await message.guild.channels.cache.get('805154766455701524').send(`${message.member.user.tag} deleted a leave notice.\nStart Date: ${moment(item.doc.start).format('DD/MM/YYYY')}\nEnd Date: ${moment(item.doc.end).format('DD/MM/YYYY')}\nReason: ${item.doc.reason}`).catch((e) => console.log('Leave end cmd', e))
             fields.find(field => field.name === 'Last Action').value = `Deleted a notice: ${moment(item.doc.start).format('DD/MM/YY')} - ${moment(item.doc.end).format('DD/MM/YY')}`;
             fields = fields.filter(field => field.name !== `**__${item.index}__**. ${moment(new Date(item.doc.start)).format('DD/MM/YYYY')} - ${moment(new Date(item.doc.end)).format('DD/MM/YYYY')}`);
             
