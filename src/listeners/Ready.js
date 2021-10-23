@@ -179,8 +179,9 @@ module.exports = class ReadyListener extends Listener {
                     }
                 }
             });
-            counts = {};
+            await client.channels.fetch('850627411698647050').then(c => c.send(`Prefix logs: ${client.botPrefixes}`)).catch((e) => console.log('Prefix logs', e))
             client.botPrefixes = [];
+            counts = {};
         }
         
         let activityDoc = await models.serverActivity.findOne();
