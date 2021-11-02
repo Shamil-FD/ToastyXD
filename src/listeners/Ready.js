@@ -163,22 +163,22 @@ module.exports = class ReadyListener extends Listener {
         
         if (client.botPrefixes.length) {
             let counts = {};
+            let prefixDoc = await models.ignore.findOne();
             client.botPrefixes.sort().forEach(async(item, index, array) => {                
                 if ((index > 0) && (array[index - 1] == item)) {                    
                     counts[item] = (counts[item] + 1) || 1;
                     if (counts[item] >= 5) {
-                        let doc = await models.ignore.findOne();
-                        if (!doc) {
+                        if (!prefixDoc) {
                             await models.ignore({
                                 phrases: [item]
                             }).save();
-                        } else if (doc && !doc.phrases.has(item)){
-                            doc.phrases.push(item);
-                            await doc.save();
+                        } else if (prefixDoc && !prefixDoc.phrases.has(item)){
+                            prefixDoc.phrases.push(item);
                         }
                     }
                 }
             });
+            await prefixDoc.save();            
             await client.channels.fetch('850627411698647050').then(c => c.send(`Prefix logs: ${client.botPrefixes}`)).catch((e) => console.log('Prefix logs', e))
             client.botPrefixes = [];
             counts = {};
@@ -242,7 +242,7 @@ module.exports = class ReadyListener extends Listener {
         const noticeChnl = await guild.channels.fetch('757169784747065364');
         let leaveDoc = await leave.find();
 
-				for (let i = 0; i < leaveDoc.length; i++) {
+        for (let i = 0; i < leaveDoc.length; i++) {
           let staffDoc = await staff.findOne({ user: leaveDoc[i].user });
             if (staffDoc) {          
               if (moment().isAfter(moment(new Date(leaveDoc[i].end)))) {             
@@ -268,7 +268,7 @@ module.exports = class ReadyListener extends Listener {
             } else {
               await leaveDoc[i].delete()
             }
-				};
+        };
           return;
     }
     async cacheStuff(client) {

@@ -45,11 +45,9 @@ module.exports = class ButtonInteractionListener extends Listener {
         let doc = await interaction.client.tools.models.verification.findOne({ user: interaction.member.id });
         let cap = await interaction.client.tools.captcha();
         let buttons = [];
-        let buttonColors = ['PRIMARY', 'DANGER', 'SUCCESS', 'PRIMARY', 'DANGER', 'SUCCESS'];
-        let buttonColor = await buttonColors[await Math.round(Math.random() * buttonColors.length)];
-        buttons.push(new MessageButton().setLabel(cap.word).setCustomId(`verification${cap.word}`).setStyle(buttonColor));
+        buttons.push(new MessageButton().setLabel(cap.word).setCustomId(`verification${cap.word}`).setStyle('PRIMARY'));
         for (let i = 0; i < cap.randomNumbers.length - 1; i++) {            
-            buttons.push(new MessageButton().setLabel(cap.randomNumbers[i]).setCustomId(`verification${cap.randomNumbers[i]}`).setStyle(buttonColors[i]));
+            buttons.push(new MessageButton().setLabel(cap.randomNumbers[i]).setCustomId(`verification${cap.randomNumbers[i]}`).setStyle('PRIMARY'));
         }
         buttons = await _.shuffle(buttons);
         if (!doc) {            

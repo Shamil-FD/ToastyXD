@@ -44,7 +44,7 @@ module.exports = class MessageCreateListener extends Listener {
         }
     }
     async checkBotPrefixes(message) {        
-        if (message.channel.id !== '850627411698647050') return;
+        if (!['850627411698647050', '853552430515093534'].includes(message.channel.id)) return;
         let content = message.content.split(' ')   
         if (content[1]) {
             content = `${content[0]} ${content[1]}`;
@@ -57,14 +57,15 @@ module.exports = class MessageCreateListener extends Listener {
         const { models, randomNum } = message.client.tools;
         if (!message.member.roles.cache.has('752632482943205546')) return;
         if (message?.content.toLowerCase().startsWith(message.client.config.prefix)) return;
-        if (message.channel.id === '850627411698647050') {            
-            let content = message?.content.split(' ');
+        
+        if (!['850627411698647050', '853552430515093534'].includes(message.channel.id)) {
+        	let content = message.content.split(' ');
             if (content.length) {
                 if (content[1]) {
                     content = `${content[0]} ${content[1]}`;
                     if (message.client.ignorePhrases.length && message.client.ignorePhrases.find(i => i === content.toLowerCase())) return;
                 } else {
-                    if (message.client.ignorePhrases.length && message.client.ignorePhrases.find(i => i === content[0].toLowerCase())) return;                
+                    if (message.client.ignorePhrases.length && message.client.ignorePhrases.find(i => i === content[0].toLowerCase())) return;
                 }
             }
         }
