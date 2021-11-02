@@ -26,8 +26,7 @@ Distributed under the GPL-3.0 License. See [LICENSE](https://github.com/Shamil-F
 
 - [Discord.JS documentation](https://discord.js.org/#/docs/main/main/general/welcome)
 - [Discord.JS Guide](https://discordjs.guide)
-- [Sapphire-Framework documentation](https://sapphiredev.github.io/framework/)
-- [Sapphire-Framework main website](https://sapphirejs.dev/)
+- [Sapphire-Framework](https://sapphirejs.dev/)
 
 
 ## Thanks To
