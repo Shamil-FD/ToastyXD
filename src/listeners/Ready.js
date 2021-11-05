@@ -12,30 +12,35 @@ module.exports = class ReadyListener extends Listener {
     }
     async run(client) {        
         console.log('Toasty\'s Online.');
-        
         let slashCommands = client.stores.get('slashCommands');
         if (slashCommands.size > 0) {
             await slashCommands.registerCommands();
             console.log('Slash Commands Loaded.')
         }
-            
+        if (!client.serverActivity.size) {
+            client.serverActivity.set('messages', {
+                today: 0,
+                staff: 0
+            })
+        }
+         
         await this.cacheStuff(client);
+        await this.checkStaffExists(client);
         console.log('Tags Loaded.')
-        cron.schedule('*/30 * * * *', async() => {
+        cron.schedule('*/60 * * * *', async() => {
             await this.cacheStuff(client);
             await this.checkStaffExists(client);
         });
         
         // Check if testMode is turned on
         if (client.config.testMode) return;
-        
         // Auto Remove Strikes Every Month
          cron.schedule('0 0 0 1 * *', async () => {           
            let doc = await client.tools.models.staff.find();
            doc.forEach(async (document) => {             
              document.strikes = 0;
              await document.save();
-           });
+           });             
            console.log('[Staff] Strikes Reset.');
          });
          
@@ -48,16 +53,15 @@ module.exports = class ReadyListener extends Listener {
            await this.resetCheckIn(client)
          }, {
            timezone: 'Europe/London'
-         });
-        
+         });        
     }
     async checkStaffExists(client) {
         const guild = await client.guilds.fetch('655109296400367618');
         const { staff } = client.tools.models;
-        const docs = staff.find();
-        
+        const docs = await staff.find();
+    
         docs.forEach(async (doc) => {
-            let member = guild.members.fetch(doc.user);
+            let member = await guild.members.fetch(doc.user);
             if (member) {
                 if (!member.roles.cache.has(client.config.staffRole) && !member.roles.cache.has(client.config.mutedRole)) doc.delete();
             } else doc.delete();
@@ -75,7 +79,6 @@ module.exports = class ReadyListener extends Listener {
         if (client.config.checkinUpdate === true) return;
         client.config.checkinUpdate = true;
         console.log('[Staff] Reset Check-In.');
-        
         const leaveDocs = await models.leave.find();
         const staffDocs = await models.staff.find();
         
@@ -85,7 +88,6 @@ module.exports = class ReadyListener extends Listener {
               await beStriked.push(doc.user);
             }
           }
-          
           await archiveContent.push(`<@${doc.user}> - ${doc.msgInfo?.today}/${doc.msgInfo?.dailyCount}`);
         });
 
@@ -99,7 +101,6 @@ module.exports = class ReadyListener extends Listener {
               staffDoc.strikes++;
               await staffDoc.save();
             }
-            
             if (staffDoc && staffDoc.strikes % 3 == 0) {
               if (await guild.members.fetch(beStriked[i])) {
                 await guild.channels.cache
@@ -118,12 +119,10 @@ module.exports = class ReadyListener extends Listener {
           
           if (beStriked.length) {
             const striked = [];
-            
             for(let i = 0; i < beStriked.length; i++) {
               const userDoc = await models.staff.findOne({ user: beStriked[i] });
               striked.push(`${client.config.arrow} <@${beStriked[i]}> - ${userDoc?.strikes} strike(s)`)
             }
-            
             await guild.channels.cache.get('709043664667672696').send({
               content: beStriked.map((user) => `<@${user}>`).join(', '),
               embeds: [embed().setDescription(`You have been striked for not being active yesterday.\n${striked.join('\n')}`)]
@@ -142,7 +141,6 @@ module.exports = class ReadyListener extends Listener {
             embed().setDescription(`${staffRole.members.map((m) => `:x: <@${m.user.id}>`).join('\n')}`).setFooter(`Inactive Staff | Last Edited`).setTimestamp()
           ],
         });
-        
         await staffDocs.forEach(async (userDoc) => {
           if (userDoc.msgInfo?.today > userDoc.msgInfo?.randomCount) {
             userDoc.msgInfo.dailyCount = randomNum(11, 30) / 2;
@@ -183,14 +181,13 @@ module.exports = class ReadyListener extends Listener {
             client.botPrefixes = [];
             counts = {};
         }
-        
         let activityDoc = await models.serverActivity.findOne();
         if (!activityDoc) {
             await new models.serverActivity({
                 messages: [{
-                    count: (client.serverActivity.get('messages').today ?? 0),
-                    staff: (client.serverActivity.get('messages').staff ?? 0),
-                    total: ((client.serverActivity.get('messages').today ?? 0) + (client.serverActivity.get('messages').staff ?? 0)),
+                    count: (client.serverActivity.get('messages')?.today ?? 0),
+                    staff: (client.serverActivity.get('messages')?.staff ?? 0),
+                    total: ((client.serverActivity.get('messages')?.today ?? 0) + (client.serverActivity.get('messages')?.staff ?? 0)),
                     date: moment().format('DD/MM/YYYY')
                 }]
             }).save()
@@ -199,9 +196,9 @@ module.exports = class ReadyListener extends Listener {
                 activityDoc.messages = [];
             }
             activityDoc.messages.push({
-                count: (client.serverActivity.get('messages').today ?? 0),
-                total: ((client.serverActivity.get('messages').today ?? 0) + (client.serverActivity.get('messages').staff ?? 0)),
-                staff: (client.serverActivity.get('messages').staff ?? 0),
+                count: (client.serverActivity.get('messages')?.today ?? 0),
+                total: ((client.serverActivity.get('messages')?.today ?? 0) + (client.serverActivity.get('messages')?.staff ?? 0)),
+                staff: (client.serverActivity.get('messages')?.staff ?? 0),
                 date: moment().format('DD/MM/YYYY')
             })
             await activityDoc.save()
@@ -219,7 +216,7 @@ module.exports = class ReadyListener extends Listener {
         const msg = await clockInChnl.messages.fetch('777522764525338634');   
         const checkedInUsers = [];
         const notCheckedInUsers = [];
-        
+       
         for (let i = 0; staffDocs.length > i; i++) {
           if (staffDocs[i]?.msgInfo?.dailyCount <= staffDocs[i]?.msgInfo?.today) {
             checkedInUsers.push({ user: staffDocs[i]?.user, count: staffDocs[i]?.msgInfo?.today });
@@ -250,7 +247,6 @@ module.exports = class ReadyListener extends Listener {
                   content: `<@${leaveDoc[i].user}>,`,
                   embeds: [embed().setDescription(`Hey! Your leave notice from <t:${moment(new Date(leaveDoc[i].start)).unix()}:R> just ended! Hope you had great time on your time off!!\n\n***__${leaveDoc[i].reason}__***`)]
                 });  
-              
                 if (await (leaveDoc.filter(docs => docs._id !== leaveDoc[i]._id && docs.user == leaveDoc[i].user).size < 0)) {                
                   staffDoc.onLeave = false;
                   await staffDoc.save();
@@ -269,7 +265,7 @@ module.exports = class ReadyListener extends Listener {
               await leaveDoc[i].delete()
             }
         };
-          return;
+      return;
     }
     async cacheStuff(client) {
         const tagDocs = await client.tools.models.tag.find();
@@ -286,7 +282,6 @@ module.exports = class ReadyListener extends Listener {
                 client.blacklistedWords.push({ word: doc.word, action: doc.action, wild: doc.wild })
             }
         });
-        
         const ignoredWords = await client.tools.models.ignore.findOne();
         if (ignoredWords) client.ignorePhrases = ignoredWords.phrases;
         return;
