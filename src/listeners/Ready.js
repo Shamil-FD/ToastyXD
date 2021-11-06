@@ -176,8 +176,7 @@ module.exports = class ReadyListener extends Listener {
                     }
                 }
             });
-            await prefixDoc.save();            
-            await client.channels.fetch('850627411698647050').then(c => c.send(`Prefix logs: ${client.botPrefixes}`)).catch((e) => console.log('Prefix logs', e))
+            await prefixDoc.save();                        
             client.botPrefixes = [];
             counts = {};
         }
@@ -188,7 +187,7 @@ module.exports = class ReadyListener extends Listener {
                     count: (client.serverActivity.get('messages')?.today ?? 0),
                     staff: (client.serverActivity.get('messages')?.staff ?? 0),
                     total: ((client.serverActivity.get('messages')?.today ?? 0) + (client.serverActivity.get('messages')?.staff ?? 0)),
-                    date: moment().format('DD/MM/YYYY')
+                    date: moment(moment().subtract(1, 'days')).format('DD/MM/YYYY')
                 }]
             }).save()
         } else {
@@ -199,7 +198,7 @@ module.exports = class ReadyListener extends Listener {
                 count: (client.serverActivity.get('messages')?.today ?? 0),
                 total: ((client.serverActivity.get('messages')?.today ?? 0) + (client.serverActivity.get('messages')?.staff ?? 0)),
                 staff: (client.serverActivity.get('messages')?.staff ?? 0),
-                date: moment().format('DD/MM/YYYY')
+                date: moment(moment().subtract(1, 'days')).format('DD/MM/YYYY')
             })
             await activityDoc.save()
         }

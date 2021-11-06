@@ -56,7 +56,7 @@ module.exports = class ServerActivityCommand extends Command {
             },
         })
         return message.reply({
-            files: [new MessageAttachment(img, 'Lmao.png')]
+            files: [new MessageAttachment(img)]
         })
     }
 };
