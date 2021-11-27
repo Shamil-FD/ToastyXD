@@ -3,7 +3,7 @@
   "version": "5.0.0",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js",
+    "start": "npm i && node src/index.js",
     "lint": "prettier --write src"
   },
   "author": "XDeeznuts",
