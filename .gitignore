@@ -1,5 +1,4 @@
 package-lock.json
 src/structure/Utility/Config.js
 yarn.lock
-.env
 node_modules
