@@ -16,7 +16,7 @@ module.exports = class DocsCommand extends Command {
       });
     }
     async run(message, options) {
-        const src = options.get('source')?.value || 'master'       
+        const src = options.get('source')?.value || 'stable'       
         let data = await fetch(`https://djsdocs.sorta.moe/v2/embed?src=${src}&q=${encodeURIComponent(options.get('query')?.value)}`).then(res => res.json());
         
         if (data == null || !data.description) return message.reply({ embeds: [{ description: 'Nothing found for that!', color: 'RED' }] });

@@ -47,6 +47,7 @@ module.exports = class ReadyListener extends Listener {
          cron.schedule('*/5 * * * *', async() => {
            await this.syncCheckedInMsg(client);
            await this.syncLeaveNotices(client);
+           await this.checkInactiveChnl(client);
          });
          
          cron.schedule(`0 0 6 * * *`, async() => {
@@ -55,13 +56,23 @@ module.exports = class ReadyListener extends Listener {
            timezone: 'Europe/London'
          });        
     }
+    async checkInactiveChnl(client) {
+        const guild = await client.guilds.fetch('655109296400367618');
+        const role = await guild.roles.cache.get('908793711775862844').catch((e) => { return undefined; });
+        const chnl = await guild.channels.cache.get('709043328682950716').catch((e) => { return undefined; });
+        if (!role || !chnl) return;
+        const lastMsg = chnl.lastMessage;
+        if (3600000 - (Date.now() - lastMsg.createdTimestamp) < 0) {
+            await chnl.send({ content: `<@&${role.id}>!! We need your help! Get the chat alive again!!`}).catch((e) => {})
+        }
+    }
     async checkStaffExists(client) {
         const guild = await client.guilds.fetch('655109296400367618');
         const { staff } = client.tools.models;
         const docs = await staff.find();
     
         docs.forEach(async (doc) => {
-            let member = await guild.members.fetch(doc.user);
+            let member = await guild.members.fetch(doc.user).catch((e) => { return false; });
             if (member) {
                 if (!member.roles.cache.has(client.config.staffRole) && !member.roles.cache.has(client.config.mutedRole)) doc.delete();
             } else doc.delete();
@@ -170,7 +181,7 @@ module.exports = class ReadyListener extends Listener {
                             await models.ignore({
                                 phrases: [item]
                             }).save();
-                        } else if (prefixDoc && !prefixDoc.phrases.has(item)){
+                        } else if (prefixDoc && !prefixDoc?.phrases.has(item)){
                             prefixDoc.phrases.push(item);
                         }
                     }
