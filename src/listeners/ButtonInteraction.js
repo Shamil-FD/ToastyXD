@@ -27,6 +27,7 @@ module.exports = class ButtonInteractionListener extends Listener {
         let chnlId = interaction.customId.replace('archivethread', '').trim();
         let { embed } = interaction.client.tools;
          
+        if (interaction.channel.archived) return interaction.deferUpdate();
         if ((!interaction.member.roles.cache.has(interaction.client.config.staffRole) && !interaction.member.roles.cache.has(interaction.client.config.devHelperRole))) return interaction.reply({ content: `<@${interaction.member.id}>,`, embeds: [embed().setDescription(`Only people with <@&${interaction.client.config.devHelperRole}> role or <@&${interaction.client.config.staffRole}> can use this button.`).setColor('RED')] });
           
         if (interaction.channel.id === chnlId) {

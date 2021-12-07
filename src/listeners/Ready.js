@@ -57,13 +57,13 @@ module.exports = class ReadyListener extends Listener {
          });        
     }
     async checkInactiveChnl(client) {
-        const guild = await client.guilds.fetch('655109296400367618');
-        const role = await guild.roles.cache.get('908793711775862844').catch((e) => { return undefined; });
-        const chnl = await guild.channels.cache.get('709043328682950716').catch((e) => { return undefined; });
-        if (!role || !chnl) return;
+        const guild = await client.guilds.cache.get('655109296400367618');
+        const role = await guild.roles.cache.get('908793711775862844') || undefined;
+        const chnl = await guild.channels.cache.get('709043328682950716') || undefined;
+        if (!role?.id || !chnl?.id) return;
         const lastMsg = chnl.lastMessage;
         if (3600000 - (Date.now() - lastMsg.createdTimestamp) < 0) {
-            await chnl.send({ content: `<@&${role.id}>!! We need your help! Get the chat alive again!!`}).catch((e) => {})
+            await chnl.send({ content: `<@&${role.id}>!! We need your help! Get the chat alive again!!`}).catch((e) => { console.log(e) })
         }
     }
     async checkStaffExists(client) {

@@ -31,16 +31,16 @@ module.exports = class GuildMemberAddListener extends Listener {
         // Add not verified role
         await member.roles.add(this.container.client.config.notVerifiedRole);
         if (days < 7) {
-            if (days <= 0) days = 2;
+            if (days <= 0) days = 7 - days;
             await member.send('Your account is too new to join our server.').catch((e) => {});
-            await member.ban({ days: (days - 1), reason: 'Account age under 7 days.' });
+            await member.ban({ days: days, reason: 'Account age under 7 days.' });
             return member.guild.channels.cache.get(this.container.client.config.staffReportChnl).send({
             embeds: [this.container.client.tools.embed().setDescription(
               `${this.container.client.config.arrow} **User**: ${member.user.tag} | \`${member.id}\`\n${
                 this.container.client.config.arrow
               } **Account Creation Date**: ${Formatters.time(new Date(member.user.createdAt), 'R')}\n${
                 this.container.client.config.arrow
-              } **Banned For**: Account age under 7 days.`,
+              } **Banned Reason**: Account age under 7 days.\n**Unban In**: ${days} days`,
             )
             .setTitle('Member Banned'),
             ],

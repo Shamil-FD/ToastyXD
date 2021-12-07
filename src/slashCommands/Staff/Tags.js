@@ -85,7 +85,7 @@ module.exports = class TagsCommand extends Command {
     }
     async runCreate(message, options) {
         const name = options.get('name').value.toLowerCase();      
-        const content = options.get('content').value.toLowerCase();      
+        const content = options.get('content').value      
         const image = options.get('image')?.value;      
         const files = []
         const doc = await message.client.tools.models.tag.findOne({ name: name });
