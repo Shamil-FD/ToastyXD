@@ -22,6 +22,7 @@
     "node-fetch": "^2.6.5",
     "owlbot-js": "^2.0.3",
     "pretty-ms": "^7.0.1",
+    "rss-parser": "^3.12.0",
     "sourcebin": "^4.2.5",
     "urban-dictionary": "^3.0.2",
     "xmlhttprequest": "^1.8.0"
