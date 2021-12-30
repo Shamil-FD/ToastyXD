@@ -20,7 +20,7 @@ module.exports = class CodebinCommand extends Command {
       /*if ((args.finished && !message?.attachments.first())) return message.reply({ embeds: [message.client.tools.embed().setDescription('You need to provide me some code or a txt file.').setColor('RED')] });*/
       
      // if (!message?.attachments.first()) {
-          message.deferReply({ ephemeral: true })
+     //     message.deferReply({ ephemeral: true })
           let content = await options.get('code').value;
           await sourcebin.create([{ content: content, languageId: 'javascript' }], { title: message.user.tag, description: '>_<' })
         .then(async (json) => {

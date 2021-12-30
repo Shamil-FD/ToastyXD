@@ -1,4 +1,5 @@
 const { Listener } = require('@sapphire/framework');
+const rss = new (require("rss-parser"))();
 const cron = require('node-cron');
 const moment = require('moment');
 const _ = require('lodash');
@@ -47,29 +48,40 @@ module.exports = class ReadyListener extends Listener {
          cron.schedule('*/5 * * * *', async() => {
            await this.syncCheckedInMsg(client);
            await this.syncLeaveNotices(client);
-           await this.checkInactiveChnl(client);
+           await this.checkUpload(client)
          });
-         
+                 
          cron.schedule(`0 0 6 * * *`, async() => {
            await this.resetCheckIn(client)
          }, {
            timezone: 'Europe/London'
          });        
-    }
-    async checkInactiveChnl(client) {
-        const guild = await client.guilds.cache.get('655109296400367618');
-        const role = await guild.roles.cache.get('908793711775862844') || undefined;
-        const chnl = await guild.channels.cache.get('709043328682950716') || undefined;
-        if (!role?.id || !chnl?.id) return;
-        const lastMsg = chnl.lastMessage;
-        if (3600000 - (Date.now() - lastMsg.createdTimestamp) < 0) {
-            await chnl.send({ content: `<@&${role.id}>!! We need your help! Get the chat alive again!!`}).catch((e) => { console.log(e) })
+    } 
+    async checkUpload(client) {                
+        let data = await rss.parseURL('https://www.youtube.com/feeds/videos.xml?channel_id=UC7-pjRSGoNEMoIujwOH2Mhw');
+        const logs = await client.tools.models.youtubeVids.findOne();
+  
+        if (moment().diff(moment(data.items[0].pubDate), 'minutes') > 65) return;
+        if (!logs) {
+            await new client.tools.models.youtubeVids({
+                videos: [data.items[0].link]
+            }).save()
+        } else {
+            if (!logs.videos.includes(data.items[0].link)) {
+                logs.videos.push(data.items[0].link)
+                await logs.save()
+            } else return;            
         }
+        data = data.items[0];
+        let chnl = await client.channels.fetch('738831830693707837')
+        return chnl.send({
+            content: `**${data.author}** just uploaded! Go watch @everyone!\n\n${data.link}`,
+        })
     }
     async checkStaffExists(client) {
-        const guild = await client.guilds.fetch('655109296400367618');
         const { staff } = client.tools.models;
         const docs = await staff.find();
+        const guild = await client.guilds.fetch('655109296400367618');
     
         docs.forEach(async (doc) => {
             let member = await guild.members.fetch(doc.user).catch((e) => { return false; });

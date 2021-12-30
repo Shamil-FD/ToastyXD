@@ -40,7 +40,7 @@ module.exports = class GuildMemberAddListener extends Listener {
                 this.container.client.config.arrow
               } **Account Creation Date**: ${Formatters.time(new Date(member.user.createdAt), 'R')}\n${
                 this.container.client.config.arrow
-              } **Banned Reason**: Account age under 7 days.\n**Unban In**: ${days} days`,
+              } **Banned Reason**: Account age under 7 days.\n${this.container.client.config.arrow} **Unban In**: ${days} days`,
             )
             .setTitle('Member Banned'),
             ],

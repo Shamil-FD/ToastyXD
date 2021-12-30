@@ -45,12 +45,12 @@ module.exports = class DictionaryCommand extends Command {
         const search = options.get('word').value;
         const { embed } = message.client.tools;
         const { arrow } = message.client.config;
-        const fetched = await normalDic(message.client.config.dictionary).define(search).catch(() => { return undefined });
+        const fetched = await normalDic(message.client.config.dictionary).define(search) || undefined;
       
         if (!fetched) return message.editReply({
             embeds: [message.client.tools.embed().setDescription(`No definitions found for ${search}`).setColor('RED')]
         });
-        if (fetched.definitions.length === 1) {
+        if (fetched?.definitions.length === 1) {
             return message.editReply({                
                 embeds: [embed().setTitle(`${arrow} ${search}`).setDescription(`${arrow} **Pronunciation**: ${fetched.definitions[0].pronunciation}\n${arrow} **Type**: ${fetched.definitions[0].type}\n${arrow} **Definition**: ${fetched.definitions[0].definition}${fetched.definitions[0]?.example ? `\n${arrow} **Example**: ${fetched.definitions[0].example}` : ''}`)]
             });

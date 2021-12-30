@@ -111,3 +111,9 @@ schema = Schema({
 });
 
 exports.serverActivity = model('serverActivity', schema)
+
+schema = Schema({
+    videos: [String]
+});
+
+exports.youtubeVids = model('youtubeVideos', schema)
