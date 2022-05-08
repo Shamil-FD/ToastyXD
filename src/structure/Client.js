@@ -9,7 +9,7 @@ class ToastyXDClient extends SapphireClient {
     constructor(config = {}) {
         super({
             // Discord.JS Options
-            presence: { activities: [{ name: 'who got you smiling like that', type: 'WATCHING' }] },
+            presence: { activities: [{ name: 'Looking down on you', type: 'WATCHING' }] },
             partials: ['GUILD_MEMBER', 'REACTION', 'MESSAGE'],
             intents: 32767,
             allowedMentions: {
@@ -23,6 +23,7 @@ class ToastyXDClient extends SapphireClient {
         this.config.lockdownMode = false;
         this.config.lockingMode = false;
         this.config.checkinUpdate = false;
+        this.config.staffChecks = false
         this.tools = {            
             embed,
             captcha,

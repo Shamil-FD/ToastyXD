@@ -22,7 +22,9 @@ module.exports = class MessageCreateListener extends Listener {
         await this.checkBotPrefixes(message);
         await this.checkTags(message);
         await this.helpMe(message);
-        await this.checkStaff(message);
+        if (message.client.config.staffChecks) {
+            await this.checkStaff(message);
+        }
         return this.checkAfk(message);
     }
     async serverActivity(message) {

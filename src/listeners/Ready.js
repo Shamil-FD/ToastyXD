@@ -45,17 +45,19 @@ module.exports = class ReadyListener extends Listener {
            console.log('[Staff] Strikes Reset.');
          });
          
-         cron.schedule('*/5 * * * *', async() => {
-           await this.syncCheckedInMsg(client);
-           await this.syncLeaveNotices(client);
-           await this.checkUpload(client)
-         });
-                 
-         cron.schedule(`0 0 6 * * *`, async() => {
-           await this.resetCheckIn(client)
-         }, {
-           timezone: 'Europe/London'
-         });        
+        if (client.config.staffChecks) {            
+            cron.schedule('*/5 * * * *', async() => {                
+                await this.syncCheckedInMsg(client);
+                await this.syncLeaveNotices(client);
+                await this.checkUpload(client)
+            });
+
+            cron.schedule(`0 0 6 * * *`, async() => {
+                await this.resetCheckIn(client)
+            }, {
+                timezone: 'Europe/London'
+            });
+        }
     } 
     async checkUpload(client) {                
         let data = await rss.parseURL('https://www.youtube.com/feeds/videos.xml?channel_id=UC7-pjRSGoNEMoIujwOH2Mhw');
